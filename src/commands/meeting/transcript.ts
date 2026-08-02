@@ -1,15 +1,14 @@
-import { Command, Args, Flags } from '@oclif/core';
+import { Args, Command, Flags } from '@oclif/core';
+
 import { fetchApi } from '../../utils/api.js';
 
 export default class MeetingTranscript extends Command {
-  static description = 'Get transcript for a meeting recording';
-
   static args = {
     recordingId: Args.string({ description: 'Recording ID', required: true }),
   };
-
-  static flags = {
-    format: Flags.string({ description: 'Format (text or json)', options: ['text', 'json'], default: 'text' }),
+static description = 'Get transcript for a meeting recording';
+static flags = {
+    format: Flags.string({ default: 'text', description: 'Format (text or json)', options: ['text', 'json'] }),
   };
 
   public async run(): Promise<void> {

@@ -1,12 +1,12 @@
-import { Command, Args } from '@oclif/core';
+import { Args, Command } from '@oclif/core';
+
 import { fetchApi } from '../../utils/api.js';
 
 export default class MeetingDelete extends Command {
-  static description = 'Delete a meeting record';
-
   static args = {
     id: Args.string({ description: 'Meeting ID', required: true }),
   };
+static description = 'Delete a meeting record';
 
   public async run(): Promise<void> {
     const { args } = await this.parse(MeetingDelete);

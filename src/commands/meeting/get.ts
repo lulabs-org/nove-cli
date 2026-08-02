@@ -1,12 +1,12 @@
-import { Command, Args } from '@oclif/core';
+import { Args, Command } from '@oclif/core';
+
 import { fetchApi } from '../../utils/api.js';
 
 export default class MeetingGet extends Command {
-  static description = 'Get a meeting by ID';
-
   static args = {
     id: Args.string({ description: 'Meeting ID', required: true }),
   };
+static description = 'Get a meeting by ID';
 
   public async run(): Promise<void> {
     const { args } = await this.parse(MeetingGet);

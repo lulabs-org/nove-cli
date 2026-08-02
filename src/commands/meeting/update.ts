@@ -1,16 +1,15 @@
-import { Command, Args, Flags } from '@oclif/core';
+import { Args, Command, Flags } from '@oclif/core';
+
 import { fetchApi } from '../../utils/api.js';
 
 export default class MeetingUpdate extends Command {
-  static description = 'Update a meeting record';
-
   static args = {
     id: Args.string({ description: 'Meeting ID', required: true }),
   };
-
-  static flags = {
-    title: Flags.string({ description: 'New meeting title' }),
+static description = 'Update a meeting record';
+static flags = {
     status: Flags.string({ description: 'New status' }),
+    title: Flags.string({ description: 'New meeting title' }),
   };
 
   public async run(): Promise<void> {
@@ -27,8 +26,8 @@ export default class MeetingUpdate extends Command {
       const data = await fetchApi(
         `/meetings/${args.id}`,
         {
-          method: 'PUT',
           body: JSON.stringify(body),
+          method: 'PUT',
         },
         this.config.configDir
       );

@@ -1,12 +1,11 @@
-import { Command, Flags } from '@oclif/core';
 import { password } from '@inquirer/prompts';
+import { Command, Flags } from '@oclif/core';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 
 export default class Login extends Command {
   static description = 'Login to Nove API using an API Key';
-
-  static flags = {
+static flags = {
     'api-key': Flags.string({
       char: 'k',
       description: 'The API Key to use for authentication (e.g. sk_...)',
@@ -19,7 +18,7 @@ export default class Login extends Command {
     let apiKey = flags['api-key'];
 
     if (!apiKey) {
-      apiKey = await password({ message: 'Enter your API Key:', mask: '*' });
+      apiKey = await password({ mask: '*', message: 'Enter your API Key:' });
     }
 
     if (!apiKey) {
@@ -27,7 +26,7 @@ export default class Login extends Command {
     }
 
     // Save the API key to the config directory
-    const configDir = this.config.configDir;
+    const {configDir} = this.config;
     if (!fs.existsSync(configDir)) {
       fs.mkdirSync(configDir, { recursive: true });
     }

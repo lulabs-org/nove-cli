@@ -1,12 +1,12 @@
 import { Command, Flags } from '@oclif/core';
+
 import { fetchApi } from '../../utils/api.js';
 
 export default class MeetingStats extends Command {
   static description = 'Get meeting statistics';
-
-  static flags = {
-    startDate: Flags.string({ description: 'Start date (ISO string)' }),
+static flags = {
     endDate: Flags.string({ description: 'End date (ISO string)' }),
+    startDate: Flags.string({ description: 'Start date (ISO string)' }),
   };
 
   public async run(): Promise<void> {

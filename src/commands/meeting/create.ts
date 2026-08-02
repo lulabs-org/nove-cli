@@ -1,15 +1,15 @@
 import { Command, Flags } from '@oclif/core';
+
 import { fetchApi } from '../../utils/api.js';
 
 export default class MeetingCreate extends Command {
   static description = 'Create a meeting record';
-
-  static flags = {
-    platformMeetingId: Flags.string({ description: 'Platform Meeting ID (e.g. feishu ID)', required: true }),
-    title: Flags.string({ description: 'Meeting title', required: true }),
-    startTime: Flags.string({ description: 'Start time (ISO string)' }),
+static flags = {
     endTime: Flags.string({ description: 'End time (ISO string)' }),
+    platformMeetingId: Flags.string({ description: 'Platform Meeting ID (e.g. feishu ID)', required: true }),
+    startTime: Flags.string({ description: 'Start time (ISO string)' }),
     status: Flags.string({ description: 'Status (e.g. COMPLETED)' }),
+    title: Flags.string({ description: 'Meeting title', required: true }),
   };
 
   public async run(): Promise<void> {
@@ -19,14 +19,14 @@ export default class MeetingCreate extends Command {
       const data = await fetchApi(
         `/meetings`,
         {
-          method: 'POST',
           body: JSON.stringify({
-            platformMeetingId: flags.platformMeetingId,
-            title: flags.title,
-            startTime: flags.startTime,
             endTime: flags.endTime,
+            platformMeetingId: flags.platformMeetingId,
+            startTime: flags.startTime,
             status: flags.status,
+            title: flags.title,
           }),
+          method: 'POST',
         },
         this.config.configDir
       );

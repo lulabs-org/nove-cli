@@ -25,11 +25,7 @@ export async function fetchApi(
 
   const isJson = response.headers.get('content-type')?.includes('application/json');
   let data;
-  if (isJson) {
-    data = await response.json();
-  } else {
-    data = await response.text();
-  }
+  data = await (isJson ? response.json() : response.text());
 
   if (!response.ok) {
     throw new Error(

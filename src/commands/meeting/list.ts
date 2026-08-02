@@ -1,18 +1,18 @@
 import { Command, Flags } from '@oclif/core';
+
 import { fetchApi } from '../../utils/api.js';
 
 export default class MeetingList extends Command {
   static description = 'List meetings';
-
-  static flags = {
-    page: Flags.integer({ description: 'Page number', default: 1 }),
-    limit: Flags.integer({ description: 'Items per page', default: 10 }),
+static flags = {
+    endDate: Flags.string({ description: 'End date (ISO string)' }),
+    limit: Flags.integer({ default: 10, description: 'Items per page' }),
+    page: Flags.integer({ default: 1, description: 'Page number' }),
     platform: Flags.string({ description: 'Platform (e.g. TENCENT_MEETING, FEISHU)' }),
+    search: Flags.string({ description: 'Search keyword' }),
+    startDate: Flags.string({ description: 'Start date (ISO string)' }),
     status: Flags.string({ description: 'Processing status (e.g. COMPLETED, PENDING)' }),
     type: Flags.string({ description: 'Meeting type (e.g. SCHEDULED, INSTANT)' }),
-    startDate: Flags.string({ description: 'Start date (ISO string)' }),
-    endDate: Flags.string({ description: 'End date (ISO string)' }),
-    search: Flags.string({ description: 'Search keyword' }),
   };
 
   public async run(): Promise<void> {
@@ -20,8 +20,8 @@ export default class MeetingList extends Command {
 
     try {
       const queryParams = new URLSearchParams({
-        page: flags.page.toString(),
         limit: flags.limit.toString(),
+        page: flags.page.toString(),
       });
       
       if (flags.platform) queryParams.append('platform', flags.platform);
