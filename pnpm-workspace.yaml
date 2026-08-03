@@ -1,3 +1,0 @@
-allowBuilds:
-  unrs-resolver: set this to true or false
-  yarn: set this to true or false
