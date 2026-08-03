@@ -2,11 +2,13 @@ import { getApiKey } from './auth.js';
 
 const BASE_URL = process.env.NOVE_API_URL || 'http://localhost:3000';
 
-export async function fetchApi(
+/* eslint-disable n/no-unsupported-features/node-builtins */
+/* eslint-disable no-undef */
+export async function fetchApi<T = unknown>(
   endpoint: string,
   options: RequestInit = {},
   configDir: string
-): Promise<any> {
+): Promise<T> {
   const apiKey = getApiKey(configDir);
   if (!apiKey) {
     throw new Error('API Key is missing. Please run `nove login` first.');
@@ -24,8 +26,7 @@ export async function fetchApi(
   });
 
   const isJson = response.headers.get('content-type')?.includes('application/json');
-  let data;
-  data = await (isJson ? response.json() : response.text());
+  const data = await (isJson ? response.json() : response.text());
 
   if (!response.ok) {
     throw new Error(

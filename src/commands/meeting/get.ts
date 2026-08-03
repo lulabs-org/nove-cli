@@ -14,8 +14,8 @@ static description = 'Get a meeting by ID';
     try {
       const data = await fetchApi(`/meetings/${args.id}`, {}, this.config.configDir);
       this.log(JSON.stringify(data, null, 2));
-    } catch (error: any) {
-      this.error(error.message);
+    } catch (error: unknown) {
+      this.error(error instanceof Error ? error.message : String(error));
     }
   }
 }

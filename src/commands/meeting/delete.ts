@@ -15,8 +15,8 @@ static description = 'Delete a meeting record';
       const data = await fetchApi(`/meetings/${args.id}`, { method: 'DELETE' }, this.config.configDir);
       this.log('✅ Meeting deleted successfully.');
       this.log(JSON.stringify(data, null, 2));
-    } catch (error: any) {
-      this.error(error.message);
+    } catch (error: unknown) {
+      this.error(error instanceof Error ? error.message : String(error));
     }
   }
 }

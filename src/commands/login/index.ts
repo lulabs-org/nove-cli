@@ -1,7 +1,7 @@
 import { password } from '@inquirer/prompts';
 import { Command, Flags } from '@oclif/core';
 import * as fs from 'node:fs';
-import * as path from 'node:path';
+import path from 'node:path';
 
 export default class Login extends Command {
   static description = 'Login to Nove API using an API Key';

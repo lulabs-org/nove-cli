@@ -21,8 +21,8 @@ static flags = {
       const data = await fetchApi(`/meetings/stats/summary${qs}`, {}, this.config.configDir);
       
       this.log(JSON.stringify(data, null, 2));
-    } catch (error: any) {
-      this.error(error.message);
+    } catch (error: unknown) {
+      this.error(error instanceof Error ? error.message : String(error));
     }
   }
 }
