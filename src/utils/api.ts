@@ -1,12 +1,11 @@
 import { getApiKey } from './auth.js';
 
 const BASE_URL = process.env.NOVE_API_URL || 'http://localhost:3000';
+type FetchOptions = NonNullable<Parameters<typeof globalThis.fetch>[1]>;
 
-/* eslint-disable n/no-unsupported-features/node-builtins */
-/* eslint-disable no-undef */
 export async function fetchApi<T = unknown>(
   endpoint: string,
-  options: RequestInit = {},
+  options: FetchOptions = {},
   configDir: string
 ): Promise<T> {
   const apiKey = getApiKey(configDir);
@@ -14,13 +13,17 @@ export async function fetchApi<T = unknown>(
     throw new Error('API Key is missing. Please run `nove login` first.');
   }
 
-  const headers = new Headers(options.headers);
+  const headers = new globalThis.Headers(options.headers);
   headers.set('x-api-key', apiKey);
   if (!headers.has('Content-Type') && options.method !== 'GET' && options.method !== 'DELETE') {
-    headers.set('Content-Type', 'application/json');
+    if (options.body instanceof globalThis.FormData) {
+      // let fetch handle Content-Type and boundary automatically
+    } else {
+      headers.set('Content-Type', 'application/json');
+    }
   }
 
-  const response = await fetch(`${BASE_URL}${endpoint}`, {
+  const response = await globalThis.fetch(`${BASE_URL}${endpoint}`, {
     ...options,
     headers,
   });

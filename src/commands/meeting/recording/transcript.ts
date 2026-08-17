@@ -1,8 +1,8 @@
 import { Args, Command, Flags } from '@oclif/core';
 
-import { fetchApi } from '../../utils/api.js';
+import { fetchApi } from '../../../utils/api.js';
 
-export default class MeetingTranscript extends Command {
+export default class MeetingRecordingTranscript extends Command {
   static args = {
     recordingId: Args.string({ description: 'Recording ID', required: true }),
   };
@@ -12,11 +12,11 @@ static flags = {
   };
 
   public async run(): Promise<void> {
-    const { args, flags } = await this.parse(MeetingTranscript);
+    const { args, flags } = await this.parse(MeetingRecordingTranscript);
 
     try {
       const data = await fetchApi(
-        `/meetings/recordings/${args.recordingId}/transcript?format=${flags.format}`,
+        `/recordings/${args.recordingId}/transcript?format=${flags.format}`,
         {},
         this.config.configDir
       );
