@@ -17,7 +17,11 @@ export async function fetchApi<T = unknown>(
   const headers = new Headers(options.headers);
   headers.set('x-api-key', apiKey);
   if (!headers.has('Content-Type') && options.method !== 'GET' && options.method !== 'DELETE') {
-    headers.set('Content-Type', 'application/json');
+    if (typeof FormData !== 'undefined' && options.body instanceof FormData) {
+      // let fetch handle Content-Type and boundary automatically
+    } else {
+      headers.set('Content-Type', 'application/json');
+    }
   }
 
   const response = await fetch(`${BASE_URL}${endpoint}`, {

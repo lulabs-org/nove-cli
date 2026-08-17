@@ -1,6 +1,6 @@
 {
   "name": "nove-cli",
-  "description": "A new CLI generated with oclif",
+  "description": "Command Line Interface for managing Nove API resources (Meetings, Users, etc.)",
   "version": "0.0.0",
   "author": "杨仕明",
   "bin": {
@@ -11,7 +11,8 @@
     "@inquirer/prompts": "^8.5.2",
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
-    "@oclif/plugin-plugins": "^5"
+    "@oclif/plugin-plugins": "^5",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/compat": "^1",
@@ -55,8 +56,11 @@
     ],
     "topicSeparator": " ",
     "topics": {
-      "hello": {
-        "description": "Say hello to the world and others"
+      "meeting": {
+        "description": "Manage meeting records"
+      },
+      "user": {
+        "description": "Manage user accounts"
       }
     }
   },
@@ -66,9 +70,9 @@
     "lint": "eslint",
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "pnpm run lint",
-    "prepack": "oclif manifest && oclif readme",
+    "prepack": "oclif manifest && oclif readme --multi",
     "test": "mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif readme && git add README.md"
+    "version": "oclif readme --multi && git add README.md docs"
   },
   "types": "dist/index.d.ts"
 }
