@@ -1,1 +1,28 @@
-{"root":["./src/index.ts","./src/commands/login/index.ts","./src/commands/meeting/create.ts","./src/commands/meeting/delete.ts","./src/commands/meeting/get.ts","./src/commands/meeting/list.ts","./src/commands/meeting/participants.ts","./src/commands/meeting/stats.ts","./src/commands/meeting/update.ts","./src/commands/meeting/recording/delete.ts","./src/commands/meeting/recording/get.ts","./src/commands/meeting/recording/list.ts","./src/commands/meeting/recording/transcript.ts","./src/commands/user/create.ts","./src/commands/user/delete.ts","./src/commands/user/get.ts","./src/commands/user/import.ts","./src/commands/user/list.ts","./src/commands/user/update.ts","./src/utils/api.ts","./src/utils/auth.ts"],"version":"5.9.3"}
+{
+    "root": [
+        "./src/index.ts",
+        "./src/commands/config/set.ts",
+        "./src/commands/login/index.ts",
+        "./src/commands/meeting/create.ts",
+        "./src/commands/meeting/delete.ts",
+        "./src/commands/meeting/get.ts",
+        "./src/commands/meeting/list.ts",
+        "./src/commands/meeting/participants.ts",
+        "./src/commands/meeting/stats.ts",
+        "./src/commands/meeting/update.ts",
+        "./src/commands/meeting/recording/delete.ts",
+        "./src/commands/meeting/recording/get.ts",
+        "./src/commands/meeting/recording/list.ts",
+        "./src/commands/meeting/recording/transcript.ts",
+        "./src/commands/user/create.ts",
+        "./src/commands/user/delete.ts",
+        "./src/commands/user/get.ts",
+        "./src/commands/user/import.ts",
+        "./src/commands/user/list.ts",
+        "./src/commands/user/update.ts",
+        "./src/utils/api.ts",
+        "./src/utils/auth.ts",
+        "./src/utils/config.ts"
+    ],
+    "version": "5.9.3"
+}
