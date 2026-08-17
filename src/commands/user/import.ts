@@ -16,6 +16,8 @@ export default class UserImport extends Command {
     try {
       const fileBuffer = readFileSync(flags.file);
       const fileBlob = new Blob([fileBuffer]);
+      // FormData is available with Node.js 18's built-in fetch implementation.
+      // eslint-disable-next-line n/no-unsupported-features/node-builtins
       const formData = new FormData();
       formData.append('file', fileBlob, basename(flags.file));
 
