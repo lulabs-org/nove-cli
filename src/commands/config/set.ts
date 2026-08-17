@@ -1,13 +1,13 @@
-import { Command, Args } from '@oclif/core';
+import { Args, Command } from '@oclif/core';
+
 import { setConfig } from '../../utils/config.js';
 
 export default class ConfigSet extends Command {
-  static description = 'Set a configuration value';
-
   static args = {
     key: Args.string({ description: 'Configuration key (e.g., api-url)', required: true }),
     value: Args.string({ description: 'Configuration value', required: true }),
   };
+static description = 'Set a configuration value';
 
   public async run(): Promise<void> {
     const { args } = await this.parse(ConfigSet);
