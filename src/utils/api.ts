@@ -1,6 +1,6 @@
 import { getApiKey } from './auth.js';
+import { getConfig } from './config.js';
 
-const BASE_URL = process.env.NOVE_API_URL || 'http://localhost:3000';
 type FetchOptions = NonNullable<Parameters<typeof globalThis.fetch>[1]>;
 
 export async function fetchApi<T = unknown>(
@@ -13,6 +13,9 @@ export async function fetchApi<T = unknown>(
     throw new Error('API Key is missing. Please run `nove login` first.');
   }
 
+  const config = getConfig(configDir);
+  const baseUrl = process.env.NOVE_API_URL || config.apiUrl || 'http://localhost:3000';
+
   const headers = new globalThis.Headers(options.headers);
   headers.set('x-api-key', apiKey);
   if (!headers.has('Content-Type') && options.method !== 'GET' && options.method !== 'DELETE') {
@@ -23,7 +26,7 @@ export async function fetchApi<T = unknown>(
     }
   }
 
-  const response = await globalThis.fetch(`${BASE_URL}${endpoint}`, {
+  const response = await globalThis.fetch(`${baseUrl}${endpoint}`, {
     ...options,
     headers,
   });
