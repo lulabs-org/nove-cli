@@ -1,12 +1,12 @@
 {
   "name": "@novesuite/cli",
   "description": "Command Line Interface for managing Nove API resources (Meetings, Users, etc.)",
-  "version": "1.0.0",
-  "author": "杨仕明",
+  "version": "1.0.1",
+  "author": "杨仕明 <shiming.y@qq.com>",
   "bin": {
     "nove": "./bin/run.js"
   },
-  "bugs": "https://github.com/nove_project/nove-cli/issues",
+  "bugs": "https://github.com/lulabs-org/nove-cli/issues",
   "dependencies": {
     "@inquirer/prompts": "^8.5.2",
     "@oclif/core": "^4",
@@ -39,7 +39,7 @@
     "./dist",
     "./oclif.manifest.json"
   ],
-  "homepage": "https://github.com/nove_project/nove-cli",
+  "homepage": "https://github.com/lulabs-org/nove-cli",
   "keywords": [
     "oclif",
     "cli",
@@ -70,7 +70,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/nove_project/nove-cli.git"
+    "url": "git+https://github.com/lulabs-org/nove-cli.git"
   },
   "publishConfig": {
     "access": "public"
