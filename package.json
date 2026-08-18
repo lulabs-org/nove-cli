@@ -1,16 +1,18 @@
 {
-  "name": "nove-cli",
-  "description": "A new CLI generated with oclif",
-  "version": "0.0.0",
+  "name": "@novesuite/cli",
+  "description": "Command Line Interface for managing Nove API resources (Meetings, Users, etc.)",
+  "version": "1.0.0",
   "author": "杨仕明",
   "bin": {
     "nove": "./bin/run.js"
   },
   "bugs": "https://github.com/nove_project/nove-cli/issues",
   "dependencies": {
+    "@inquirer/prompts": "^8.5.2",
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
-    "@oclif/plugin-plugins": "^5"
+    "@oclif/plugin-plugins": "^5",
+    "xlsx": "^0.18.5"
   },
   "devDependencies": {
     "@eslint/compat": "^1",
@@ -30,7 +32,7 @@
     "typescript": "^5"
   },
   "engines": {
-    "node": ">=18.0.0"
+    "node": ">=22.0.0"
   },
   "files": [
     "./bin",
@@ -39,7 +41,11 @@
   ],
   "homepage": "https://github.com/nove_project/nove-cli",
   "keywords": [
-    "oclif"
+    "oclif",
+    "cli",
+    "nove",
+    "meeting",
+    "management"
   ],
   "license": "MIT",
   "main": "dist/index.js",
@@ -54,20 +60,29 @@
     ],
     "topicSeparator": " ",
     "topics": {
-      "hello": {
-        "description": "Say hello to the world and others"
+      "meeting": {
+        "description": "Manage meeting records"
+      },
+      "user": {
+        "description": "Manage user accounts"
       }
     }
   },
-  "repository": "nove_project/nove-cli",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nove_project/nove-cli.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "shx rm -rf dist && tsc -b",
-    "lint": "eslint",
+    "lint": "eslint bin src test eslint.config.mjs",
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "pnpm run lint",
-    "prepack": "oclif manifest && oclif readme",
+    "prepack": "pnpm run build && oclif manifest && oclif readme --multi",
     "test": "mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif readme && git add README.md"
+    "version": "oclif readme --multi && git add README.md docs"
   },
   "types": "dist/index.d.ts"
 }
