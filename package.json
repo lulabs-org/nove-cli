@@ -67,7 +67,7 @@
   "repository": "nove_project/nove-cli",
   "scripts": {
     "build": "shx rm -rf dist && tsc -b",
-    "lint": "eslint",
+    "lint": "eslint bin src test eslint.config.mjs",
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "pnpm run lint",
     "prepack": "oclif manifest && oclif readme --multi",
