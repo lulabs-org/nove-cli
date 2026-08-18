@@ -1,45 +1,47 @@
 ---
-name: nove-cli
-description: 使用 nove-cli 工具执行各种项目配置和管理任务。当用户要求使用 nove 命令行工具时触发。
+name: nove
+description: 使用 nove CLI 配置和访问 Nove API，查询或管理会议、参会人、录像、转写与用户，以及管理 CLI 插件。用户提到 nove、nove-cli、Nove 会议记录、会议转写、用户导入，或明确要求通过 Nove 命令行完成任务时使用；不用于直接创建飞书或腾讯会议日程。
 ---
 
-# Nove CLI 使用指南
+# Nove CLI
 
-你现在可以使用本地安装的 `nove-cli` 工具来协助用户。
+通过 `nove <topic> <command>` 调用 CLI。也可接受 oclif 的冒号形式，但示例统一使用空格形式。
 
-## 基础信息
-- **执行方式**: 直接在终端运行 `nove <topic> <command>` 或 `nove <topic>:<command>`
-- **工作环境**: 该 CLI 安装在全局环境或当前项目中，可以直接调用。
+## 开始前
 
-## 可用命令
+1. 根据用户意图读取下方对应 reference；使用相关命令前必须先读。
+2. 运行 `nove --help` 或目标命令的 `--help`，以当前安装版本的帮助为参数权威来源。
+3. 若 `nove` 不可用，报告缺少可执行文件并请求用户安装或提供调用路径；不要自行全局安装。
+4. 若缺少认证，提示用户亲自在终端运行 `nove login`；不要索取、读取、打印或保存 API Key。
 
-### 1. 基础配置
-- **登录授权**: `nove login [--api-key <key>]` 或 `nove login -k <key>`
-  - 示例: `nove login -k sk_test_123`。如果不带参数，会交互式提示输入。
-- **插件管理**: `nove plugins [--core]`
-  - 查看已安装的插件。
+## 必须遵守
 
-### 2. 会议管理 (Meeting)
-对会议记录进行 CRUD、获取转写记录和查看统计信息等。
-- **列出会议**: `nove meeting list [--page <value>] [--limit <value>] [--platform <TENCENT_MEETING|FEISHU>] [--status <COMPLETED|PENDING>] [--type <SCHEDULED|INSTANT>] [--startDate <iso>] [--endDate <iso>] [--search <keyword>]`
-- **获取详情**: `nove meeting get <id>`
-- **创建会议**: `nove meeting create --platformMeetingId <id> --title <title> [--startTime <iso>] [--endTime <iso>] [--status <status>]`
-- **更新会议**: `nove meeting update <id> [--title <title>] [--status <status>]`
-- **删除会议**: `nove meeting delete <id>`
-- **查看统计**: `nove meeting stats [--startDate <iso>] [--endDate <iso>]`
-- **获取参会人**: `nove meeting participants <id> [--keyword <keyword>] [--page <value>] [--limit <value>]`
-- **删除录像**: `nove meeting recording delete <id>`
+- 默认执行最小范围的读操作。创建、更新、导入、删除、插件安装或配置持久化必须由用户明确要求。
+- 删除会议、录像或用户前，先读取并展示准确目标；未得到明确确认时不要执行。
+- 不把 `--api-key` 放入示例、日志或回复。不要读取 CLI 的 `auth.json`。
+- 把会议 ID、平台会议 ID、录像 ID 和用户 ID 视为不同标识，不要互换。
+- 用户要求“全部”结果时处理分页，直到分页元数据或返回数量证明已经取完。
+- 将“今天”“昨天”“上周”等相对时间转换为带时区的明确 ISO 区间，并在结果中说明采用的时区。
+- 修改数据前先读取当前状态；执行后重新读取或使用响应验证结果，不仅依据成功提示。
+- 不因连接失败而擅自修改持久化 API 地址。临时目标优先使用单次 `NOVE_API_URL` 环境变量。
+- 会议转写和用户数据可能包含手机号等敏感信息；只返回完成任务所需字段并做脱敏。
 
-### 3. 用户管理 (User)
-对用户进行 CRUD、导入等操作。
-- **列出用户**: `nove user list [--active] [--keyword <keyword>] [--page <value>] [--limit <value>] [--sortBy <field>] [--sortOrder <asc|desc>]`
-- **获取用户**: `nove user get <id>`
-- **创建用户**: `nove user create [--username <value>] [--email <value>] [--phone <value>] [--displayName <value>] [--active] ...` (支持更多字段如 address, avatar, city, country 等)
-- **更新用户**: `nove user update <id> [--username <value>] [--email <value>] [--active] ...`
-- **删除用户**: `nove user delete <id>`
-- **批量导入**: `nove user import --file <path/to/file.csv|xlsx>`
+## 意图路由
 
-## 注意事项
-- 在执行命令前，确保命令格式正确。在某些环境下，可能需要使用冒号（例如 `nove meeting:list`）来代替空格。
-- 如果用户要求执行新的未知任务，先执行 `nove --help` 或 `nove <command> --help` 查看最新支持的命令和参数列表。
-- 随着 `nove-cli` 功能的不断迭代，该 skill 也会逐步补充和完善。
+| 用户意图 | 路由 |
+| --- | --- |
+| 登录、切换 API 地址、排查认证或连接错误 | 读取 [authentication-and-config.md](references/authentication-and-config.md) |
+| 查询会议、详情、统计、参会人，或维护会议记录 | 读取 [meetings.md](references/meetings.md) |
+| 查询录像、读取转写、基于转写总结，或删除录像 | 读取 [recordings.md](references/recordings.md) |
+| 查询、创建、更新、删除或导入用户 | 读取 [users.md](references/users.md) |
+| 查看、安装、更新、链接或移除 CLI 插件 | 读取 [plugins.md](references/plugins.md) |
+
+## 常见组合
+
+- 查询并总结会议：会议列表 → 确认会议 ID → 录像列表 → 选择已完成录像 → JSON 转写 → 基于完整转写总结。
+- 查询某人是否参会：会议列表/详情 → `meeting participants` 分页查询；不要用录像转写代替参会人快照。
+- 修改会议或用户：先 `get` 确认 ID 和当前值 → 展示拟修改字段 → 执行写命令 → 再次 `get` 验证。
+
+## 返回结果
+
+说明实际使用的命令范围、筛选条件、时区和分页完成情况。区分 CLI/API 返回的事实、根据转写做出的总结，以及你自己的推断；失败时保留状态码和非敏感错误信息，不声称操作成功。
