@@ -14,7 +14,7 @@ export async function fetchApi<T = unknown>(
   }
 
   const config = getConfig(configDir);
-  const baseUrl = process.env.NOVE_API_URL || config.apiUrl || 'http://localhost:3000';
+  const baseUrl = process.env.NOVE_API_URL || config.apiUrl || 'https://noveapi.proflu.cn';
 
   const headers = new globalThis.Headers(options.headers);
   headers.set('x-api-key', apiKey);
