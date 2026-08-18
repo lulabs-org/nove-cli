@@ -13,7 +13,7 @@
 
 ```shell
 # 全局安装 CLI（如已发布到 npm）
-npm install -g nove-cli
+npm install -g @novesuite/cli
 
 # 如果是本地开发环境，可进入项目目录执行以下命令进行本地链接：
 # npm install

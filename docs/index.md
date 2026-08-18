@@ -28,7 +28,7 @@ features:
 ## 快速开始
 
 ```shell
-npm install -g nove-cli
+npm install -g @novesuite/cli
 nove login
 nove meeting list
 ```
