@@ -35,7 +35,7 @@ DESCRIPTION
   Create a meeting record
 ```
 
-_See code: [src/commands/meeting/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.0/src/commands/meeting/create.ts)_
+_See code: [src/commands/meeting/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/create.ts)_
 
 ## `nove meeting delete ID`
 
@@ -52,7 +52,7 @@ DESCRIPTION
   Delete a meeting record
 ```
 
-_See code: [src/commands/meeting/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.0/src/commands/meeting/delete.ts)_
+_See code: [src/commands/meeting/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/delete.ts)_
 
 ## `nove meeting get ID`
 
@@ -69,7 +69,7 @@ DESCRIPTION
   Get a meeting by ID
 ```
 
-_See code: [src/commands/meeting/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.0/src/commands/meeting/get.ts)_
+_See code: [src/commands/meeting/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/get.ts)_
 
 ## `nove meeting list`
 
@@ -94,7 +94,7 @@ DESCRIPTION
   List meetings
 ```
 
-_See code: [src/commands/meeting/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.0/src/commands/meeting/list.ts)_
+_See code: [src/commands/meeting/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/list.ts)_
 
 ## `nove meeting participants ID`
 
@@ -116,7 +116,7 @@ DESCRIPTION
   Get participants for a meeting
 ```
 
-_See code: [src/commands/meeting/participants.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.0/src/commands/meeting/participants.ts)_
+_See code: [src/commands/meeting/participants.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/participants.ts)_
 
 ## `nove meeting recording delete ID`
 
@@ -133,7 +133,7 @@ DESCRIPTION
   Delete a meeting recording
 ```
 
-_See code: [src/commands/meeting/recording/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.0/src/commands/meeting/recording/delete.ts)_
+_See code: [src/commands/meeting/recording/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/recording/delete.ts)_
 
 ## `nove meeting recording get ID`
 
@@ -150,7 +150,7 @@ DESCRIPTION
   Get details of a meeting recording
 ```
 
-_See code: [src/commands/meeting/recording/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.0/src/commands/meeting/recording/get.ts)_
+_See code: [src/commands/meeting/recording/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/recording/get.ts)_
 
 ## `nove meeting recording list`
 
@@ -172,7 +172,7 @@ DESCRIPTION
   List meeting recordings
 ```
 
-_See code: [src/commands/meeting/recording/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.0/src/commands/meeting/recording/list.ts)_
+_See code: [src/commands/meeting/recording/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/recording/list.ts)_
 
 ## `nove meeting recording transcript RECORDINGID`
 
@@ -193,7 +193,7 @@ DESCRIPTION
   Get transcript for a meeting recording
 ```
 
-_See code: [src/commands/meeting/recording/transcript.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.0/src/commands/meeting/recording/transcript.ts)_
+_See code: [src/commands/meeting/recording/transcript.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/recording/transcript.ts)_
 
 ## `nove meeting stats`
 
@@ -211,7 +211,7 @@ DESCRIPTION
   Get meeting statistics
 ```
 
-_See code: [src/commands/meeting/stats.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.0/src/commands/meeting/stats.ts)_
+_See code: [src/commands/meeting/stats.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/stats.ts)_
 
 ## `nove meeting update ID`
 
@@ -232,4 +232,4 @@ DESCRIPTION
   Update a meeting record
 ```
 
-_See code: [src/commands/meeting/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.0/src/commands/meeting/update.ts)_
+_See code: [src/commands/meeting/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/update.ts)_
