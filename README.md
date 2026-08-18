@@ -17,11 +17,11 @@ Command Line Interface for managing Nove API resources (Meetings, Users, etc.). 
 # Usage
 <!-- usage -->
 ```sh-session
-$ npm install -g nove-cli
+$ npm install -g @novesuite/cli
 $ nove COMMAND
 running command...
 $ nove (--version)
-nove-cli/0.0.0 darwin-arm64 node-v22.23.1
+@novesuite/cli/1.0.0 darwin-arm64 node-v22.23.1
 $ nove --help [COMMAND]
 USAGE
   $ nove COMMAND
@@ -32,6 +32,7 @@ USAGE
 <!-- commands -->
 # Command Topics
 
+* [`nove config`](docs/config.md) - Set a configuration value
 * [`nove help`](docs/help.md) - Display help for nove.
 * [`nove login`](docs/login.md) - Login to Nove API using an API Key
 * [`nove meeting`](docs/meeting.md) - Manage meeting records

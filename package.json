@@ -1,7 +1,7 @@
 {
-  "name": "nove-cli",
+  "name": "@novesuite/cli",
   "description": "Command Line Interface for managing Nove API resources (Meetings, Users, etc.)",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "author": "杨仕明",
   "bin": {
     "nove": "./bin/run.js"
@@ -41,7 +41,11 @@
   ],
   "homepage": "https://github.com/nove_project/nove-cli",
   "keywords": [
-    "oclif"
+    "oclif",
+    "cli",
+    "nove",
+    "meeting",
+    "management"
   ],
   "license": "MIT",
   "main": "dist/index.js",
@@ -64,13 +68,19 @@
       }
     }
   },
-  "repository": "nove_project/nove-cli",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/nove_project/nove-cli.git"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
   "scripts": {
     "build": "shx rm -rf dist && tsc -b",
     "lint": "eslint bin src test eslint.config.mjs",
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "pnpm run lint",
-    "prepack": "oclif manifest && oclif readme --multi",
+    "prepack": "pnpm run build && oclif manifest && oclif readme --multi",
     "test": "mocha --forbid-only \"test/**/*.test.ts\"",
     "version": "oclif readme --multi && git add README.md docs"
   },
