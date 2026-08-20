@@ -20,6 +20,9 @@ importers:
       '@oclif/plugin-plugins':
         specifier: ^5
         version: 5.4.86
+      '@oclif/plugin-warn-if-update-available':
+        specifier: ^3.1.73
+        version: 3.1.73
       xlsx:
         specifier: ^0.18.5
         version: 0.18.5
@@ -606,6 +609,10 @@ packages:
 
   '@oclif/plugin-warn-if-update-available@3.1.71':
     resolution: {integrity: sha512-oEw6vtA55w82CkSX9PyVC3V7Ac4UAIlMMUcc8ACOTeOTm7wwg+p5+HjiYozNOV+W7UU3VZy4jzOV1ap8Osdnyw==}
+    engines: {node: '>=18.0.0'}
+
+  '@oclif/plugin-warn-if-update-available@3.1.73':
+    resolution: {integrity: sha512-rEJmChy3THx7hHF0kkmFoDnrWq7tk4RCI8kBspD7HonCRFGvyVkUO6oY+sn1tgPXqbGUqHD3baFItNKKAJcAiQ==}
     engines: {node: '>=18.0.0'}
 
   '@oclif/prettier-config@0.2.1':
@@ -3540,6 +3547,17 @@ snapshots:
       - supports-color
 
   '@oclif/plugin-warn-if-update-available@3.1.71':
+    dependencies:
+      '@oclif/core': 4.13.2
+      ansis: 3.17.0
+      debug: 4.4.3(supports-color@8.1.1)
+      http-call: 5.3.0
+      lodash: 4.18.1
+      registry-auth-token: 5.1.1
+    transitivePeerDependencies:
+      - supports-color
+
+  '@oclif/plugin-warn-if-update-available@3.1.73':
     dependencies:
       '@oclif/core': 4.13.2
       ansis: 3.17.0
