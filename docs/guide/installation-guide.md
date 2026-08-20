@@ -13,7 +13,7 @@
 
 ```shell
 # 全局安装 CLI（如已发布到 npm）
-npm install -g nove-cli
+npm install -g @novesuite/cli
 
 # 如果是本地开发环境，可进入项目目录执行以下命令进行本地链接：
 # npm install
@@ -54,4 +54,11 @@ nove help
 nove meeting list
 ```
 
-更多命令和能力指南，可运行 `nove help`，或查阅[会议命令](/meeting)、[用户命令](/user)和[插件命令](/plugins)。
+## 第 5 步 安装 AI Agent 技能（可选）
+
+对于支持安装 Skill 的 AI Agent，建议安装 `nove-cli` 专属技能，以便 Agent 能更准确地理解和调用本工具。
+
+您可以将本项目中的 `skills/nove-cli` 目录链接或复制到 AI Agent 的全局技能配置目录中。以常见的配置目录为例：
+
+
+更多命令和能力指南，可运行 `nove help`，或查阅[会议命令](/commands/meeting)、[用户命令](/commands/user)和[插件命令](/commands/plugins)。

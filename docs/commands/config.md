@@ -21,4 +21,4 @@ DESCRIPTION
   Set a configuration value
 ```
 
-_See code: [src/commands/config/set.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/config/set.ts)_
+_See code: [src/commands/config/set.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.2/src/commands/config/set.ts)_

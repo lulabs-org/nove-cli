@@ -28,9 +28,9 @@ features:
 ## 快速开始
 
 ```shell
-npm install -g nove-cli
+npm install -g @novesuite/cli
 nove login
 nove meeting list
 ```
 
-完整的环境要求、API 地址配置和验证步骤请参阅[安装与配置](/installation-guide)。
+完整的环境要求、API 地址配置和验证步骤请参阅[安装与配置](/guide/installation-guide)。

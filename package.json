@@ -1,7 +1,7 @@
 {
   "name": "@novesuite/cli",
   "description": "Command Line Interface for managing Nove API resources (Meetings, Users, etc.)",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "杨仕明 <shiming.y@qq.com>",
   "bin": {
     "nove": "./bin/run.js"
@@ -12,6 +12,7 @@
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
     "@oclif/plugin-plugins": "^5",
+    "@oclif/plugin-warn-if-update-available": "^3.1.73",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {
@@ -56,9 +57,15 @@
     "commands": "./dist/commands",
     "plugins": [
       "@oclif/plugin-help",
-      "@oclif/plugin-plugins"
+      "@oclif/plugin-plugins",
+      "@oclif/plugin-warn-if-update-available"
     ],
     "topicSeparator": " ",
+    "warn-if-update-available": {
+      "timeoutInDays": 1,
+      "message": "<%= config.name %> 发现新版本！从 <%= chalk.greenBright(config.version) %> 升级到 <%= chalk.greenBright(latest) %>，请运行 npm install -g <%= config.name %> 更新",
+      "registry": "https://registry.npmjs.org"
+    },
     "topics": {
       "meeting": {
         "description": "Manage meeting records"
@@ -80,9 +87,9 @@
     "lint": "eslint bin src test eslint.config.mjs",
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "pnpm run lint",
-    "prepack": "pnpm run build && oclif manifest && oclif readme --multi",
+    "prepack": "pnpm run build && oclif manifest && oclif readme --multi --output-dir=docs/commands",
     "test": "mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif readme --multi && git add README.md docs"
+    "version": "oclif readme --multi --output-dir=docs/commands && git add README.md docs"
   },
   "types": "dist/index.d.ts"
 }

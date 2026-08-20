@@ -17,9 +17,9 @@ description: 使用 nove CLI 配置和访问 Nove API，查询或管理会议、
 ## 必须遵守
 
 - 默认执行最小范围的读操作。创建、更新、导入、删除、插件安装或配置持久化必须由用户明确要求。
-- 删除会议、录像或用户前，先读取并展示准确目标；未得到明确确认时不要执行。
+- 删除会议、记录或用户前，先读取并展示准确目标；未得到明确确认时不要执行。
 - 不把 `--api-key` 放入示例、日志或回复。不要读取 CLI 的 `auth.json`。
-- 把会议 ID、平台会议 ID、录像 ID 和用户 ID 视为不同标识，不要互换。
+- 把会议 ID、平台会议 ID、记录 ID 和用户 ID 视为不同标识，不要互换。
 - 用户要求“全部”结果时处理分页，直到分页元数据或返回数量证明已经取完。
 - 将“今天”“昨天”“上周”等相对时间转换为带时区的明确 ISO 区间，并在结果中说明采用的时区。
 - 修改数据前先读取当前状态；执行后重新读取或使用响应验证结果，不仅依据成功提示。
@@ -32,14 +32,14 @@ description: 使用 nove CLI 配置和访问 Nove API，查询或管理会议、
 | --- | --- |
 | 登录、切换 API 地址、排查认证或连接错误 | 读取 [authentication-and-config.md](references/authentication-and-config.md) |
 | 查询会议、详情、统计、参会人，或维护会议记录 | 读取 [meetings.md](references/meetings.md) |
-| 查询录像、读取转写、基于转写总结，或删除录像 | 读取 [recordings.md](references/recordings.md) |
+| 查询会议记录、读取转写、基于转写总结，或删除记录 | 读取 [minutes.md](references/minutes.md) |
 | 查询、创建、更新、删除或导入用户 | 读取 [users.md](references/users.md) |
 | 查看、安装、更新、链接或移除 CLI 插件 | 读取 [plugins.md](references/plugins.md) |
 
 ## 常见组合
 
-- 查询并总结会议：会议列表 → 确认会议 ID → 录像列表 → 选择已完成录像 → JSON 转写 → 基于完整转写总结。
-- 查询某人是否参会：会议列表/详情 → `meeting participants` 分页查询；不要用录像转写代替参会人快照。
+- 查询并总结会议：会议列表 → 确认会议 ID → 记录列表 → 选择已完成记录 → JSON 转写 → 基于完整转写总结。
+- 查询某人是否参会：会议列表/详情 → `meeting participants` 分页查询；不要用转写代替参会人快照。
 - 修改会议或用户：先 `get` 确认 ID 和当前值 → 展示拟修改字段 → 执行写命令 → 再次 `get` 验证。
 
 ## 返回结果
