@@ -1,7 +1,7 @@
 {
   "name": "@novesuite/cli",
   "description": "Command Line Interface for managing Nove API resources (Meetings, Users, etc.)",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "author": "杨仕明 <shiming.y@qq.com>",
   "bin": {
     "nove": "./bin/run.js"
