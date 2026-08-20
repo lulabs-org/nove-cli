@@ -87,9 +87,9 @@
     "lint": "eslint bin src test eslint.config.mjs",
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "pnpm run lint",
-    "prepack": "pnpm run build && oclif manifest && oclif readme --multi",
+    "prepack": "pnpm run build && oclif manifest && oclif readme --multi --output-dir=docs/commands",
     "test": "mocha --forbid-only \"test/**/*.test.ts\"",
-    "version": "oclif readme --multi && git add README.md docs"
+    "version": "oclif readme --multi --output-dir=docs/commands && git add README.md docs"
   },
   "types": "dist/index.d.ts"
 }

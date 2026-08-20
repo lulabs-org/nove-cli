@@ -20,4 +20,4 @@ DESCRIPTION
   Login to Nove API using an API Key
 ```
 
-_See code: [src/commands/login/index.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/login/index.ts)_
+_See code: [src/commands/login/index.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.2/src/commands/login/index.ts)_

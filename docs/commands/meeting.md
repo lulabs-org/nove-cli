@@ -8,10 +8,6 @@ Manage meeting records
 * [`nove meeting get ID`](#nove-meeting-get-id)
 * [`nove meeting list`](#nove-meeting-list)
 * [`nove meeting participants ID`](#nove-meeting-participants-id)
-* [`nove meeting recording delete ID`](#nove-meeting-recording-delete-id)
-* [`nove meeting recording get ID`](#nove-meeting-recording-get-id)
-* [`nove meeting recording list`](#nove-meeting-recording-list)
-* [`nove meeting recording transcript RECORDINGID`](#nove-meeting-recording-transcript-recordingid)
 * [`nove meeting stats`](#nove-meeting-stats)
 * [`nove meeting update ID`](#nove-meeting-update-id)
 
@@ -35,7 +31,7 @@ DESCRIPTION
   Create a meeting record
 ```
 
-_See code: [src/commands/meeting/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/create.ts)_
+_See code: [src/commands/meeting/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.2/src/commands/meeting/create.ts)_
 
 ## `nove meeting delete ID`
 
@@ -52,7 +48,7 @@ DESCRIPTION
   Delete a meeting record
 ```
 
-_See code: [src/commands/meeting/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/delete.ts)_
+_See code: [src/commands/meeting/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.2/src/commands/meeting/delete.ts)_
 
 ## `nove meeting get ID`
 
@@ -69,7 +65,7 @@ DESCRIPTION
   Get a meeting by ID
 ```
 
-_See code: [src/commands/meeting/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/get.ts)_
+_See code: [src/commands/meeting/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.2/src/commands/meeting/get.ts)_
 
 ## `nove meeting list`
 
@@ -94,7 +90,7 @@ DESCRIPTION
   List meetings
 ```
 
-_See code: [src/commands/meeting/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/list.ts)_
+_See code: [src/commands/meeting/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.2/src/commands/meeting/list.ts)_
 
 ## `nove meeting participants ID`
 
@@ -116,84 +112,7 @@ DESCRIPTION
   Get participants for a meeting
 ```
 
-_See code: [src/commands/meeting/participants.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/participants.ts)_
-
-## `nove meeting recording delete ID`
-
-Delete a meeting recording
-
-```
-USAGE
-  $ nove meeting recording delete ID
-
-ARGUMENTS
-  ID  Recording ID
-
-DESCRIPTION
-  Delete a meeting recording
-```
-
-_See code: [src/commands/meeting/recording/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/recording/delete.ts)_
-
-## `nove meeting recording get ID`
-
-Get details of a meeting recording
-
-```
-USAGE
-  $ nove meeting recording get ID
-
-ARGUMENTS
-  ID  Recording ID
-
-DESCRIPTION
-  Get details of a meeting recording
-```
-
-_See code: [src/commands/meeting/recording/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/recording/get.ts)_
-
-## `nove meeting recording list`
-
-List meeting recordings
-
-```
-USAGE
-  $ nove meeting recording list [--limit <value>] [--meetingId <value>] [--page <value>] [--source <value>] [--status
-    <value>]
-
-FLAGS
-  --limit=<value>      [default: 10] Items per page
-  --meetingId=<value>  Filter by Meeting ID
-  --page=<value>       [default: 1] Page number
-  --source=<value>     Recording source (e.g. PLATFORM_AUTO, UPLOAD)
-  --status=<value>     Recording status (e.g. PROCESSING, COMPLETED, FAILED)
-
-DESCRIPTION
-  List meeting recordings
-```
-
-_See code: [src/commands/meeting/recording/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/recording/list.ts)_
-
-## `nove meeting recording transcript RECORDINGID`
-
-Get transcript for a meeting recording
-
-```
-USAGE
-  $ nove meeting recording transcript RECORDINGID [--format text|json]
-
-ARGUMENTS
-  RECORDINGID  Recording ID
-
-FLAGS
-  --format=<option>  [default: text] Format (text or json)
-                     <options: text|json>
-
-DESCRIPTION
-  Get transcript for a meeting recording
-```
-
-_See code: [src/commands/meeting/recording/transcript.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/recording/transcript.ts)_
+_See code: [src/commands/meeting/participants.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.2/src/commands/meeting/participants.ts)_
 
 ## `nove meeting stats`
 
@@ -211,7 +130,7 @@ DESCRIPTION
   Get meeting statistics
 ```
 
-_See code: [src/commands/meeting/stats.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/stats.ts)_
+_See code: [src/commands/meeting/stats.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.2/src/commands/meeting/stats.ts)_
 
 ## `nove meeting update ID`
 
@@ -232,4 +151,4 @@ DESCRIPTION
   Update a meeting record
 ```
 
-_See code: [src/commands/meeting/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.1/src/commands/meeting/update.ts)_
+_See code: [src/commands/meeting/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.2/src/commands/meeting/update.ts)_
