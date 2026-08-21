@@ -82,8 +82,10 @@
 
 <!-- toc -->
 * [Nove CLI (@novesuite/cli)](#nove-cli-novesuitecli)
+* [Nove CLI (@novesuite/cli)](#nove-cli-novesuitecli)
 * [Usage](#usage)
 * [Commands](#commands)
+* [Command Topics](#command-topics)
 <!-- tocstop -->
 
 # Usage
@@ -93,7 +95,7 @@ $ npm install -g @novesuite/cli
 $ nove COMMAND
 running command...
 $ nove (--version)
-@novesuite/cli/1.0.2 win32-x64 node-v24.14.0
+@novesuite/cli/1.0.3 darwin-arm64 node-v22.23.1
 $ nove --help [COMMAND]
 USAGE
   $ nove COMMAND
@@ -103,10 +105,13 @@ USAGE
 
 # Commands
 <!-- commands -->
+# Command Topics
+
 * [`nove config`](docs/commands/config.md) - Set a configuration value
 * [`nove help`](docs/commands/help.md) - Display help for nove.
 * [`nove login`](docs/commands/login.md) - Login to Nove API using an API Key
 * [`nove meeting`](docs/commands/meeting.md) - Manage meeting records
 * [`nove minute`](docs/commands/minute.md) - Delete a meeting minute
 * [`nove user`](docs/commands/user.md) - Manage user accounts
+
 <!-- commandsstop -->
