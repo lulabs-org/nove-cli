@@ -23,7 +23,7 @@ DESCRIPTION
   Delete a meeting minute
 ```
 
-_See code: [src/commands/minute/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.2/src/commands/minute/delete.ts)_
+_See code: [src/commands/minute/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.3/src/commands/minute/delete.ts)_
 
 ## `nove minute get ID`
 
@@ -40,7 +40,7 @@ DESCRIPTION
   Get details of a meeting minute
 ```
 
-_See code: [src/commands/minute/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.2/src/commands/minute/get.ts)_
+_See code: [src/commands/minute/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.3/src/commands/minute/get.ts)_
 
 ## `nove minute list`
 
@@ -62,7 +62,7 @@ DESCRIPTION
   List meeting minutes
 ```
 
-_See code: [src/commands/minute/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.2/src/commands/minute/list.ts)_
+_See code: [src/commands/minute/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.3/src/commands/minute/list.ts)_
 
 ## `nove minute transcript MINUTEID`
 
@@ -83,4 +83,4 @@ DESCRIPTION
   Get transcript for a meeting minute
 ```
 
-_See code: [src/commands/minute/transcript.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.2/src/commands/minute/transcript.ts)_
+_See code: [src/commands/minute/transcript.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.3/src/commands/minute/transcript.ts)_
