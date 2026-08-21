@@ -61,4 +61,4 @@ nove meeting list
 您可以将本项目中的 `skills/nove-cli` 目录链接或复制到 AI Agent 的全局技能配置目录中。以常见的配置目录为例：
 
 
-更多命令和能力指南，可运行 `nove help`，或查阅[会议命令](/commands/meeting)、[用户命令](/commands/user)和[插件命令](/commands/plugins)。
+更多命令和能力指南，可运行 `nove help`，或查阅[会议命令](/commands/meeting)和[用户命令](/commands/user)。
