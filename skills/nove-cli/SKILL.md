@@ -1,6 +1,6 @@
 ---
 name: nove
-description: 使用 nove CLI 配置和访问 Nove API，查询或管理会议、参会人、录像、转写与用户，以及管理 CLI 插件。用户提到 nove、nove-cli、Nove 会议记录、会议转写、用户导入，或明确要求通过 Nove 命令行完成任务时使用；不用于直接创建飞书或腾讯会议日程。
+description: 使用 nove CLI 配置和访问 Nove API，查询或管理会议、参会人、录像、转写与用户。用户提到 nove、nove-cli、Nove 会议记录、会议转写、用户导入，或明确要求通过 Nove 命令行完成任务时使用；不用于直接创建飞书或腾讯会议日程。
 ---
 
 # Nove CLI
@@ -16,7 +16,7 @@ description: 使用 nove CLI 配置和访问 Nove API，查询或管理会议、
 
 ## 必须遵守
 
-- 默认执行最小范围的读操作。创建、更新、导入、删除、插件安装或配置持久化必须由用户明确要求。
+- 默认执行最小范围的读操作。创建、更新、导入、删除或配置持久化必须由用户明确要求。
 - 删除会议、记录或用户前，先读取并展示准确目标；未得到明确确认时不要执行。
 - 不把 `--api-key` 放入示例、日志或回复。不要读取 CLI 的 `auth.json`。
 - 把会议 ID、平台会议 ID、记录 ID 和用户 ID 视为不同标识，不要互换。
@@ -34,7 +34,6 @@ description: 使用 nove CLI 配置和访问 Nove API，查询或管理会议、
 | 查询会议、详情、统计、参会人，或维护会议记录 | 读取 [meetings.md](references/meetings.md) |
 | 查询会议记录、读取转写、基于转写总结，或删除记录 | 读取 [minutes.md](references/minutes.md) |
 | 查询、创建、更新、删除或导入用户 | 读取 [users.md](references/users.md) |
-| 查看、安装、更新、链接或移除 CLI 插件 | 读取 [plugins.md](references/plugins.md) |
 
 ## 常见组合
 
