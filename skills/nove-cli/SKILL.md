@@ -1,6 +1,6 @@
 ---
 name: nove
-description: 使用 nove CLI 配置和访问 Nove API，查询或管理会议、参会人、录像、转写与用户。用户提到 nove、nove-cli、Nove 会议记录、会议转写、用户导入，或明确要求通过 Nove 命令行完成任务时使用；不用于直接创建飞书或腾讯会议日程。
+description: 使用 nove CLI 配置和访问 Nove API，查询或管理会议、参会人、会议记录、转写、参会者总结与用户。用户提到 nove、nove-cli、Nove 会议记录、会议转写、参会者总结、用户导入，或明确要求通过 Nove 命令行完成任务时使用。
 ---
 
 # Nove CLI
@@ -32,12 +32,13 @@ description: 使用 nove CLI 配置和访问 Nove API，查询或管理会议、
 | --- | --- |
 | 登录、切换 API 地址、排查认证或连接错误 | 读取 [authentication-and-config.md](references/authentication-and-config.md) |
 | 查询会议、详情、统计、参会人，或维护会议记录 | 读取 [meetings.md](references/meetings.md) |
-| 查询会议记录、读取转写、基于转写总结，或删除记录 | 读取 [minutes.md](references/minutes.md) |
+| 查询会议记录、读取转写、管理参会者总结，或删除记录 | 读取 [minutes.md](references/minutes.md) |
 | 查询、创建、更新、删除或导入用户 | 读取 [users.md](references/users.md) |
 
 ## 常见组合
 
 - 查询并总结会议：会议列表 → 确认会议 ID → 记录列表 → 选择已完成记录 → JSON 转写 → 基于完整转写总结。
+- 管理参会者总结：确认记录 ID → 查询总结列表或详情 → 创建、更新或删除 → 重新读取验证。
 - 查询某人是否参会：会议列表/详情 → `meeting participants` 分页查询；不要用转写代替参会人快照。
 - 修改会议或用户：先 `get` 确认 ID 和当前值 → 展示拟修改字段 → 执行写命令 → 再次 `get` 验证。
 
