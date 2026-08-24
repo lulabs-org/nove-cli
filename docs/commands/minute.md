@@ -62,8 +62,7 @@ List meeting minutes
 ```
 USAGE
   $ nove minute list [--all | --page <value>] [--fields <value>] [--json] [--limit <value>] [--meeting-id
-    <value>] [--sort <value>] [--source PLATFORM_AUTO|USER_MANUAL|THIRD_PARTY] [--status
-    RECORDING|PROCESSING|COMPLETED|FAILED]
+    <value>] [--sort <value>] [--source PLATFORM_AUTO|USER_MANUAL|THIRD_PARTY]
 
 FLAGS
   --all                 Fetch every result page
@@ -75,8 +74,6 @@ FLAGS
   --sort=<value>        Table sort field with optional :asc or :desc suffix
   --source=<option>     Minute source
                         <options: PLATFORM_AUTO|USER_MANUAL|THIRD_PARTY>
-  --status=<option>     Minute status
-                        <options: RECORDING|PROCESSING|COMPLETED|FAILED>
 
 DESCRIPTION
   List meeting minutes

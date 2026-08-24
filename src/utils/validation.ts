@@ -7,7 +7,6 @@ export const MEETING_PLATFORMS = [
 export const MEETING_TYPES = ['ONE_TIME', 'RECURRING', 'INSTANT', 'SCHEDULED', 'WEBINAR'] as const;
 export const PROCESSING_STATUSES = ['PENDING', 'PROCESSING', 'COMPLETED', 'FAILED', 'SKIPPED'] as const;
 export const RECORDING_SOURCES = ['PLATFORM_AUTO', 'USER_MANUAL', 'THIRD_PARTY'] as const;
-export const RECORDING_STATUSES = ['RECORDING', 'PROCESSING', 'COMPLETED', 'FAILED'] as const;
 export const USER_SORT_FIELDS = ['createdAt', 'updatedAt', 'lastLoginAt', 'username', 'email'] as const;
 export const SORT_ORDERS = ['asc', 'desc'] as const;
 
