@@ -1,40 +1,67 @@
-import { Command, Flags } from '@oclif/core';
+import { Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { allFlag, fetchAllPages, fieldsFlag, outputList, sortFlag, validateListFlags } from '../../utils/list-output.js';
+import { NoveCommand } from '../../utils/nove-command.js';
+import { handleCommandError, jsonFlag } from '../../utils/output.js';
+import { MEETING_PLATFORMS, MEETING_TYPES, PROCESSING_STATUSES, resolveDateRange } from '../../utils/validation.js';
 
-export default class MeetingList extends Command {
+export default class MeetingList extends NoveCommand {
   static description = 'List meetings';
-static flags = {
-    endDate: Flags.string({ description: 'End date (ISO string)' }),
-    limit: Flags.integer({ default: 10, description: 'Items per page' }),
-    page: Flags.integer({ default: 1, description: 'Page number' }),
-    platform: Flags.string({ description: 'Platform (e.g. TENCENT_MEETING, FEISHU)' }),
+  static flags = {
+    all: allFlag,
+    date: Flags.string({ description: 'Local calendar day (YYYY-MM-DD)' }),
+    'end-date': Flags.string({ aliases: ['endDate'], description: 'Exclusive ISO end date with timezone' }),
+    fields: fieldsFlag,
+    json: jsonFlag,
+    limit: Flags.integer({ default: 10, description: 'Items per page', max: 100, min: 1 }),
+    page: Flags.integer({ default: 1, description: 'Page number', min: 1 }),
+    platform: Flags.string({ description: 'Meeting platform', options: [...MEETING_PLATFORMS] }),
     search: Flags.string({ description: 'Search keyword' }),
-    startDate: Flags.string({ description: 'Start date (ISO string)' }),
-    status: Flags.string({ description: 'Processing status (e.g. COMPLETED, PENDING)' }),
-    type: Flags.string({ description: 'Meeting type (e.g. SCHEDULED, INSTANT)' }),
+    sort: sortFlag,
+    'start-date': Flags.string({ aliases: ['startDate'], description: 'Inclusive ISO start date with timezone' }),
+    status: Flags.string({ description: 'Processing status', options: [...PROCESSING_STATUSES] }),
+    timezone: Flags.string({ default: 'Asia/Shanghai', description: 'IANA timezone used with --date' }),
+    type: Flags.string({ description: 'Meeting type', options: [...MEETING_TYPES] }),
   };
 
   public async run(): Promise<void> {
     const { flags } = await this.parse(MeetingList);
-
     try {
-      const queryParams = new URLSearchParams({
-        limit: flags.limit.toString(),
-        page: flags.page.toString(),
+      validateListFlags(flags);
+      const dateRange = resolveDateRange({
+        date: flags.date,
+        endDate: flags['end-date'],
+        startDate: flags['start-date'],
+        timeZone: flags.timezone,
       });
-      
-      if (flags.platform) queryParams.append('platform', flags.platform);
-      if (flags.status) queryParams.append('status', flags.status);
-      if (flags.type) queryParams.append('type', flags.type);
-      if (flags.startDate) queryParams.append('startDate', flags.startDate);
-      if (flags.endDate) queryParams.append('endDate', flags.endDate);
-      if (flags.search) queryParams.append('search', flags.search);
-
-      const data = await fetchApi(`/meetings?${queryParams.toString()}`, {}, this.config.configDir);
-      this.log(JSON.stringify(data, null, 2));
+      const fetchPage = (page: number) => this.fetchPage(page, flags.limit, flags, dateRange);
+      const data = flags.all ? await fetchAllPages(fetchPage) : await fetchPage(flags.page);
+      outputList(this, data, {
+        defaultFields: ['id', 'title', 'platform', 'startAt', 'participantCount'],
+        fields: flags.fields,
+        json: flags.json,
+        noun: 'meetings',
+        sort: flags.sort,
+      });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, flags.json);
     }
+  }
+
+  private fetchPage(
+    page: number,
+    limit: number,
+    flags: { platform?: string; search?: string; status?: string; type?: string },
+    dateRange: { endDate?: string; startDate?: string }
+  ): Promise<Record<string, unknown>> {
+    const query = new URLSearchParams({ limit: String(limit), page: String(page) });
+    if (flags.platform) query.set('platform', flags.platform);
+    if (flags.status) query.set('status', flags.status);
+    if (flags.type) query.set('type', flags.type);
+    if (flags.search) query.set('search', flags.search);
+    if (dateRange.startDate) query.set('startDate', dateRange.startDate);
+    if (dateRange.endDate) query.set('endDate', dateRange.endDate);
+    return fetchApi(`/meetings?${query}`, {}, this.config.configDir);
   }
 }

@@ -1,23 +1,24 @@
 `nove login`
 ============
 
-Login to Nove API using an API Key
+Validate and securely store a Nove API Key
 
 * [`nove login`](#nove-login)
 
 ## `nove login`
 
-Login to Nove API using an API Key
+Validate and securely store a Nove API Key
 
 ```
 USAGE
-  $ nove login [-k <value>]
+  $ nove login [--api-key-stdin] [--json]
 
 FLAGS
-  -k, --api-key=<value>  The API Key to use for authentication (e.g. sk_...)
+  --api-key-stdin  Read the API Key from stdin
+  --json           Output a single JSON value to stdout
 
 DESCRIPTION
-  Login to Nove API using an API Key
+  Validate and securely store a Nove API Key
 ```
 
-_See code: [src/commands/login/index.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/login/index.ts)_
+_See code: [src/commands/login/index.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/login/index.ts)_

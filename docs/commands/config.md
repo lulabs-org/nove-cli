@@ -11,14 +11,17 @@ Set a configuration value
 
 ```
 USAGE
-  $ nove config set KEY VALUE
+  $ nove config set KEY VALUE [--json]
 
 ARGUMENTS
-  KEY    Configuration key (e.g., api-url)
+  KEY    Configuration key (e.g., base-url)
   VALUE  Configuration value
+
+FLAGS
+  --json  Output a single JSON value to stdout
 
 DESCRIPTION
   Set a configuration value
 ```
 
-_See code: [src/commands/config/set.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/config/set.ts)_
+_See code: [src/commands/config/set.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/config/set.ts)_
