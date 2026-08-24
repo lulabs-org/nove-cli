@@ -1,9 +1,9 @@
-import { Command } from '@oclif/core';
 
 import { removeApiKey } from '../../utils/auth.js';
+import { NoveCommand } from '../../utils/nove-command.js';
 import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
-export default class Logout extends Command {
+export default class Logout extends NoveCommand {
   static description = 'Remove the locally stored Nove API credential';
   static flags = { json: jsonFlag };
 

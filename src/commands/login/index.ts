@@ -1,7 +1,9 @@
 import { password } from '@inquirer/prompts';
-import { Command, Flags } from '@oclif/core';
+import { Flags } from '@oclif/core';
 
+import { verifyApiKey } from '../../utils/api.js';
 import { saveApiKey } from '../../utils/auth.js';
+import { NoveCommand } from '../../utils/nove-command.js';
 import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
 function readApiKeyFromStdin(): Promise<string> {
@@ -20,8 +22,8 @@ function suppliedSourceCount(stdin: boolean): number {
   return [Boolean(process.env.NOVE_API_KEY?.trim()), stdin].filter(Boolean).length;
 }
 
-export default class Login extends Command {
-  static description = 'Login to Nove API using a securely supplied API Key';
+export default class Login extends NoveCommand {
+  static description = 'Validate and securely store a Nove API Key';
   static flags = {
     'api-key-stdin': Flags.boolean({
       description: 'Read the API Key from stdin',
@@ -45,6 +47,7 @@ export default class Login extends Command {
       apiKey ||= await password({ mask: '*', message: 'Enter your API Key:' });
       if (!apiKey.trim()) throw new Error('API Key is required to login.');
 
+      await verifyApiKey(apiKey.trim(), this.config.configDir);
       const status = saveApiKey(this.config.configDir, apiKey.trim());
       outputResult(this, status, {
         json: flags.json,

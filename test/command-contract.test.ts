@@ -1,6 +1,6 @@
 import { expect } from 'chai';
 import { spawn } from 'node:child_process';
-import { mkdtempSync, rmSync } from 'node:fs';
+import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { createServer, type Server } from 'node:http';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
@@ -32,6 +32,48 @@ function runCli(args: string[], environment: NodeJS.ProcessEnv, input = ''): Pro
     child.on('close', (code) => resolve({ code, stderr, stdout }));
     child.stdin.end(input);
   });
+}
+
+async function loginCli(
+  environment: NodeJS.ProcessEnv,
+  apiKey = 'test-key',
+  source: 'environment' | 'stdin' = 'environment',
+  validationStatus = 200
+): Promise<CliResult> {
+  const server: Server = createServer((request, response) => {
+    expect(request.url).to.equal('/api/auth/api-key/validate');
+    expect(request.headers['x-api-key']).to.equal(apiKey);
+    response.statusCode = validationStatus;
+    response.setHeader('content-type', 'application/json');
+    response.end(
+      JSON.stringify(
+        validationStatus === 200
+          ? { authenticated: true }
+          : { message: 'Invalid API key' }
+      )
+    );
+  });
+  await new Promise<void>((resolve) => {
+    server.listen(0, '127.0.0.1', resolve);
+  });
+  const address = server.address();
+  if (!address || typeof address === 'string') throw new Error('Test server did not bind to a TCP port.');
+
+  try {
+    return await runCli(
+      ['login', ...(source === 'stdin' ? ['--api-key-stdin'] : []), '--json'],
+      {
+        ...environment,
+        ...(source === 'environment' ? { NOVE_API_KEY: apiKey } : {}),
+        NOVE_API_URL: `http://127.0.0.1:${address.port}`,
+      },
+      source === 'stdin' ? `${apiKey}\n` : ''
+    );
+  } finally {
+    await new Promise<void>((resolve, reject) => {
+      server.close((error) => (error ? reject(error) : resolve()));
+    });
+  }
 }
 
 describe('command contracts', () => {
@@ -83,7 +125,7 @@ describe('command contracts', () => {
 
   it('emits exactly one JSON value on stdout in --json mode', async () => {
     const environment = { HOME: testHome };
-    const login = await runCli(['login', '--json'], { ...environment, NOVE_API_KEY: 'test-key' });
+    const login = await loginCli(environment);
     expect(login.code).to.equal(0);
     expect(JSON.parse(login.stdout)).to.include({ authenticated: true });
     expect(login.stderr).to.equal('');
@@ -144,7 +186,7 @@ describe('command contracts', () => {
 
   it('allows --yes deletion and renders 204 as JSON null', async () => {
     const environment = { HOME: testHome };
-    const login = await runCli(['login', '--json'], { ...environment, NOVE_API_KEY: 'test-key' });
+    const login = await loginCli(environment);
     expect(login.code).to.equal(0);
 
     const server: Server = createServer((request, response) => {
@@ -171,7 +213,7 @@ describe('command contracts', () => {
 
   it('forwards pagination and half-open date filters exactly', async () => {
     const environment = { HOME: testHome };
-    const login = await runCli(['login', '--json'], { ...environment, NOVE_API_KEY: 'test-key' });
+    const login = await loginCli(environment);
     expect(login.code).to.equal(0);
 
     let receivedUrl = '';
@@ -218,7 +260,7 @@ describe('command contracts', () => {
 
   it('keeps stdout clean and emits structured API errors to stderr', async () => {
     const environment = { HOME: testHome };
-    const login = await runCli(['login', '--json'], { ...environment, NOVE_API_KEY: 'test-key' });
+    const login = await loginCli(environment);
     expect(login.code).to.equal(0);
 
     const server: Server = createServer((_request, response) => {
@@ -265,7 +307,7 @@ describe('command contracts', () => {
 
   it('supports secure stdin login, status inspection, and logout without exposing the key', async () => {
     const environment = { HOME: testHome };
-    const login = await runCli(['login', '--api-key-stdin', '--json'], environment, 'stdin-test-key\n');
+    const login = await loginCli(environment, 'stdin-test-key', 'stdin');
     expect(login.code).to.equal(0);
     expect(login.stdout).not.to.include('stdin-test-key');
     expect(JSON.parse(login.stdout)).to.include({ authenticated: true });
@@ -282,8 +324,8 @@ describe('command contracts', () => {
   });
 
   it('supports NOVE_API_KEY and rejects the removed --api-key argument', async () => {
-    const environment = { HOME: testHome, NOVE_API_KEY: 'environment-test-key' };
-    const login = await runCli(['login', '--json'], environment);
+    const environment = { HOME: testHome };
+    const login = await loginCli(environment, 'environment-test-key');
     expect(login.code).to.equal(0);
     expect(login.stdout).not.to.include('environment-test-key');
 
@@ -295,17 +337,31 @@ describe('command contracts', () => {
       HOME: testHome,
     });
     expect(removedArgument.code).to.equal(2);
-    expect(removedArgument.stderr).to.include('Nonexistent flag: --api-key');
+    expect(JSON.parse(removedArgument.stderr)).to.include({ code: 'CLI_USAGE_ERROR' });
+    expect(JSON.parse(removedArgument.stderr).message).to.include('Nonexistent flag: --api-key');
+
+    expect((await runCli(['logout', '--json'], environment)).code).to.equal(0);
+    const invalidLogin = await loginCli(environment, 'invalid-test-key', 'environment', 401);
+    expect(invalidLogin.code).to.equal(1);
+    expect(invalidLogin.stdout).to.equal('');
+    expect(JSON.parse(invalidLogin.stderr)).to.include({
+      code: 'API_AUTHENTICATION_ERROR',
+      status: 401,
+    });
+    const status = await runCli(['auth', 'status', '--json'], environment);
+    expect(JSON.parse(status.stdout)).to.deep.equal({ authenticated: false });
   });
 
   it('rejects invalid pagination, enum, user, and import inputs before requests', async () => {
-    const invalidPage = await runCli(['meeting', 'list', '--page', '0'], { HOME: testHome });
+    const invalidPage = await runCli(['meeting', 'list', '--page', '0', '--json'], { HOME: testHome });
     expect(invalidPage.code).to.equal(2);
-    expect(invalidPage.stderr).to.include('Expected an integer greater than or equal to 1');
+    expect(JSON.parse(invalidPage.stderr)).to.include({ code: 'CLI_USAGE_ERROR' });
+    expect(JSON.parse(invalidPage.stderr).message).to.include('Expected an integer greater than or equal to 1');
 
-    const invalidSource = await runCli(['minute', 'list', '--source', 'UPLOAD'], { HOME: testHome });
+    const invalidSource = await runCli(['minute', 'list', '--source', 'UPLOAD', '--json'], { HOME: testHome });
     expect(invalidSource.code).to.equal(2);
-    expect(invalidSource.stderr).to.include('Expected --source=UPLOAD to be one of');
+    expect(JSON.parse(invalidSource.stderr)).to.include({ code: 'CLI_USAGE_ERROR' });
+    expect(JSON.parse(invalidSource.stderr).message).to.include('Expected --source=UPLOAD to be one of');
 
     const invalidEmail = await runCli(['user', 'create', '--email', 'invalid', '--json'], {
       HOME: testHome,
@@ -320,9 +376,84 @@ describe('command contracts', () => {
     expect(JSON.parse(invalidFile.stderr)).to.include({ code: 'CLI_ERROR' });
   });
 
+  it('rejects unknown table fields and table-only flags in JSON mode', async () => {
+    const environment = { HOME: testHome };
+    expect((await loginCli(environment)).code).to.equal(0);
+    let requests = 0;
+    const server: Server = createServer((_request, response) => {
+      requests++;
+      response.setHeader('content-type', 'application/json');
+      response.end(JSON.stringify({
+        data: [{ id: 'meeting-1', title: 'Contract test' }],
+        page: 1,
+        total: 1,
+        totalPages: 1,
+      }));
+      if (requests === 2) server.close();
+    });
+    await new Promise<void>((resolve) => {
+      server.listen(0, '127.0.0.1', resolve);
+    });
+    const address = server.address();
+    if (!address || typeof address === 'string') throw new Error('Test server did not bind to a TCP port.');
+    const apiEnvironment = {
+      ...environment,
+      NOVE_API_URL: `http://127.0.0.1:${address.port}`,
+    };
+
+    const fields = await runCli(['meeting', 'list', '--fields', 'typoField'], apiEnvironment);
+    expect(fields.code).to.equal(1);
+    expect(fields.stderr).to.include('--fields references an unknown field: typoField.');
+
+    const sort = await runCli(['meeting', 'list', '--sort', 'typoField'], apiEnvironment);
+    expect(sort.code).to.equal(1);
+    expect(sort.stderr).to.include('--sort references an unknown field: typoField.');
+
+    const jsonFields = await runCli(
+      ['meeting', 'list', '--fields', 'id', '--json'],
+      apiEnvironment
+    );
+    expect(jsonFields.code).to.equal(1);
+    expect(JSON.parse(jsonFields.stderr)).to.include({ code: 'CLI_ERROR' });
+    expect(JSON.parse(jsonFields.stderr).message).to.include('only available for table output');
+    expect(requests).to.equal(2);
+  });
+
+  it('reports partial user imports without claiming complete success', async () => {
+    const environment = { HOME: testHome };
+    expect((await loginCli(environment)).code).to.equal(0);
+    const file = path.join(testHome, 'users.csv');
+    writeFileSync(file, 'username,email\nvalid,valid@example.test\n');
+    const server: Server = createServer((_request, response) => {
+      response.setHeader('content-type', 'application/json');
+      response.end(JSON.stringify({
+        failureCount: 1,
+        failures: [{ code: 'INVALID_DATA', row: 2 }],
+        successCount: 0,
+        total: 1,
+      }));
+      server.close();
+    });
+    await new Promise<void>((resolve) => {
+      server.listen(0, '127.0.0.1', resolve);
+    });
+    const address = server.address();
+    if (!address || typeof address === 'string') throw new Error('Test server did not bind to a TCP port.');
+
+    const result = await runCli(['user', 'import', '--file', file], {
+      ...environment,
+      NOVE_API_URL: `http://127.0.0.1:${address.port}`,
+    });
+
+    expect(result.code).to.equal(0);
+    expect(result.stdout).to.include('User import completed with 1 failed row.');
+    expect(result.stdout).not.to.include('Users imported successfully.');
+    expect(result.stdout).to.include('"failureCount": 1');
+  });
+
   it('fetches all pages and renders selected, sorted table fields', async () => {
     const environment = { HOME: testHome };
-    expect((await runCli(['login', '--json'], { ...environment, NOVE_API_KEY: 'test-key' })).code).to.equal(0);
+    expect((await loginCli(environment)).code).to.equal(0);
     const requestedPages: string[] = [];
     const server: Server = createServer((request, response) => {
       const page = new URL(request.url ?? '', 'http://localhost').searchParams.get('page') ?? '';
@@ -358,7 +489,7 @@ describe('command contracts', () => {
 
   it('shows a clear empty-list message outside JSON mode', async () => {
     const environment = { HOME: testHome };
-    expect((await runCli(['login', '--json'], { ...environment, NOVE_API_KEY: 'test-key' })).code).to.equal(0);
+    expect((await loginCli(environment)).code).to.equal(0);
     const server: Server = createServer((_request, response) => {
       response.setHeader('content-type', 'application/json');
       response.end(JSON.stringify({ data: [], page: 1, total: 0, totalPages: 0 }));

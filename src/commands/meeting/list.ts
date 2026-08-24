@@ -1,11 +1,12 @@
-import { Command, Flags } from '@oclif/core';
+import { Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
-import { allFlag, fetchAllPages, fieldsFlag, outputList, sortFlag } from '../../utils/list-output.js';
+import { allFlag, fetchAllPages, fieldsFlag, outputList, sortFlag, validateListFlags } from '../../utils/list-output.js';
+import { NoveCommand } from '../../utils/nove-command.js';
 import { handleCommandError, jsonFlag } from '../../utils/output.js';
 import { MEETING_PLATFORMS, MEETING_TYPES, PROCESSING_STATUSES, resolveDateRange } from '../../utils/validation.js';
 
-export default class MeetingList extends Command {
+export default class MeetingList extends NoveCommand {
   static description = 'List meetings';
   static flags = {
     all: allFlag,
@@ -27,6 +28,7 @@ export default class MeetingList extends Command {
   public async run(): Promise<void> {
     const { flags } = await this.parse(MeetingList);
     try {
+      validateListFlags(flags);
       const dateRange = resolveDateRange({
         date: flags.date,
         endDate: flags['end-date'],

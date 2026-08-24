@@ -1,10 +1,11 @@
-import { Args, Command } from '@oclif/core';
+import { Args } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { NoveCommand } from '../../utils/nove-command.js';
 import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 import { adminUserBody, adminUserFlags } from '../../utils/user-input.js';
 
-export default class UserUpdate extends Command {
+export default class UserUpdate extends NoveCommand {
   static args = { id: Args.string({ description: 'User ID', required: true }) };
   static description = 'Update an existing user';
   static flags = { ...adminUserFlags, json: jsonFlag };

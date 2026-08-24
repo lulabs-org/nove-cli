@@ -1,10 +1,10 @@
-import { Command } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { NoveCommand } from '../../utils/nove-command.js';
 import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 import { adminUserBody, adminUserFlags } from '../../utils/user-input.js';
 
-export default class UserCreate extends Command {
+export default class UserCreate extends NoveCommand {
   static description = 'Create a new user';
   static flags = { ...adminUserFlags, json: jsonFlag };
 

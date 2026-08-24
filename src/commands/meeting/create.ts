@@ -1,10 +1,11 @@
-import { Command, Flags } from '@oclif/core';
+import { Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { NoveCommand } from '../../utils/nove-command.js';
 import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 import { MEETING_PLATFORMS, MEETING_TYPES, validateDateRange } from '../../utils/validation.js';
 
-export default class MeetingCreate extends Command {
+export default class MeetingCreate extends NoveCommand {
   static description = 'Create a meeting record';
   static flags = {
     'actual-start-at': Flags.string({ aliases: ['startTime'], description: 'Actual start time as ISO 8601 with timezone' }),

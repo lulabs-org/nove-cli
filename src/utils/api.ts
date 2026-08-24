@@ -69,6 +69,7 @@ export class ApiError extends Error {
 function apiErrorCode(status: number): string {
   if (status === 401) return 'API_AUTHENTICATION_ERROR';
   if (status === 403) return 'API_PERMISSION_ERROR';
+  if (status === 409) return 'API_CONFLICT_ERROR';
   if (status === 429) return 'API_RATE_LIMITED';
   if (status >= 500) return 'API_SERVER_ERROR';
   return 'API_REQUEST_ERROR';
@@ -183,9 +184,10 @@ function createAttemptControl(externalSignal: AbortSignal | null | undefined, ti
 function createRequestContext(
   endpoint: string,
   options: FetchApiOptions,
-  configDir: string
+  configDir: string,
+  apiKeyOverride?: string
 ): RequestContext {
-  const apiKey = getApiKey(configDir);
+  const apiKey = apiKeyOverride ?? getApiKey(configDir);
   if (!apiKey) {
     throw new ApiError('API Key is missing. Please run `nove login` first.', {
       code: 'AUTHENTICATION_REQUIRED',
@@ -193,7 +195,7 @@ function createRequestContext(
   }
 
   const config = getConfig(configDir);
-  const baseUrl = process.env.NOVE_BASE_URL || config.baseUrl || 'https://noveapi.proflu.cn';
+  const baseUrl = process.env.NOVE_API_URL || config.baseUrl || 'https://noveapi.proflu.cn';
   const method = (options.method ?? 'GET').toUpperCase();
   const fetchOptions = createFetchOptions(options);
   const canRetry = method === 'GET' || method === 'HEAD';
@@ -301,4 +303,22 @@ export function fetchApi<T = unknown>(
   configDir: string
 ): Promise<T> {
   return performRequestAttempt<T>(createRequestContext(endpoint, options, configDir), 0);
+}
+
+export async function verifyApiKey(apiKey: string, configDir: string): Promise<void> {
+  const response = await performRequestAttempt<unknown>(
+    createRequestContext('/api/auth/api-key/validate', {}, configDir, apiKey),
+    0
+  );
+  if (
+    !response ||
+    typeof response !== 'object' ||
+    !('authenticated' in response) ||
+    response.authenticated !== true
+  ) {
+    throw new ApiError('Nove API did not confirm the supplied API Key.', {
+      code: 'INVALID_API_RESPONSE',
+      details: response,
+    });
+  }
 }

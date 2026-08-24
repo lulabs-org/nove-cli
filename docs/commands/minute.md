@@ -33,7 +33,7 @@ DESCRIPTION
   Delete a meeting minute
 ```
 
-_See code: [src/commands/minute/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/minute/delete.ts)_
+_See code: [src/commands/minute/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/minute/delete.ts)_
 
 ## `nove minute get ID`
 
@@ -53,7 +53,7 @@ DESCRIPTION
   Get details of a meeting minute
 ```
 
-_See code: [src/commands/minute/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/minute/get.ts)_
+_See code: [src/commands/minute/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/minute/get.ts)_
 
 ## `nove minute list`
 
@@ -61,7 +61,7 @@ List meeting minutes
 
 ```
 USAGE
-  $ nove minute list [--all] [--fields <value>] [--json] [--limit <value>] [--meeting-id <value>] [--page
+  $ nove minute list [--all | --page <value>] [--fields <value>] [--json] [--limit <value>] [--meeting-id
     <value>] [--sort <value>] [--source PLATFORM_AUTO|USER_MANUAL|THIRD_PARTY] [--status
     RECORDING|PROCESSING|COMPLETED|FAILED]
 
@@ -82,7 +82,7 @@ DESCRIPTION
   List meeting minutes
 ```
 
-_See code: [src/commands/minute/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/minute/list.ts)_
+_See code: [src/commands/minute/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/minute/list.ts)_
 
 ## `nove minute speaker-summary create MINUTEID`
 
@@ -109,7 +109,7 @@ DESCRIPTION
   Create a speaker summary
 ```
 
-_See code: [src/commands/minute/speaker-summary/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/minute/speaker-summary/create.ts)_
+_See code: [src/commands/minute/speaker-summary/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/minute/speaker-summary/create.ts)_
 
 ## `nove minute speaker-summary delete MINUTEID SUMMARYID`
 
@@ -132,7 +132,7 @@ DESCRIPTION
   Delete a speaker summary
 ```
 
-_See code: [src/commands/minute/speaker-summary/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/minute/speaker-summary/delete.ts)_
+_See code: [src/commands/minute/speaker-summary/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/minute/speaker-summary/delete.ts)_
 
 ## `nove minute speaker-summary get MINUTEID SUMMARYID`
 
@@ -153,7 +153,7 @@ DESCRIPTION
   Get a speaker summary
 ```
 
-_See code: [src/commands/minute/speaker-summary/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/minute/speaker-summary/get.ts)_
+_See code: [src/commands/minute/speaker-summary/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/minute/speaker-summary/get.ts)_
 
 ## `nove minute speaker-summary list MINUTEID`
 
@@ -161,7 +161,7 @@ List speaker summaries for a meeting minute
 
 ```
 USAGE
-  $ nove minute speaker-summary list MINUTEID [--all] [--fields <value>] [--json] [--limit <value>] [--page <value>] [--sort
+  $ nove minute speaker-summary list MINUTEID [--all | --page <value>] [--fields <value>] [--json] [--limit <value>] [--sort
     <value>]
 
 ARGUMENTS
@@ -179,7 +179,7 @@ DESCRIPTION
   List speaker summaries for a meeting minute
 ```
 
-_See code: [src/commands/minute/speaker-summary/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/minute/speaker-summary/list.ts)_
+_See code: [src/commands/minute/speaker-summary/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/minute/speaker-summary/list.ts)_
 
 ## `nove minute speaker-summary update MINUTEID SUMMARYID`
 
@@ -202,7 +202,7 @@ DESCRIPTION
   Update a speaker summary
 ```
 
-_See code: [src/commands/minute/speaker-summary/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/minute/speaker-summary/update.ts)_
+_See code: [src/commands/minute/speaker-summary/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/minute/speaker-summary/update.ts)_
 
 ## `nove minute transcript MINUTEID`
 
@@ -224,4 +224,4 @@ DESCRIPTION
   Get transcript for a meeting minute
 ```
 
-_See code: [src/commands/minute/transcript.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/minute/transcript.ts)_
+_See code: [src/commands/minute/transcript.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/minute/transcript.ts)_

@@ -1,10 +1,11 @@
-import { Args, Command, Flags } from '@oclif/core';
+import { Args, Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
-import { allFlag, fetchAllPages, fieldsFlag, outputList, sortFlag } from '../../utils/list-output.js';
+import { allFlag, fetchAllPages, fieldsFlag, outputList, sortFlag, validateListFlags } from '../../utils/list-output.js';
+import { NoveCommand } from '../../utils/nove-command.js';
 import { handleCommandError, jsonFlag } from '../../utils/output.js';
 
-export default class MeetingParticipants extends Command {
+export default class MeetingParticipants extends NoveCommand {
   static args = { id: Args.string({ description: 'Meeting ID', required: true }) };
   static description = 'Get participants for a meeting';
   static flags = {
@@ -20,6 +21,7 @@ export default class MeetingParticipants extends Command {
   public async run(): Promise<void> {
     const { args, flags } = await this.parse(MeetingParticipants);
     try {
+      validateListFlags(flags);
       const fetchPage = (page: number) => {
         const query = new URLSearchParams({ limit: String(flags.limit), page: String(page) });
         if (flags.search) query.set('search', flags.search);

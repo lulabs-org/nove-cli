@@ -1,10 +1,11 @@
-import { Command, Flags } from '@oclif/core';
+import { Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { NoveCommand } from '../../utils/nove-command.js';
 import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 import { resolveDateRange } from '../../utils/validation.js';
 
-export default class MeetingStats extends Command {
+export default class MeetingStats extends NoveCommand {
   static description = 'Get meeting statistics';
   static flags = {
     date: Flags.string({ description: 'Local calendar day (YYYY-MM-DD)' }),

@@ -1,10 +1,11 @@
-import { Args, Command, Flags } from '@oclif/core';
+import { Args, Flags } from '@oclif/core';
 
 import { fetchApi } from '../../../utils/api.js';
-import { allFlag, fetchAllPages, fieldsFlag, outputList, sortFlag } from '../../../utils/list-output.js';
+import { allFlag, fetchAllPages, fieldsFlag, outputList, sortFlag, validateListFlags } from '../../../utils/list-output.js';
+import { NoveCommand } from '../../../utils/nove-command.js';
 import { handleCommandError, jsonFlag } from '../../../utils/output.js';
 
-export default class MinuteSpeakerSummaryList extends Command {
+export default class MinuteSpeakerSummaryList extends NoveCommand {
   static args = { minuteId: Args.string({ description: 'Minute ID', required: true }) };
   static description = 'List speaker summaries for a meeting minute';
   static flags = {
@@ -19,6 +20,7 @@ export default class MinuteSpeakerSummaryList extends Command {
   public async run(): Promise<void> {
     const { args, flags } = await this.parse(MinuteSpeakerSummaryList);
     try {
+      validateListFlags(flags);
       const fetchPage = (page: number) => fetchApi<Record<string, unknown>>(
         `/minutes/${args.minuteId}/speaker-summaries?${new URLSearchParams({ limit: String(flags.limit), page: String(page) })}`,
         {}, this.config.configDir,

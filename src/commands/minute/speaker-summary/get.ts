@@ -1,9 +1,10 @@
-import { Args, Command } from '@oclif/core';
+import { Args } from '@oclif/core';
 
 import { fetchApi } from '../../../utils/api.js';
+import { NoveCommand } from '../../../utils/nove-command.js';
 import { handleCommandError, jsonFlag, outputResult } from '../../../utils/output.js';
 
-export default class MinuteSpeakerSummaryGet extends Command {
+export default class MinuteSpeakerSummaryGet extends NoveCommand {
   static args = {
     minuteId: Args.string({ description: 'Minute ID', required: true }),
     summaryId: Args.string({ description: 'Speaker summary ID', required: true }),

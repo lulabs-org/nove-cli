@@ -1,13 +1,13 @@
 `nove login`
 ============
 
-Login to Nove API using a securely supplied API Key
+Validate and securely store a Nove API Key
 
 * [`nove login`](#nove-login)
 
 ## `nove login`
 
-Login to Nove API using a securely supplied API Key
+Validate and securely store a Nove API Key
 
 ```
 USAGE
@@ -18,7 +18,7 @@ FLAGS
   --json           Output a single JSON value to stdout
 
 DESCRIPTION
-  Login to Nove API using a securely supplied API Key
+  Validate and securely store a Nove API Key
 ```
 
-_See code: [src/commands/login/index.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/login/index.ts)_
+_See code: [src/commands/login/index.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/login/index.ts)_

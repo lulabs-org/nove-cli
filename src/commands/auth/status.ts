@@ -1,9 +1,9 @@
-import { Command } from '@oclif/core';
 
 import { getAuthStatus } from '../../utils/auth.js';
+import { NoveCommand } from '../../utils/nove-command.js';
 import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
-export default class AuthStatus extends Command {
+export default class AuthStatus extends NoveCommand {
   static description = 'Show authentication status without exposing credentials';
   static flags = { json: jsonFlag };
 

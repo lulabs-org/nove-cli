@@ -1,9 +1,10 @@
-import { Args, Command } from '@oclif/core';
+import { Args } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { NoveCommand } from '../../utils/nove-command.js';
 import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
-export default class UserGet extends Command {
+export default class UserGet extends NoveCommand {
   static args = {
     id: Args.string({ description: 'User ID', required: true }),
   };

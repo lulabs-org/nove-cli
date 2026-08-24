@@ -1,10 +1,11 @@
-import { Args, Command } from '@oclif/core';
+import { Args } from '@oclif/core';
 
 import { setConfig } from '../../utils/config.js';
+import { NoveCommand } from '../../utils/nove-command.js';
 import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 import { validateHttpUrl } from '../../utils/validation.js';
 
-export default class ConfigSet extends Command {
+export default class ConfigSet extends NoveCommand {
   static args = {
     key: Args.string({ description: 'Configuration key (e.g., base-url)', required: true }),
     value: Args.string({ description: 'Configuration value', required: true }),

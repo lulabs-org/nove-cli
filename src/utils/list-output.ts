@@ -2,13 +2,22 @@ import { Command, Flags } from '@oclif/core';
 
 import { outputResult } from './output.js';
 
-export const allFlag = Flags.boolean({ description: 'Fetch every result page' });
+export const allFlag = Flags.boolean({
+  description: 'Fetch every result page',
+  exclusive: ['page'],
+});
 export const fieldsFlag = Flags.string({
   description: 'Comma-separated fields to show in the table',
 });
 export const sortFlag = Flags.string({
   description: 'Table sort field with optional :asc or :desc suffix',
 });
+
+export function validateListFlags(options: { fields?: string; json?: boolean; sort?: string }): void {
+  if (options.json && (options.fields || options.sort)) {
+    throw new Error('--fields and --sort are only available for table output; remove --json.');
+  }
+}
 
 type PageFetcher = (page: number) => Promise<Record<string, unknown>>;
 
@@ -59,16 +68,33 @@ function fieldValue(item: unknown, field: string): unknown {
   return value;
 }
 
+function hasField(item: unknown, field: string): boolean {
+  let value = item;
+  for (const segment of field.split('.')) {
+    if (!value || typeof value !== 'object' || !Object.hasOwn(value, segment)) return false;
+    value = (value as Record<string, unknown>)[segment];
+  }
+
+  return true;
+}
+
+function requireKnownField(items: unknown[], field: string, flag: '--fields' | '--sort'): void {
+  if (items.length > 0 && !items.some((item) => hasField(item, field))) {
+    throw new Error(`${flag} references an unknown field: ${field}.`);
+  }
+}
+
 function displayValue(value: unknown): string {
   if (value === undefined || value === null || value === '') return '—';
   if (typeof value === 'object') return JSON.stringify(value);
   return String(value);
 }
 
-function selectedFields(value: string | undefined, defaults: string[]): string[] {
+function selectedFields(value: string | undefined, defaults: string[], items: unknown[]): string[] {
   if (!value) return defaults;
   const fields = value.split(',').map((field) => field.trim()).filter(Boolean);
   if (fields.length === 0) throw new Error('--fields must contain at least one field name.');
+  for (const field of fields) requireKnownField(items, field, '--fields');
   return fields;
 }
 
@@ -78,6 +104,8 @@ function sortedItems(items: unknown[], sort: string | undefined): unknown[] {
   if (!field || extra.length > 0 || (direction !== 'asc' && direction !== 'desc')) {
     throw new Error('--sort must use FIELD, FIELD:asc, or FIELD:desc.');
   }
+
+  requireKnownField(items, field, '--sort');
 
   const multiplier = direction === 'asc' ? 1 : -1;
   return [...items].sort((left, right) => {
@@ -118,12 +146,14 @@ export function outputList(
 
   const key = itemKey(response);
   const items = response[key] as unknown[];
+  const fields = selectedFields(options.fields, options.defaultFields, items);
+  const sorted = sortedItems(items, options.sort);
   if (items.length === 0) {
     command.log(`No ${options.noun} found.`);
     return;
   }
 
-  renderTable(command, sortedItems(items, options.sort), selectedFields(options.fields, options.defaultFields));
+  renderTable(command, sorted, fields);
   const total = typeof response.total === 'number' ? response.total : items.length;
   command.log(`\nShowing ${items.length} of ${total} ${options.noun}.`);
 }

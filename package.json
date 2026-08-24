@@ -1,7 +1,7 @@
 {
   "name": "@novesuite/cli",
   "description": "Command Line Interface for managing Nove API resources (Meetings, Users, etc.)",
-  "version": "1.0.5",
+  "version": "1.1.0",
   "author": "杨仕明 <shiming.y@qq.com>",
   "bin": {
     "nove": "./bin/run.js"
@@ -87,7 +87,7 @@
     "access": "public"
   },
   "scripts": {
-    "build": "shx rm -rf dist && tsc -b",
+    "build": "shx rm -rf dist && tsc -b --force",
     "lint": "eslint bin src test eslint.config.mjs",
     "postpack": "shx rm -f oclif.manifest.json",
     "posttest": "pnpm run lint",

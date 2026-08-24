@@ -1,10 +1,11 @@
-import { Args, Command } from '@oclif/core';
+import { Args } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
 import { confirmDestructiveAction, destructiveFlags } from '../../utils/destructive-action.js';
+import { NoveCommand } from '../../utils/nove-command.js';
 import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
-export default class MeetingDelete extends Command {
+export default class MeetingDelete extends NoveCommand {
   static args = {
     id: Args.string({ description: 'Meeting ID', required: true }),
   };

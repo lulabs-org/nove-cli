@@ -1,11 +1,12 @@
-import { Command, Flags } from '@oclif/core';
+import { Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
-import { allFlag, fetchAllPages, fieldsFlag, outputList, sortFlag } from '../../utils/list-output.js';
+import { allFlag, fetchAllPages, fieldsFlag, outputList, sortFlag, validateListFlags } from '../../utils/list-output.js';
+import { NoveCommand } from '../../utils/nove-command.js';
 import { handleCommandError, jsonFlag } from '../../utils/output.js';
 import { SORT_ORDERS, USER_SORT_FIELDS } from '../../utils/validation.js';
 
-export default class UserList extends Command {
+export default class UserList extends NoveCommand {
   static description = 'List users';
   static flags = {
     active: Flags.boolean({ allowNo: true, description: 'Filter by active status' }),
@@ -23,6 +24,7 @@ export default class UserList extends Command {
   public async run(): Promise<void> {
     const { flags } = await this.parse(UserList);
     try {
+      validateListFlags(flags);
       const fetchPage = (page: number) => {
         const query = new URLSearchParams({
           page: String(page), pageSize: String(flags.limit),

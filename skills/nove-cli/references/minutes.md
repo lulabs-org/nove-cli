@@ -23,10 +23,12 @@
 列表支持：
 
 - `--meeting-id`：按会议 ID 筛选
-- `--status`：例如 `PROCESSING`、`COMPLETED`、`FAILED`
+- `--status`：`RECORDING`、`PROCESSING`、`COMPLETED`、`FAILED`
 - `--source`：`PLATFORM_AUTO`、`USER_MANUAL` 或 `THIRD_PARTY`
 - `--page`，默认 `1`
 - `--limit`，默认 `10`
+- `--all`，自动获取并合并全部分页
+- `--fields`、`--sort`，只控制表格输出
 
 ```bash
 nove minute list \
@@ -35,7 +37,7 @@ nove minute list \
   --all
 ```
 
-用户要求全部记录时使用 `--all`。存在多条记录时，根据记录 ID、状态、来源和时间选择；信息不足时让用户确认，不默认取第一条。
+用户要求全部记录时使用 `--all`，不要再同时传 `--page`。需要机器处理时使用 `--json`，且不要同时传 `--fields` 或 `--sort`。存在多条记录时，根据记录 ID、状态、来源和时间选择；信息不足时让用户确认，不默认取第一条。
 
 ## 获取转写
 
@@ -43,10 +45,10 @@ nove minute list \
 
 ```bash
 nove minute get <minute-id>
-nove minute transcript <minute-id> --format json
+nove minute transcript <minute-id> --format json --json
 ```
 
-`--format` 支持 `text` 和 `json`，默认 `text`。需要分析、时间轴或长文本处理时优先使用 `json`；仅展示可读正文时可使用 `text`。
+`--format` 决定 API 返回转写正文还是分段结构，支持 `text` 和 `json`，默认 `text`；`--json` 决定 CLI 是否以单个 JSON 值输出。需要分析、时间轴或长文本处理时使用 `--format json --json`；仅供人阅读正文时可保留默认格式。
 
 若记录仍为 `PROCESSING`，报告当前状态并停止；若为 `FAILED`，报告失败，不用其他会议或记录的内容替代。
 
@@ -59,7 +61,7 @@ nove minute speaker-summary list <minute-id> --page 1 --limit 100
 nove minute speaker-summary get <minute-id> <summary-id>
 ```
 
-用户要求全部总结时根据响应中的分页元数据取完，不把当前页当成完整结果。
+用户要求全部总结时使用 `--all`，不把当前页当成完整结果。列表默认表格；`--fields`、`--sort` 与 `--json` 不同时使用。
 
 创建总结必须提供平台用户 ID 和正文。关键词参数可重复；`--generated-by` 支持 `AI`、`HYBRID` 和 `MANUAL`：
 
@@ -108,3 +110,5 @@ nove minute delete <minute-id>
 ```
 
 删除后重新查询该记录或关联会议的记录列表验证结果。
+
+非交互环境只有在用户已经明确确认准确目标后，才使用 `nove minute delete <minute-id> --yes`。

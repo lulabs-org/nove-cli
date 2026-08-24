@@ -3,7 +3,7 @@ import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 
-import { ApiError, fetchApi } from '../dist/utils/api.js';
+import { ApiError, fetchApi, verifyApiKey } from '../dist/utils/api.js';
 
 describe('fetchApi', () => {
   let configDir: string;
@@ -31,7 +31,7 @@ describe('fetchApi', () => {
   it('uses NOVE_API_URL before persistent config and normalizes URL joining', async () => {
     writeFileSync(
       path.join(configDir, 'config.json'),
-      JSON.stringify({ apiUrl: 'https://config.example.invalid/base' })
+      JSON.stringify({ baseUrl: 'https://config.example.invalid/base' })
     );
     process.env.NOVE_API_URL = 'https://env.example.invalid/api/';
     let requestUrl = '';
@@ -54,7 +54,7 @@ describe('fetchApi', () => {
   it('uses the persistent API URL when no environment override is present', async () => {
     writeFileSync(
       path.join(configDir, 'config.json'),
-      JSON.stringify({ apiUrl: 'https://config.example.invalid/base/' })
+      JSON.stringify({ baseUrl: 'https://config.example.invalid/base/' })
     );
     let requestUrl = '';
     globalThis.fetch = async (input) => {
@@ -100,6 +100,39 @@ describe('fetchApi', () => {
         status: 403,
       });
     }
+  });
+
+  it('classifies conflict responses explicitly', async () => {
+    process.env.NOVE_API_URL = 'https://api.example.invalid';
+    globalThis.fetch = async () =>
+      new Response(JSON.stringify({ message: 'Username already exists' }), {
+        headers: { 'content-type': 'application/json' },
+        status: 409,
+      });
+
+    try {
+      await fetchApi('/admin/users', { retries: 0 }, configDir);
+      expect.fail('Expected fetchApi to throw');
+    } catch (error: unknown) {
+      expect((error as ApiError).code).to.equal('API_CONFLICT_ERROR');
+      expect((error as ApiError).status).to.equal(409);
+    }
+  });
+
+  it('verifies an API key before it is persisted', async () => {
+    process.env.NOVE_API_URL = 'https://api.example.invalid';
+    rmSync(path.join(configDir, 'auth.json'));
+    let requestHeaders: Headers | undefined;
+    globalThis.fetch = async (input, init) => {
+      expect(String(input)).to.equal('https://api.example.invalid/api/auth/api-key/validate');
+      requestHeaders = new Headers(init?.headers);
+      return new Response(JSON.stringify({ authenticated: true }), {
+        headers: { 'content-type': 'application/json' },
+      });
+    };
+
+    await verifyApiKey('unpersisted-test-key', configDir);
+    expect(requestHeaders?.get('x-api-key')).to.equal('unpersisted-test-key');
   });
 
   it('retries retryable GET responses but not POST requests', async () => {

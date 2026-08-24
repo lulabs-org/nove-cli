@@ -1,12 +1,13 @@
-import { Command, Flags } from '@oclif/core';
+import { Flags } from '@oclif/core';
 import { readFileSync } from 'node:fs';
 import { basename } from 'node:path';
 
 import { fetchApi } from '../../utils/api.js';
+import { NoveCommand } from '../../utils/nove-command.js';
 import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 import { validateImportFile } from '../../utils/validation.js';
 
-export default class UserImport extends Command {
+export default class UserImport extends NoveCommand {
   static description = 'Import users from a CSV or XLSX file';
   static flags = {
     file: Flags.string({ description: 'Path to the file to import', required: true }),
@@ -33,10 +34,21 @@ export default class UserImport extends Command {
       );
       outputResult(this, data, {
         json: flags.json,
-        successMessage: '✅ Users imported successfully.',
+        successMessage: importMessage(data),
       });
     } catch (error: unknown) {
       handleCommandError(this, error, flags.json);
     }
   }
+}
+
+function importMessage(data: unknown): string {
+  if (data && typeof data === 'object' && 'failureCount' in data) {
+    const {failureCount} = (data as { failureCount?: unknown });
+    if (typeof failureCount === 'number' && failureCount > 0) {
+      return `User import completed with ${failureCount} failed row${failureCount === 1 ? '' : 's'}.`;
+    }
+  }
+
+  return 'Users imported successfully.';
 }

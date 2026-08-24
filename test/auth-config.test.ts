@@ -48,11 +48,14 @@ describe('credential and configuration storage', () => {
     writeFileSync(path.join(configDir, 'config.json'), '{broken');
     expect(() => getConfig(configDir)).to.throw('Configuration file is invalid JSON');
 
-    writeFileSync(path.join(configDir, 'config.json'), JSON.stringify({ apiUrl: 'file:///tmp/api' }));
+    writeFileSync(path.join(configDir, 'config.json'), JSON.stringify({ baseUrl: 'file:///tmp/api' }));
     expect(() => getConfig(configDir)).to.throw('must use http or https');
 
+    writeFileSync(path.join(configDir, 'config.json'), JSON.stringify({ legacyKey: true }));
+    expect(getConfig(configDir)).to.deep.equal({});
+
     rmSync(path.join(configDir, 'config.json'));
-    setConfig(configDir, { apiUrl: 'https://api.example.test/base' });
-    expect(getConfig(configDir)).to.deep.equal({ apiUrl: 'https://api.example.test/base' });
+    setConfig(configDir, { baseUrl: 'https://api.example.test/base' });
+    expect(getConfig(configDir)).to.deep.equal({ baseUrl: 'https://api.example.test/base' });
   });
 });

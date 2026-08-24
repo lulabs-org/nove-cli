@@ -13,7 +13,7 @@
 | 查询统计 | `nove meeting stats` |
 | 查询参会人 | `nove meeting participants <meeting-id>` |
 | 创建记录 | `nove meeting create --platform <platform> --platform-meeting-id <id> --title <title> --type <type>` |
-| 更新记录 | `nove meeting update <meeting-id> --title <title>` 或 `--processing-status <status>` |
+| 更新记录 | `nove meeting update <meeting-id> --title <title>` |
 | 删除记录 | `nove meeting delete <meeting-id>` |
 
 执行前用 `nove meeting <command> --help` 核对当前参数。
@@ -24,9 +24,9 @@
 
 - `--page`，默认 `1`
 - `--limit`，默认 `10`
-- `--platform`，例如 `TENCENT_MEETING`、`FEISHU`
-- `--status`，例如 `COMPLETED`、`PENDING`
-- `--type`，例如 `SCHEDULED`、`INSTANT`
+- `--platform`：`TENCENT_MEETING`、`ZOOM`、`TEAMS`、`DINGTALK`、`FEISHU`、`WEBEX`、`VOOV`、`OTHER`
+- `--status`：`PENDING`、`PROCESSING`、`COMPLETED`、`FAILED`、`SKIPPED`；这是关联记录的处理状态
+- `--type`：`ONE_TIME`、`RECURRING`、`INSTANT`、`SCHEDULED`、`WEBINAR`
 - `--start-date`、`--end-date`，包含显式时区的 ISO 时间半开区间
 - `--date YYYY-MM-DD --timezone Asia/Shanghai`，按本地自然日生成半开区间
 - `--search`，关键词
@@ -42,7 +42,7 @@ nove meeting list \
   --all
 ```
 
-用户要求“全部”时使用 `--all`，不要仅凭第一页下结论。脚本需要原始分页 JSON 时同时使用 `--json`。
+用户要求“全部”时使用 `--all`，不要再同时传 `--page`。脚本需要原始合并 JSON 时同时使用 `--json`。默认输出表格；`--fields`、`--sort` 不能与 `--json` 同用。
 
 多条会议名称相近时，展示标题、会议 ID、平台和时间，让用户选择；不要根据标题猜测目标 ID。
 
@@ -64,9 +64,9 @@ nove meeting participants <meeting-id> --search <name> --all
 
 ## 创建与更新
 
-创建时 `--platform`、`--platform-meeting-id`、`--title` 和 `--type` 必填，可选 `--actual-start-at`、`--ended-at`、`--duration-seconds`。执行前复述平台会议 ID、标题和时间；若用户实际想创建第三方日程，停止并说明边界。
+创建时 `--platform`、`--platform-meeting-id`、`--title` 和 `--type` 必填，可选 `--actual-start-at`、`--ended-at`、`--duration-seconds`。时间必须是带显式时区的 ISO 8601；同时提供开始与结束时间时，开始时间必须早于结束时间。执行前复述平台会议 ID、标题和时间；若用户实际想创建第三方日程，停止并说明边界。
 
-更新支持标题、类型、时间、人数和 `--processing-status`。先运行：
+更新支持标题、类型、实际开始时间、结束时间、时长、会议码和参会人数，时间规则与创建相同。会议处理状态来源于关联记录，不通过会议更新命令修改。先运行：
 
 ```bash
 nove meeting get <meeting-id>

@@ -38,7 +38,7 @@ DESCRIPTION
   Create a meeting record
 ```
 
-_See code: [src/commands/meeting/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/meeting/create.ts)_
+_See code: [src/commands/meeting/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/meeting/create.ts)_
 
 ## `nove meeting delete ID`
 
@@ -60,7 +60,7 @@ DESCRIPTION
   Delete a meeting record
 ```
 
-_See code: [src/commands/meeting/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/meeting/delete.ts)_
+_See code: [src/commands/meeting/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/meeting/delete.ts)_
 
 ## `nove meeting get ID`
 
@@ -80,7 +80,7 @@ DESCRIPTION
   Get a meeting by ID
 ```
 
-_See code: [src/commands/meeting/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/meeting/get.ts)_
+_See code: [src/commands/meeting/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/meeting/get.ts)_
 
 ## `nove meeting list`
 
@@ -88,10 +88,10 @@ List meetings
 
 ```
 USAGE
-  $ nove meeting list [--all] [--date <value>] [--end-date <value>] [--fields <value>] [--json] [--limit <value>]
-    [--page <value>] [--platform TENCENT_MEETING|ZOOM|TEAMS|DINGTALK|FEISHU|WEBEX|VOOV|OTHER] [--search <value>] [--sort
-    <value>] [--start-date <value>] [--status PENDING|PROCESSING|COMPLETED|FAILED|SKIPPED] [--timezone <value>] [--type
-    ONE_TIME|RECURRING|INSTANT|SCHEDULED|WEBINAR]
+  $ nove meeting list [--all | --page <value>] [--date <value>] [--end-date <value>] [--fields <value>] [--json]
+    [--limit <value>] [--platform TENCENT_MEETING|ZOOM|TEAMS|DINGTALK|FEISHU|WEBEX|VOOV|OTHER] [--search <value>]
+    [--sort <value>] [--start-date <value>] [--status PENDING|PROCESSING|COMPLETED|FAILED|SKIPPED] [--timezone <value>]
+    [--type ONE_TIME|RECURRING|INSTANT|SCHEDULED|WEBINAR]
 
 FLAGS
   --all                 Fetch every result page
@@ -116,7 +116,7 @@ DESCRIPTION
   List meetings
 ```
 
-_See code: [src/commands/meeting/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/meeting/list.ts)_
+_See code: [src/commands/meeting/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/meeting/list.ts)_
 
 ## `nove meeting participants ID`
 
@@ -124,7 +124,7 @@ Get participants for a meeting
 
 ```
 USAGE
-  $ nove meeting participants ID [--all] [--fields <value>] [--json] [--limit <value>] [--page <value>] [--search <value>]
+  $ nove meeting participants ID [--all | --page <value>] [--fields <value>] [--json] [--limit <value>] [--search <value>]
     [--sort <value>]
 
 ARGUMENTS
@@ -143,7 +143,7 @@ DESCRIPTION
   Get participants for a meeting
 ```
 
-_See code: [src/commands/meeting/participants.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/meeting/participants.ts)_
+_See code: [src/commands/meeting/participants.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/meeting/participants.ts)_
 
 ## `nove meeting stats`
 
@@ -164,7 +164,7 @@ DESCRIPTION
   Get meeting statistics
 ```
 
-_See code: [src/commands/meeting/stats.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/meeting/stats.ts)_
+_See code: [src/commands/meeting/stats.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/meeting/stats.ts)_
 
 ## `nove meeting update ID`
 
@@ -173,27 +173,25 @@ Update a meeting record
 ```
 USAGE
   $ nove meeting update ID [--actual-start-at <value>] [--duration-seconds <value>] [--ended-at <value>] [--json]
-    [--meeting-code <value>] [--participant-count <value>] [--processing-status
-    PENDING|PROCESSING|COMPLETED|FAILED|SKIPPED] [--title <value>] [--type ONE_TIME|RECURRING|INSTANT|SCHEDULED|WEBINAR]
+    [--meeting-code <value>] [--participant-count <value>] [--title <value>] [--type
+    ONE_TIME|RECURRING|INSTANT|SCHEDULED|WEBINAR]
 
 ARGUMENTS
   ID  Meeting ID
 
 FLAGS
-  --actual-start-at=<value>     Actual start time as ISO 8601 with timezone
-  --duration-seconds=<value>    Duration in seconds
-  --ended-at=<value>            End time as ISO 8601 with timezone
-  --json                        Output a single JSON value to stdout
-  --meeting-code=<value>        Meeting code
-  --participant-count=<value>   Participant count
-  --processing-status=<option>  Processing status
-                                <options: PENDING|PROCESSING|COMPLETED|FAILED|SKIPPED>
-  --title=<value>               New meeting title
-  --type=<option>               Meeting type
-                                <options: ONE_TIME|RECURRING|INSTANT|SCHEDULED|WEBINAR>
+  --actual-start-at=<value>    Actual start time as ISO 8601 with timezone
+  --duration-seconds=<value>   Duration in seconds
+  --ended-at=<value>           End time as ISO 8601 with timezone
+  --json                       Output a single JSON value to stdout
+  --meeting-code=<value>       Meeting code
+  --participant-count=<value>  Participant count
+  --title=<value>              New meeting title
+  --type=<option>              Meeting type
+                               <options: ONE_TIME|RECURRING|INSTANT|SCHEDULED|WEBINAR>
 
 DESCRIPTION
   Update a meeting record
 ```
 
-_See code: [src/commands/meeting/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.0.4/src/commands/meeting/update.ts)_
+_See code: [src/commands/meeting/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/meeting/update.ts)_
