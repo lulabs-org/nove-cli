@@ -216,6 +216,8 @@ describe('full command matrix', () => {
       ['minute', 'speaker-summary', 'create'], ['minute', 'speaker-summary', 'delete'],
       ['minute', 'speaker-summary', 'get'], ['minute', 'speaker-summary', 'list'],
       ['minute', 'speaker-summary', 'update'], ['minute', 'transcript'],
+      ['tracking-report', 'create'], ['tracking-report', 'delete'], ['tracking-report', 'get'],
+      ['tracking-report', 'list'], ['tracking-report', 'update'],
       ['user', 'create'], ['user', 'delete'], ['user', 'get'], ['user', 'import'],
       ['user', 'list'], ['user', 'update'],
     ];
@@ -231,7 +233,9 @@ describe('full command matrix', () => {
   });
 
   it('loads root, topic, and explicit help entry points', async () => {
-    const cases = [[], ['help'], ['meeting', '--help'], ['minute', '--help'], ['user', '--help']];
+    const cases = [
+      [], ['help'], ['meeting', '--help'], ['minute', '--help'], ['tracking-report', '--help'], ['user', '--help'],
+    ];
     const results = await Promise.all(cases.map((args) => runCli(args, { HOME: testHome })));
     for (const [index, result] of results.entries()) {
       expect(result.code, cases[index].join(' ') || 'root').to.equal(0);
@@ -242,7 +246,15 @@ describe('full command matrix', () => {
 
   it('sends the documented method, path, query, aliases, and payload for every API command', async () => {
     const csv = path.join(testHome, 'matrix-users.csv');
+    const reportContent = path.join(testHome, 'report.md');
+    const reportMetadata = path.join(testHome, 'report-metadata.json');
+    const reportSources = path.join(testHome, 'report-sources.json');
     writeFileSync(csv, 'username,email\nmatrix,matrix@example.test\n');
+    writeFileSync(reportContent, '# Matrix report\n');
+    writeFileSync(reportMetadata, JSON.stringify({ department: 'Engineering' }));
+    writeFileSync(reportSources, JSON.stringify([
+      { metadata: { page: 1 }, sourceId: 'meeting-1', sourceType: 'MEETING' },
+    ]));
     const cases: SuccessCase[] = [
       {
         args: ['meeting', 'create', '--platformMeetingId', 'platform-1', '--title', 'Matrix meeting', '--platform', 'OTHER', '--type', 'ONE_TIME', '--startTime', '2026-08-24T09:00:00+08:00', '--endTime', '2026-08-24T10:00:00+08:00', '--duration-seconds', '3600', '--meeting-code', 'code-1'],
@@ -305,6 +317,71 @@ describe('full command matrix', () => {
       { args: ['minute', 'speaker-summary', 'update', 'minute-1', 'summary-1', '--partSummary', 'Updated', '--keywords', 'gamma'], assertRequest: expectRequest('PUT', '/minutes/minute-1/speaker-summaries/summary-1', { keywords: ['gamma'], partSummary: 'Updated' }), name: 'speaker summary update' },
       { args: ['minute', 'speaker-summary', 'delete', 'minute-1', 'summary-1', '--yes'], assertRequest: expectRequest('DELETE', '/minutes/minute-1/speaker-summaries/summary-1'), name: 'speaker summary delete', status: 204 },
       {
+        args: [
+          'tracking-report', 'create', '--target-type', 'USER', '--target-id', 'user-1', '--target-name', 'Matrix User',
+          '--target-metadata-file', reportMetadata, '--tracking-type', 'USER_PROFILE', '--cadence', 'MONTHLY',
+          '--base-date', '2026-08-24T09:00:00+08:00', '--timezone', 'Asia/Shanghai', '--content-file', reportContent,
+          '--generated-by', 'AI', '--ai-model', 'matrix-model', '--sources-file', reportSources,
+        ],
+        assertRequest: expectRequest('POST', '/tracking-reports', {
+          aiModel: 'matrix-model',
+          baseDate: '2026-08-24T09:00:00+08:00',
+          cadence: 'MONTHLY',
+          content: '# Matrix report\n',
+          generatedBy: 'AI',
+          sources: [{ metadata: { page: 1 }, sourceId: 'meeting-1', sourceType: 'MEETING' }],
+          targetId: 'user-1',
+          targetMetadata: { department: 'Engineering' },
+          targetName: 'Matrix User',
+          targetType: 'USER',
+          timezone: 'Asia/Shanghai',
+          trackingType: 'USER_PROFILE',
+        }),
+        name: 'tracking report create',
+      },
+      { args: ['tracking-report', 'get', 'report-1'], assertRequest: expectRequest('GET', '/tracking-reports/report-1'), name: 'tracking report get' },
+      {
+        args: [
+          'tracking-report', 'list', '--target-type', 'PROJECT', '--target-id', 'project-1', '--keyword', 'Matrix',
+          '--tracking-type', 'PROJECT_PROGRESS', '--cadence', 'WEEKLY', '--period-start', '2026-08-17T00:00:00+08:00',
+          '--period-end', '2026-08-24T00:00:00+08:00', '--page', '2', '--limit', '100',
+        ],
+        assertRequest(request) {
+          expectRequest('GET', '/tracking-reports')(request);
+          expect(Object.fromEntries(request.url.searchParams)).to.deep.equal({
+            cadence: 'WEEKLY',
+            keyword: 'Matrix',
+            limit: '100',
+            page: '2',
+            periodEnd: '2026-08-24T00:00:00+08:00',
+            periodStart: '2026-08-17T00:00:00+08:00',
+            targetId: 'project-1',
+            targetType: 'PROJECT',
+            trackingType: 'PROJECT_PROGRESS',
+          });
+        },
+        name: 'tracking report list',
+        response: { data: [], page: 2, total: 0, totalPages: 0 },
+      },
+      {
+        args: [
+          'tracking-report', 'update', 'report-1', '--content', 'Updated report', '--clear-generated-by',
+          '--clear-ai-model', '--sources', '[]',
+        ],
+        assertRequest: expectRequest('PUT', '/tracking-reports/report-1', {
+          aiModel: null,
+          content: 'Updated report',
+          generatedBy: null,
+          sources: [],
+        }),
+        name: 'tracking report update',
+      },
+      {
+        args: ['tracking-report', 'delete', 'report-1', '--yes'],
+        assertRequest: expectRequest('DELETE', '/tracking-reports/report-1'),
+        name: 'tracking report delete',
+      },
+      {
         args: ['user', 'create', '--username', 'matrix_user', '--email', 'matrix@example.test', '--phone', '13800138000', '--countryCode', '+86', '--displayName', 'Matrix User', '--firstName', 'Matrix', '--lastName', 'User', '--active', '--gender', 'OTHER', '--dateOfBirth', '2000-02-29', '--avatar', 'https://example.test/avatar.png', '--bio', 'bio', '--address', 'address', '--city', 'city', '--country', 'country', '--website', 'https://example.test', '--zipCode', '200000'],
         assertRequest: expectRequest('POST', '/admin/users', { active: true, address: 'address', avatar: 'https://example.test/avatar.png', bio: 'bio', city: 'city', country: 'country', countryCode: '+86', dateOfBirth: '2000-02-29', displayName: 'Matrix User', email: 'matrix@example.test', firstName: 'Matrix', gender: 'OTHER', lastName: 'User', phone: '13800138000', username: 'matrix_user', website: 'https://example.test', zipCode: '200000' }),
         name: 'user create',
@@ -333,6 +410,8 @@ describe('full command matrix', () => {
       ['meeting', 'participants', '--json'], ['meeting', 'update', '--json'], ['minute', 'get', '--json'],
       ['minute', 'transcript', '--json'], ['minute', 'speaker-summary', 'create', '--json'],
       ['minute', 'speaker-summary', 'get', '--json'], ['minute', 'speaker-summary', 'update', '--json'],
+      ['tracking-report', 'create', '--json'], ['tracking-report', 'get', '--json'],
+      ['tracking-report', 'update', '--json'],
       ['user', 'import', '--json'], ['user', 'get', '--json'], ['user', 'update', '--json'],
     ];
 
@@ -356,6 +435,10 @@ describe('full command matrix', () => {
       ['minute', 'list', '--source', 'INVALID', '--json'],
       ['minute', 'speaker-summary', 'create', 'id', '--platform-user-id', 'u', '--part-summary', 's', '--generated-by', 'INVALID', '--json'],
       ['minute', 'transcript', 'id', '--format', 'xml', '--json'], ['user', 'create', '--gender', 'INVALID', '--json'],
+      ['tracking-report', 'list', '--target-type', 'INVALID', '--json'],
+      ['tracking-report', 'list', '--tracking-type', 'INVALID', '--json'],
+      ['tracking-report', 'list', '--cadence', 'INVALID', '--json'],
+      ['tracking-report', 'list', '--page', '0', '--json'], ['tracking-report', 'list', '--limit', '101', '--json'],
       ['user', 'list', '--sort-by', 'INVALID', '--json'], ['user', 'list', '--sort-order', 'INVALID', '--json'],
     ];
     const results = await Promise.all(cases.map((args) =>
@@ -373,6 +456,10 @@ describe('full command matrix', () => {
       ['meeting', 'stats', '--date', '2026-08-24', '--start-date', '2026-08-24T00:00:00Z', '--json'],
       ['meeting', 'stats', '--start-date', '2026-08-25T00:00:00Z', '--end-date', '2026-08-24T00:00:00Z', '--json'],
       ['meeting', 'stats', '--date', '2026-08-24', '--timezone', 'Mars/Olympus', '--json'],
+      ['tracking-report', 'list', '--period-start', '2026-08-25T00:00:00Z', '--period-end', '2026-08-24T00:00:00Z', '--json'],
+      ['tracking-report', 'update', 'report-1', '--json'],
+      ['tracking-report', 'update', 'report-1', '--ai-model', 'model', '--clear-ai-model', '--json'],
+      ['tracking-report', 'update', 'report-1', '--sources', '{}', '--json'],
       ['user', 'create', '--email', 'bad', '--json'], ['user', 'create', '--username', 'bad-name', '--json'],
       ['user', 'create', '--phone', 'abc', '--country-code', '+86', '--json'],
       ['user', 'create', '--phone', '13800138000', '--json'], ['user', 'create', '--country-code', '++++', '--json'],
@@ -396,6 +483,7 @@ describe('full command matrix', () => {
       ['minute', 'list', '--fields', ','], ['minute', 'list', '--sort', 'id:sideways'],
       ['minute', 'speaker-summary', 'list', 'minute-1', '--fields', ','],
       ['meeting', 'participants', 'meeting-1', '--sort', 'id:sideways'],
+      ['tracking-report', 'list', '--fields', ','], ['tracking-report', 'list', '--sort', 'id:sideways'],
       ['user', 'list', '--sort', 'id:sideways'],
     ];
     await Promise.all(invalidFlags.map((args) => runEmptyListInvalid(testHome, args)));
@@ -407,6 +495,7 @@ describe('full command matrix', () => {
       runPagedListCase(testHome, ['meeting', 'participants', 'meeting-1'], 'data'),
       runPagedListCase(testHome, ['minute', 'list'], 'data'),
       runPagedListCase(testHome, ['minute', 'speaker-summary', 'list', 'minute-1'], 'data'),
+      runPagedListCase(testHome, ['tracking-report', 'list'], 'data'),
       runPagedListCase(testHome, ['user', 'list'], 'items'),
     ]);
   });

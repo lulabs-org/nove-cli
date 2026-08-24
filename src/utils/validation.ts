@@ -9,6 +9,12 @@ export const PROCESSING_STATUSES = ['PENDING', 'PROCESSING', 'COMPLETED', 'FAILE
 export const RECORDING_SOURCES = ['PLATFORM_AUTO', 'USER_MANUAL', 'THIRD_PARTY'] as const;
 export const USER_SORT_FIELDS = ['createdAt', 'updatedAt', 'lastLoginAt', 'username', 'email'] as const;
 export const SORT_ORDERS = ['asc', 'desc'] as const;
+export const TRACKING_REPORT_CADENCES = ['DAILY', 'WEEKLY', 'MONTHLY', 'QUARTERLY', 'YEARLY'] as const;
+export const TRACKING_REPORT_TYPES = [
+  'MEETING_SUMMARY', 'TRAINING_PLAN', 'DEVELOPMENT_PLAN', 'PROJECT_PROGRESS', 'USER_PROFILE',
+] as const;
+export const TRACKING_SOURCE_TYPES = ['SPEAKER_SUMMARY', 'TRACKING_REPORT', 'DOCUMENT', 'MEETING'] as const;
+export const TRACKING_TARGET_TYPES = ['USER', 'PLATFORM_USER', 'PROJECT', 'ORGANIZATION'] as const;
 
 const ISO_WITH_TIMEZONE = /^\d{4}-\d{2}-\d{2}T.+(?:Z|[+-]\d{2}:\d{2})$/;
 const DATE_ONLY = /^(\d{4})-(\d{2})-(\d{2})$/;
@@ -70,6 +76,16 @@ export function validateIsoDateTime(value: string, label: string): string {
   return value;
 }
 
+export function validateIanaTimezone(value: string): string {
+  try {
+    new Intl.DateTimeFormat('en-US', { timeZone: value }).format();
+  } catch {
+    throw new Error(`Invalid IANA timezone: ${value}`);
+  }
+
+  return value;
+}
+
 export function validateDateRange(startDate?: string, endDate?: string): void {
   if (startDate) validateIsoDateTime(startDate, 'Start date');
   if (endDate) validateIsoDateTime(endDate, 'End date');
@@ -115,11 +131,7 @@ function zonedMidnight(year: number, month: number, day: number, timeZone: strin
 
 export function dayRange(dateValue: string, timeZone: string): { endDate: string; startDate: string } {
   validateDateOnly(dateValue);
-  try {
-    timeZoneParts(new Date(), timeZone);
-  } catch {
-    throw new Error(`Invalid IANA timezone: ${timeZone}`);
-  }
+  validateIanaTimezone(timeZone);
 
   const [year, month, day] = dateValue.split('-').map(Number);
   const nextDay = new Date(Date.UTC(year, month - 1, day + 1));
