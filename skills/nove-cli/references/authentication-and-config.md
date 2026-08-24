@@ -7,7 +7,7 @@
 CLI 按以下顺序选择 API 地址：
 
 1. 当前命令的 `NOVE_API_URL` 环境变量
-2. `nove config set api-url <url>` 保存的地址
+2. `nove config set base-url <url>` 保存的地址
 3. 默认地址 `https://noveapi.proflu.cn`
 
 临时访问本地或测试服务时，只为当前命令设置环境变量：
@@ -19,10 +19,10 @@ NOVE_API_URL=http://localhost:3000 nove meeting list --page 1 --limit 10
 仅当用户明确要求长期切换时写入持久配置：
 
 ```bash
-nove config set api-url https://api.example.com
+nove config set base-url https://api.example.com
 ```
 
-`config set` 当前只支持键 `api-url`。不要为了排查一次连接失败而覆盖用户的持久配置。
+`config set` 当前只支持键 `base-url`。不要为了排查一次连接失败而覆盖用户的持久配置。
 
 ## 登录
 
@@ -32,7 +32,16 @@ nove config set api-url https://api.example.com
 nove login
 ```
 
-不要让用户把 API Key 发到对话中，不要使用带真实值的 `--api-key` 命令，也不要读取或展示 CLI 配置目录中的 `auth.json`。
+不要让用户把 API Key 发到对话中，不要把 API Key 放入命令参数，也不要读取或展示 CLI 配置目录中的 `auth.json`。
+
+自动化环境应由 secret manager 设置 `NOVE_API_KEY` 后运行 `nove login`，或通过标准输入调用 `nove login --api-key-stdin`。不要把真实 Key 写入命令文本、日志或回复。
+
+查看状态和退出登录不会暴露凭据：
+
+```bash
+nove auth status
+nove logout
+```
 
 ## 执行前检查
 

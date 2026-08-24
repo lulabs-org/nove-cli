@@ -26,9 +26,9 @@ npm install -g @novesuite/cli
 配置 Nove API 的后端服务地址：
 
 ```shell
-nove config set api-url <YOUR_API_URL>
+nove config set base-url <YOUR_API_URL>
 ```
-*默认值为：`https://noveapi.proflu.cn`，本地测试或私有化部署可修改，例如：`nove config set api-url http://localhost:3000`*
+*默认值为：`https://noveapi.proflu.cn`，本地测试或私有化部署可修改，例如：`nove config set base-url http://localhost:3000`*
 
 ## 第 3 步 登录
 
@@ -38,9 +38,14 @@ nove config set api-url <YOUR_API_URL>
 # 交互式安全输入 API Key
 nove login
 
-# 或直接通过参数传入
-nove login --api-key <YOUR_API_KEY>
+# 或从标准输入读取（适合由密码管理器或 CI secret 注入）
+printf '%s' "$NOVE_API_KEY" | nove login --api-key-stdin
+
+# 已由 secret manager 设置 NOVE_API_KEY 时也可直接登录
+nove login
 ```
+
+不要把 API Key 放入命令参数。CLI 会以 `0600` 权限保存本地凭据。可用 `nove auth status` 查看认证状态，用 `nove logout` 删除本地凭据；这些命令都不会输出 API Key。
 
 ## 第 4 步 验证
 
@@ -49,6 +54,9 @@ nove login --api-key <YOUR_API_KEY>
 ```shell
 # 获取 CLI 帮助信息
 nove help
+
+# 检查认证状态（不会显示 API Key）
+nove auth status
 
 # 列出会议数据以测试连通性
 nove meeting list

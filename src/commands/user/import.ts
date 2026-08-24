@@ -4,6 +4,7 @@ import { basename } from 'node:path';
 
 import { fetchApi } from '../../utils/api.js';
 import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
+import { validateImportFile } from '../../utils/validation.js';
 
 export default class UserImport extends Command {
   static description = 'Import users from a CSV or XLSX file';
@@ -16,6 +17,7 @@ export default class UserImport extends Command {
     const { flags } = await this.parse(UserImport);
 
     try {
+      validateImportFile(flags.file);
       const fileBuffer = readFileSync(flags.file);
       const fileBlob = new globalThis.Blob([fileBuffer]);
       const formData = new globalThis.FormData();

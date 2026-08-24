@@ -193,7 +193,7 @@ function createRequestContext(
   }
 
   const config = getConfig(configDir);
-  const baseUrl = process.env.NOVE_API_URL || config.apiUrl || 'https://noveapi.proflu.cn';
+  const baseUrl = process.env.NOVE_BASE_URL || config.baseUrl || 'https://noveapi.proflu.cn';
   const method = (options.method ?? 'GET').toUpperCase();
   const fetchOptions = createFetchOptions(options);
   const canRetry = method === 'GET' || method === 'HEAD';

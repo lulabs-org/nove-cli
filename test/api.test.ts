@@ -12,7 +12,10 @@ describe('fetchApi', () => {
 
   beforeEach(() => {
     configDir = mkdtempSync(path.join(tmpdir(), 'nove-cli-api-'));
-    writeFileSync(path.join(configDir, 'auth.json'), JSON.stringify({ apiKey: 'test-key' }));
+    writeFileSync(
+      path.join(configDir, 'auth.json'),
+      JSON.stringify({ apiKey: 'test-key', updatedAt: '2026-08-24T00:00:00.000Z' })
+    );
     originalApiUrl = process.env.NOVE_API_URL;
     originalFetch = globalThis.fetch;
     delete process.env.NOVE_API_URL;

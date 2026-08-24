@@ -17,29 +17,30 @@ Create a new user
 ```
 USAGE
   $ nove user create [--active] [--address <value>] [--avatar <value>] [--bio <value>] [--city <value>]
-    [--country <value>] [--countryCode <value>] [--dateOfBirth <value>] [--displayName <value>] [--email <value>]
-    [--firstName <value>] [--gender <value>] [--json] [--lastName <value>] [--phone <value>] [--username <value>]
-    [--website <value>] [--zipCode <value>]
+    [--country <value>] [--country-code <value>] [--date-of-birth <value>] [--display-name <value>] [--email <value>]
+    [--first-name <value>] [--gender MALE|FEMALE|OTHER] [--last-name <value>] [--phone <value>] [--username <value>]
+    [--website <value>] [--zip-code <value>] [--json]
 
 FLAGS
-  --[no-]active          Active status
-  --address=<value>      Detailed address
-  --avatar=<value>       Avatar URL
-  --bio=<value>          Biography
-  --city=<value>         City
-  --country=<value>      Country
-  --countryCode=<value>  Country code (e.g. +86)
-  --dateOfBirth=<value>  Date of birth (YYYY-MM-DD)
-  --displayName=<value>  Display name
-  --email=<value>        Email address
-  --firstName=<value>    First name
-  --gender=<value>       Gender (e.g. MALE, FEMALE, OTHER)
-  --json                 Output a single JSON value to stdout
-  --lastName=<value>     Last name
-  --phone=<value>        Phone number without country code
-  --username=<value>     Username
-  --website=<value>      Personal website URL
-  --zipCode=<value>      Zip code
+  --[no-]active            Active status
+  --address=<value>        Detailed address
+  --avatar=<value>         Avatar URL
+  --bio=<value>            Biography
+  --city=<value>           City
+  --country=<value>        Country
+  --country-code=<value>   Country code (for example +86)
+  --date-of-birth=<value>  Date of birth (YYYY-MM-DD)
+  --display-name=<value>   Display name
+  --email=<value>          Email address
+  --first-name=<value>     First name
+  --gender=<option>        Gender
+                           <options: MALE|FEMALE|OTHER>
+  --json                   Output a single JSON value to stdout
+  --last-name=<value>      Last name
+  --phone=<value>          Phone number without country code
+  --username=<value>       Username
+  --website=<value>        Personal website URL
+  --zip-code=<value>       Zip code
 
 DESCRIPTION
   Create a new user
@@ -113,17 +114,22 @@ List users
 
 ```
 USAGE
-  $ nove user list [--active] [--json] [--keyword <value>] [--limit <value>] [--page <value>] [--sortBy
-    <value>] [--sortOrder <value>]
+  $ nove user list [--active] [--all] [--fields <value>] [--json] [--keyword <value>] [--limit <value>] [--page
+    <value>] [--sort <value>] [--sort-by createdAt|updatedAt|lastLoginAt|username|email] [--sort-order asc|desc]
 
 FLAGS
-  --[no-]active        Filter by active status
-  --json               Output a single JSON value to stdout
-  --keyword=<value>    Search keyword (username, email, phone, display name)
-  --limit=<value>      [default: 20] Items per page
-  --page=<value>       [default: 1] Page number
-  --sortBy=<value>     [default: createdAt] Sort field (createdAt, updatedAt, lastLoginAt, username, email)
-  --sortOrder=<value>  [default: desc] Sort order (asc, desc)
+  --[no-]active          Filter by active status
+  --all                  Fetch every result page
+  --fields=<value>       Comma-separated fields to show in the table
+  --json                 Output a single JSON value to stdout
+  --keyword=<value>      Search username, email, phone, or display name
+  --limit=<value>        [default: 20] Items per page
+  --page=<value>         [default: 1] Page number
+  --sort=<value>         Table sort field with optional :asc or :desc suffix
+  --sort-by=<option>     [default: createdAt] Server sort field
+                         <options: createdAt|updatedAt|lastLoginAt|username|email>
+  --sort-order=<option>  [default: desc] Server sort order
+                         <options: asc|desc>
 
 DESCRIPTION
   List users
@@ -138,32 +144,33 @@ Update an existing user
 ```
 USAGE
   $ nove user update ID [--active] [--address <value>] [--avatar <value>] [--bio <value>] [--city <value>]
-    [--country <value>] [--countryCode <value>] [--dateOfBirth <value>] [--displayName <value>] [--email <value>]
-    [--firstName <value>] [--gender <value>] [--json] [--lastName <value>] [--phone <value>] [--username <value>]
-    [--website <value>] [--zipCode <value>]
+    [--country <value>] [--country-code <value>] [--date-of-birth <value>] [--display-name <value>] [--email <value>]
+    [--first-name <value>] [--gender MALE|FEMALE|OTHER] [--last-name <value>] [--phone <value>] [--username <value>]
+    [--website <value>] [--zip-code <value>] [--json]
 
 ARGUMENTS
   ID  User ID
 
 FLAGS
-  --[no-]active          Active status
-  --address=<value>      Detailed address
-  --avatar=<value>       Avatar URL
-  --bio=<value>          Biography
-  --city=<value>         City
-  --country=<value>      Country
-  --countryCode=<value>  Country code (e.g. +86)
-  --dateOfBirth=<value>  Date of birth (YYYY-MM-DD)
-  --displayName=<value>  Display name
-  --email=<value>        Email address
-  --firstName=<value>    First name
-  --gender=<value>       Gender (e.g. MALE, FEMALE, OTHER)
-  --json                 Output a single JSON value to stdout
-  --lastName=<value>     Last name
-  --phone=<value>        Phone number without country code
-  --username=<value>     Username
-  --website=<value>      Personal website URL
-  --zipCode=<value>      Zip code
+  --[no-]active            Active status
+  --address=<value>        Detailed address
+  --avatar=<value>         Avatar URL
+  --bio=<value>            Biography
+  --city=<value>           City
+  --country=<value>        Country
+  --country-code=<value>   Country code (for example +86)
+  --date-of-birth=<value>  Date of birth (YYYY-MM-DD)
+  --display-name=<value>   Display name
+  --email=<value>          Email address
+  --first-name=<value>     First name
+  --gender=<option>        Gender
+                           <options: MALE|FEMALE|OTHER>
+  --json                   Output a single JSON value to stdout
+  --last-name=<value>      Last name
+  --phone=<value>          Phone number without country code
+  --username=<value>       Username
+  --website=<value>        Personal website URL
+  --zip-code=<value>       Zip code
 
 DESCRIPTION
   Update an existing user

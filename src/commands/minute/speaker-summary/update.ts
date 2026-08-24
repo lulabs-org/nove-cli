@@ -12,15 +12,18 @@ export default class MinuteSpeakerSummaryUpdate extends Command {
   static flags = {
     json: jsonFlag,
     keywords: Flags.string({ description: 'Summary keyword (repeat for multiple)', multiple: true }),
-    partSummary: Flags.string({ description: 'Speaker summary text' }),
+    'part-summary': Flags.string({ aliases: ['partSummary'], description: 'Speaker summary text' }),
   };
 
   public async run(): Promise<void> {
     const { args, flags } = await this.parse(MinuteSpeakerSummaryUpdate);
 
-    const { json, ...body } = flags;
+    const body = Object.fromEntries(Object.entries({
+      keywords: flags.keywords,
+      partSummary: flags['part-summary'],
+    }).filter(([, value]) => value !== undefined));
     if (Object.keys(body).length === 0) {
-      handleCommandError(this, new Error('No fields provided to update.'), json);
+      handleCommandError(this, new Error('No fields provided to update.'), flags.json);
     }
 
     try {
@@ -30,11 +33,11 @@ export default class MinuteSpeakerSummaryUpdate extends Command {
         this.config.configDir
       );
       outputResult(this, data, {
-        json,
+        json: flags.json,
         successMessage: '✅ Speaker summary updated successfully.',
       });
     } catch (error: unknown) {
-      handleCommandError(this, error, json);
+      handleCommandError(this, error, flags.json);
     }
   }
 }

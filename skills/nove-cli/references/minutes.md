@@ -22,21 +22,20 @@
 
 列表支持：
 
-- `--meetingId`：按会议 ID 筛选
+- `--meeting-id`：按会议 ID 筛选
 - `--status`：例如 `PROCESSING`、`COMPLETED`、`FAILED`
-- `--source`：例如 `PLATFORM_AUTO`、`UPLOAD`
+- `--source`：`PLATFORM_AUTO`、`USER_MANUAL` 或 `THIRD_PARTY`
 - `--page`，默认 `1`
 - `--limit`，默认 `10`
 
 ```bash
 nove minute list \
-  --meetingId <meeting-id> \
+  --meeting-id <meeting-id> \
   --status COMPLETED \
-  --page 1 \
-  --limit 100
+  --all
 ```
 
-用户要求全部记录时按分页取完。存在多条记录时，根据记录 ID、状态、来源和时间选择；信息不足时让用户确认，不默认取第一条。
+用户要求全部记录时使用 `--all`。存在多条记录时，根据记录 ID、状态、来源和时间选择；信息不足时让用户确认，不默认取第一条。
 
 ## 获取转写
 
@@ -62,22 +61,22 @@ nove minute speaker-summary get <minute-id> <summary-id>
 
 用户要求全部总结时根据响应中的分页元数据取完，不把当前页当成完整结果。
 
-创建总结必须提供平台用户 ID 和正文。关键词参数可重复；`--generatedBy` 支持 `AI`、`HYBRID` 和 `MANUAL`：
+创建总结必须提供平台用户 ID 和正文。关键词参数可重复；`--generated-by` 支持 `AI`、`HYBRID` 和 `MANUAL`：
 
 ```bash
 nove minute speaker-summary create <minute-id> \
-  --platformUserId <platform-user-id> \
-  --partSummary '<summary-text>' \
+  --platform-user-id <platform-user-id> \
+  --part-summary '<summary-text>' \
   --keywords '<keyword-1>' \
   --keywords '<keyword-2>' \
-  --generatedBy MANUAL
+  --generated-by MANUAL
 ```
 
-更新时至少提供 `--partSummary` 或一个或多个 `--keywords`：
+更新时至少提供 `--part-summary` 或一个或多个 `--keywords`：
 
 ```bash
 nove minute speaker-summary update <minute-id> <summary-id> \
-  --partSummary '<updated-summary-text>'
+  --part-summary '<updated-summary-text>'
 ```
 
 创建或更新前先确认记录 ID、平台用户 ID、总结 ID 与拟写入内容；执行后使用 `list` 或 `get` 重新读取验证结果。总结正文可能包含个人信息，只展示完成任务所需内容。

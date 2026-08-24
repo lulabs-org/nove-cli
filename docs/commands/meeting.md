@@ -17,16 +17,22 @@ Create a meeting record
 
 ```
 USAGE
-  $ nove meeting create --platformMeetingId <value> --title <value> [--endTime <value>] [--json] [--startTime
-    <value>] [--status <value>]
+  $ nove meeting create --platform TENCENT_MEETING|ZOOM|TEAMS|DINGTALK|FEISHU|WEBEX|VOOV|OTHER --platform-meeting-id
+    <value> --title <value> --type ONE_TIME|RECURRING|INSTANT|SCHEDULED|WEBINAR [--actual-start-at <value>]
+    [--duration-seconds <value>] [--ended-at <value>] [--json] [--meeting-code <value>]
 
 FLAGS
-  --endTime=<value>            End time (ISO string)
-  --json                       Output a single JSON value to stdout
-  --platformMeetingId=<value>  (required) Platform Meeting ID (e.g. feishu ID)
-  --startTime=<value>          Start time (ISO string)
-  --status=<value>             Status (e.g. COMPLETED)
-  --title=<value>              (required) Meeting title
+  --actual-start-at=<value>      Actual start time as ISO 8601 with timezone
+  --duration-seconds=<value>     Duration in seconds
+  --ended-at=<value>             End time as ISO 8601 with timezone
+  --json                         Output a single JSON value to stdout
+  --meeting-code=<value>         Meeting code
+  --platform=<option>            (required) Meeting platform
+                                 <options: TENCENT_MEETING|ZOOM|TEAMS|DINGTALK|FEISHU|WEBEX|VOOV|OTHER>
+  --platform-meeting-id=<value>  (required) Platform Meeting ID
+  --title=<value>                (required) Meeting title
+  --type=<option>                (required) Meeting type
+                                 <options: ONE_TIME|RECURRING|INSTANT|SCHEDULED|WEBINAR>
 
 DESCRIPTION
   Create a meeting record
@@ -82,19 +88,29 @@ List meetings
 
 ```
 USAGE
-  $ nove meeting list [--endDate <value>] [--json] [--limit <value>] [--page <value>] [--platform <value>]
-    [--search <value>] [--startDate <value>] [--status <value>] [--type <value>]
+  $ nove meeting list [--all] [--date <value>] [--end-date <value>] [--fields <value>] [--json] [--limit <value>]
+    [--page <value>] [--platform TENCENT_MEETING|ZOOM|TEAMS|DINGTALK|FEISHU|WEBEX|VOOV|OTHER] [--search <value>] [--sort
+    <value>] [--start-date <value>] [--status PENDING|PROCESSING|COMPLETED|FAILED|SKIPPED] [--timezone <value>] [--type
+    ONE_TIME|RECURRING|INSTANT|SCHEDULED|WEBINAR]
 
 FLAGS
-  --endDate=<value>    End date (ISO string)
-  --json               Output a single JSON value to stdout
-  --limit=<value>      [default: 10] Items per page
-  --page=<value>       [default: 1] Page number
-  --platform=<value>   Platform (e.g. TENCENT_MEETING, FEISHU)
-  --search=<value>     Search keyword
-  --startDate=<value>  Start date (ISO string)
-  --status=<value>     Processing status (e.g. COMPLETED, PENDING)
-  --type=<value>       Meeting type (e.g. SCHEDULED, INSTANT)
+  --all                 Fetch every result page
+  --date=<value>        Local calendar day (YYYY-MM-DD)
+  --end-date=<value>    Exclusive ISO end date with timezone
+  --fields=<value>      Comma-separated fields to show in the table
+  --json                Output a single JSON value to stdout
+  --limit=<value>       [default: 10] Items per page
+  --page=<value>        [default: 1] Page number
+  --platform=<option>   Meeting platform
+                        <options: TENCENT_MEETING|ZOOM|TEAMS|DINGTALK|FEISHU|WEBEX|VOOV|OTHER>
+  --search=<value>      Search keyword
+  --sort=<value>        Table sort field with optional :asc or :desc suffix
+  --start-date=<value>  Inclusive ISO start date with timezone
+  --status=<option>     Processing status
+                        <options: PENDING|PROCESSING|COMPLETED|FAILED|SKIPPED>
+  --timezone=<value>    [default: Asia/Shanghai] IANA timezone used with --date
+  --type=<option>       Meeting type
+                        <options: ONE_TIME|RECURRING|INSTANT|SCHEDULED|WEBINAR>
 
 DESCRIPTION
   List meetings
@@ -108,16 +124,20 @@ Get participants for a meeting
 
 ```
 USAGE
-  $ nove meeting participants ID [--json] [--keyword <value>] [--limit <value>] [--page <value>]
+  $ nove meeting participants ID [--all] [--fields <value>] [--json] [--limit <value>] [--page <value>] [--search <value>]
+    [--sort <value>]
 
 ARGUMENTS
   ID  Meeting ID
 
 FLAGS
-  --json             Output a single JSON value to stdout
-  --keyword=<value>  Search keyword
-  --limit=<value>    [default: 20] Items per page
-  --page=<value>     [default: 1] Page number
+  --all             Fetch every result page
+  --fields=<value>  Comma-separated fields to show in the table
+  --json            Output a single JSON value to stdout
+  --limit=<value>   [default: 50] Items per page
+  --page=<value>    [default: 1] Page number
+  --search=<value>  Search name, email, phone, or platform user ID
+  --sort=<value>    Table sort field with optional :asc or :desc suffix
 
 DESCRIPTION
   Get participants for a meeting
@@ -131,12 +151,14 @@ Get meeting statistics
 
 ```
 USAGE
-  $ nove meeting stats [--endDate <value>] [--json] [--startDate <value>]
+  $ nove meeting stats [--date <value>] [--end-date <value>] [--json] [--start-date <value>] [--timezone <value>]
 
 FLAGS
-  --endDate=<value>    End date (ISO string)
-  --json               Output a single JSON value to stdout
-  --startDate=<value>  Start date (ISO string)
+  --date=<value>        Local calendar day (YYYY-MM-DD)
+  --end-date=<value>    Exclusive ISO end date with timezone
+  --json                Output a single JSON value to stdout
+  --start-date=<value>  Inclusive ISO start date with timezone
+  --timezone=<value>    [default: Asia/Shanghai] IANA timezone used with --date
 
 DESCRIPTION
   Get meeting statistics
@@ -150,15 +172,25 @@ Update a meeting record
 
 ```
 USAGE
-  $ nove meeting update ID [--json] [--status <value>] [--title <value>]
+  $ nove meeting update ID [--actual-start-at <value>] [--duration-seconds <value>] [--ended-at <value>] [--json]
+    [--meeting-code <value>] [--participant-count <value>] [--processing-status
+    PENDING|PROCESSING|COMPLETED|FAILED|SKIPPED] [--title <value>] [--type ONE_TIME|RECURRING|INSTANT|SCHEDULED|WEBINAR]
 
 ARGUMENTS
   ID  Meeting ID
 
 FLAGS
-  --json            Output a single JSON value to stdout
-  --status=<value>  New status
-  --title=<value>   New meeting title
+  --actual-start-at=<value>     Actual start time as ISO 8601 with timezone
+  --duration-seconds=<value>    Duration in seconds
+  --ended-at=<value>            End time as ISO 8601 with timezone
+  --json                        Output a single JSON value to stdout
+  --meeting-code=<value>        Meeting code
+  --participant-count=<value>   Participant count
+  --processing-status=<option>  Processing status
+                                <options: PENDING|PROCESSING|COMPLETED|FAILED|SKIPPED>
+  --title=<value>               New meeting title
+  --type=<option>               Meeting type
+                                <options: ONE_TIME|RECURRING|INSTANT|SCHEDULED|WEBINAR>
 
 DESCRIPTION
   Update a meeting record

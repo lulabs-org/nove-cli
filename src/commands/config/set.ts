@@ -2,10 +2,11 @@ import { Args, Command } from '@oclif/core';
 
 import { setConfig } from '../../utils/config.js';
 import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
+import { validateHttpUrl } from '../../utils/validation.js';
 
 export default class ConfigSet extends Command {
   static args = {
-    key: Args.string({ description: 'Configuration key (e.g., api-url)', required: true }),
+    key: Args.string({ description: 'Configuration key (e.g., base-url)', required: true }),
     value: Args.string({ description: 'Configuration value', required: true }),
   };
 static description = 'Set a configuration value';
@@ -15,12 +16,17 @@ static description = 'Set a configuration value';
     const { args, flags } = await this.parse(ConfigSet);
     const { configDir } = this.config;
 
-    if (args.key === 'api-url') {
-      setConfig(configDir, { apiUrl: args.value });
-      outputResult(this, { apiUrl: args.value }, {
-        json: flags.json,
-        successMessage: `✅ API URL successfully set to ${args.value}`,
-      });
+    if (args.key === 'base-url') {
+      try {
+        const baseUrl = validateHttpUrl(args.value, 'Base URL');
+        setConfig(configDir, { baseUrl });
+        outputResult(this, { baseUrl }, {
+          json: flags.json,
+          successMessage: `Base URL successfully set to ${baseUrl}`,
+        });
+      } catch (error: unknown) {
+        handleCommandError(this, error, flags.json);
+      }
     } else {
       handleCommandError(this, new Error(`Unknown configuration key: ${args.key}`), flags.json);
     }

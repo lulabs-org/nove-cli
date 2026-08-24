@@ -1,7 +1,7 @@
 {
   "name": "@novesuite/cli",
   "description": "Command Line Interface for managing Nove API resources (Meetings, Users, etc.)",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "author": "杨仕明 <shiming.y@qq.com>",
   "bin": {
     "nove": "./bin/run.js"
@@ -65,8 +65,14 @@
       "registry": "https://registry.npmjs.org"
     },
     "topics": {
+      "auth": {
+        "description": "Inspect local authentication state"
+      },
       "meeting": {
         "description": "Manage meeting records"
+      },
+      "minute": {
+        "description": "Manage meeting minutes and transcripts"
       },
       "user": {
         "description": "Manage user accounts"

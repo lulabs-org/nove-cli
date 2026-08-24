@@ -1,37 +1,41 @@
 import { Args, Command, Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
-import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
+import { allFlag, fetchAllPages, fieldsFlag, outputList, sortFlag } from '../../utils/list-output.js';
+import { handleCommandError, jsonFlag } from '../../utils/output.js';
 
 export default class MeetingParticipants extends Command {
-  static args = {
-    id: Args.string({ description: 'Meeting ID', required: true }),
-  };
-static description = 'Get participants for a meeting';
-static flags = {
+  static args = { id: Args.string({ description: 'Meeting ID', required: true }) };
+  static description = 'Get participants for a meeting';
+  static flags = {
+    all: allFlag,
+    fields: fieldsFlag,
     json: jsonFlag,
-    keyword: Flags.string({ description: 'Search keyword' }),
-    limit: Flags.integer({ default: 20, description: 'Items per page' }),
-    page: Flags.integer({ default: 1, description: 'Page number' }),
+    limit: Flags.integer({ default: 50, description: 'Items per page', max: 100, min: 1 }),
+    page: Flags.integer({ default: 1, description: 'Page number', min: 1 }),
+    search: Flags.string({ aliases: ['keyword'], description: 'Search name, email, phone, or platform user ID' }),
+    sort: sortFlag,
   };
 
   public async run(): Promise<void> {
     const { args, flags } = await this.parse(MeetingParticipants);
-
     try {
-      const queryParams = new URLSearchParams({
-        limit: flags.limit.toString(),
-        page: flags.page.toString(),
-      });
-      
-      if (flags.keyword) queryParams.append('keyword', flags.keyword);
+      const fetchPage = (page: number) => {
+        const query = new URLSearchParams({ limit: String(flags.limit), page: String(page) });
+        if (flags.search) query.set('search', flags.search);
+        return fetchApi<Record<string, unknown>>(
+          `/meetings/${args.id}/participants?${query}`, {}, this.config.configDir,
+        );
+      };
 
-      const data = await fetchApi(
-        `/meetings/${args.id}/participants?${queryParams.toString()}`,
-        {},
-        this.config.configDir
-      );
-      outputResult(this, data, { json: flags.json });
+      const data = flags.all ? await fetchAllPages(fetchPage) : await fetchPage(flags.page);
+      outputList(this, data, {
+        defaultFields: ['id', 'platformUser.displayName', 'user.email', 'firstJoinTime', 'totalDurationSeconds'],
+        fields: flags.fields,
+        json: flags.json,
+        noun: 'participants',
+        sort: flags.sort,
+      });
     } catch (error: unknown) {
       handleCommandError(this, error, flags.json);
     }

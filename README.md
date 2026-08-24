@@ -66,11 +66,13 @@ USAGE
 <!-- commands -->
 # Command Topics
 
+* [`nove auth`](docs/commands/auth.md) - Inspect local authentication state
 * [`nove config`](docs/commands/config.md) - Set a configuration value
 * [`nove help`](docs/commands/help.md) - Display help for nove.
-* [`nove login`](docs/commands/login.md) - Login to Nove API using an API Key
+* [`nove login`](docs/commands/login.md) - Login to Nove API using a securely supplied API Key
+* [`nove logout`](docs/commands/logout.md) - Remove the locally stored Nove API credential
 * [`nove meeting`](docs/commands/meeting.md) - Manage meeting records
-* [`nove minute`](docs/commands/minute.md) - Delete a meeting minute
+* [`nove minute`](docs/commands/minute.md) - Manage meeting minutes and transcripts
 * [`nove user`](docs/commands/user.md) - Manage user accounts
 
 <!-- commandsstop -->

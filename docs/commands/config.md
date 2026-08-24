@@ -14,7 +14,7 @@ USAGE
   $ nove config set KEY VALUE [--json]
 
 ARGUMENTS
-  KEY    Configuration key (e.g., api-url)
+  KEY    Configuration key (e.g., base-url)
   VALUE  Configuration value
 
 FLAGS

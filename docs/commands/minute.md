@@ -1,7 +1,7 @@
 `nove minute`
 =============
 
-Delete a meeting minute
+Manage meeting minutes and transcripts
 
 * [`nove minute delete ID`](#nove-minute-delete-id)
 * [`nove minute get ID`](#nove-minute-get-id)
@@ -61,16 +61,22 @@ List meeting minutes
 
 ```
 USAGE
-  $ nove minute list [--json] [--limit <value>] [--meetingId <value>] [--page <value>] [--source <value>]
-    [--status <value>]
+  $ nove minute list [--all] [--fields <value>] [--json] [--limit <value>] [--meeting-id <value>] [--page
+    <value>] [--sort <value>] [--source PLATFORM_AUTO|USER_MANUAL|THIRD_PARTY] [--status
+    RECORDING|PROCESSING|COMPLETED|FAILED]
 
 FLAGS
-  --json               Output a single JSON value to stdout
-  --limit=<value>      [default: 10] Items per page
-  --meetingId=<value>  Filter by Meeting ID
-  --page=<value>       [default: 1] Page number
-  --source=<value>     Minute source (e.g. PLATFORM_AUTO, UPLOAD)
-  --status=<value>     Minute status (e.g. PROCESSING, COMPLETED, FAILED)
+  --all                 Fetch every result page
+  --fields=<value>      Comma-separated fields to show in the table
+  --json                Output a single JSON value to stdout
+  --limit=<value>       [default: 10] Items per page
+  --meeting-id=<value>  Filter by Meeting ID
+  --page=<value>        [default: 1] Page number
+  --sort=<value>        Table sort field with optional :asc or :desc suffix
+  --source=<option>     Minute source
+                        <options: PLATFORM_AUTO|USER_MANUAL|THIRD_PARTY>
+  --status=<option>     Minute status
+                        <options: RECORDING|PROCESSING|COMPLETED|FAILED>
 
 DESCRIPTION
   List meeting minutes
@@ -84,20 +90,20 @@ Create a speaker summary
 
 ```
 USAGE
-  $ nove minute speaker-summary create MINUTEID --partSummary <value> --platformUserId <value> [--aiModel <value>] [--generatedBy
-    AI|HYBRID|MANUAL] [--json] [--keywords <value>...]
+  $ nove minute speaker-summary create MINUTEID --part-summary <value> --platform-user-id <value> [--ai-model <value>]
+    [--generated-by AI|HYBRID|MANUAL] [--json] [--keywords <value>...]
 
 ARGUMENTS
   MINUTEID  Minute ID
 
 FLAGS
-  --aiModel=<value>         AI model used to generate the summary
-  --generatedBy=<option>    Generation method
-                            <options: AI|HYBRID|MANUAL>
-  --json                    Output a single JSON value to stdout
-  --keywords=<value>...     Summary keyword (repeat for multiple)
-  --partSummary=<value>     (required) Speaker summary text
-  --platformUserId=<value>  (required) Platform user ID
+  --ai-model=<value>          AI model used to generate the summary
+  --generated-by=<option>     Generation method
+                              <options: AI|HYBRID|MANUAL>
+  --json                      Output a single JSON value to stdout
+  --keywords=<value>...       Summary keyword (repeat for multiple)
+  --part-summary=<value>      (required) Speaker summary text
+  --platform-user-id=<value>  (required) Platform user ID
 
 DESCRIPTION
   Create a speaker summary
@@ -155,15 +161,19 @@ List speaker summaries for a meeting minute
 
 ```
 USAGE
-  $ nove minute speaker-summary list MINUTEID [--json] [--limit <value>] [--page <value>]
+  $ nove minute speaker-summary list MINUTEID [--all] [--fields <value>] [--json] [--limit <value>] [--page <value>] [--sort
+    <value>]
 
 ARGUMENTS
   MINUTEID  Minute ID
 
 FLAGS
-  --json           Output a single JSON value to stdout
-  --limit=<value>  [default: 20] Items per page
-  --page=<value>   [default: 1] Page number
+  --all             Fetch every result page
+  --fields=<value>  Comma-separated fields to show in the table
+  --json            Output a single JSON value to stdout
+  --limit=<value>   [default: 20] Items per page
+  --page=<value>    [default: 1] Page number
+  --sort=<value>    Table sort field with optional :asc or :desc suffix
 
 DESCRIPTION
   List speaker summaries for a meeting minute
@@ -177,16 +187,16 @@ Update a speaker summary
 
 ```
 USAGE
-  $ nove minute speaker-summary update MINUTEID SUMMARYID [--json] [--keywords <value>...] [--partSummary <value>]
+  $ nove minute speaker-summary update MINUTEID SUMMARYID [--json] [--keywords <value>...] [--part-summary <value>]
 
 ARGUMENTS
   MINUTEID   Minute ID
   SUMMARYID  Speaker summary ID
 
 FLAGS
-  --json                 Output a single JSON value to stdout
-  --keywords=<value>...  Summary keyword (repeat for multiple)
-  --partSummary=<value>  Speaker summary text
+  --json                  Output a single JSON value to stdout
+  --keywords=<value>...   Summary keyword (repeat for multiple)
+  --part-summary=<value>  Speaker summary text
 
 DESCRIPTION
   Update a speaker summary

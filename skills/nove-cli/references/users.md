@@ -21,12 +21,14 @@
 - `--active` / `--no-active`：按启用状态筛选
 - `--page`，默认 `1`
 - `--limit`，默认 `20`
-- `--sortBy`，默认 `createdAt`
-- `--sortOrder`，默认 `desc`
+- `--sort-by`，默认 `createdAt`
+- `--sort-order`，默认 `desc`
+- `--all`，自动取完全部分页
+- `--fields`、`--sort`，控制表格字段和客户端排序
 
 ```bash
-nove user list --keyword <keyword> --page 1 --limit 100
-nove user list --active --sortBy createdAt --sortOrder desc
+nove user list --keyword <keyword> --all
+nove user list --active --sort-by createdAt --sort-order desc
 ```
 
 用户要求全部结果时处理分页。关键词命中多名用户时展示用户 ID、用户名、显示名和经过脱敏的联系方式，让用户选择目标。
@@ -35,9 +37,9 @@ nove user list --active --sortBy createdAt --sortOrder desc
 
 支持的资料字段包括：
 
-`username`、`email`、`phone`、`countryCode`、`displayName`、`firstName`、`lastName`、`active`、`gender`、`dateOfBirth`、`avatar`、`bio`、`address`、`city`、`country`、`website`、`zipCode`。
+`username`、`email`、`phone`、`country-code`、`display-name`、`first-name`、`last-name`、`active`、`gender`、`date-of-birth`、`avatar`、`bio`、`address`、`city`、`country`、`website`、`zip-code`。
 
-使用 `--active` 设置启用，使用 `--no-active` 设置停用。日期格式为 `YYYY-MM-DD`，电话号码本体与 `countryCode` 分开传递。
+使用 `--active` 设置启用，使用 `--no-active` 设置停用。日期格式为 `YYYY-MM-DD`，电话号码本体与 `--country-code` 必须一起传递。
 
 更新前先获取用户详情，明确展示将改变的字段；未提供任何字段时不要执行。完成后再次 `user get` 验证。
 

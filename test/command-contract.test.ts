@@ -11,12 +11,12 @@ interface CliResult {
   stdout: string;
 }
 
-function runCli(args: string[], environment: NodeJS.ProcessEnv): Promise<CliResult> {
+function runCli(args: string[], environment: NodeJS.ProcessEnv, input = ''): Promise<CliResult> {
   return new Promise((resolve, reject) => {
     const child = spawn(process.execPath, ['bin/run.js', ...args], {
       cwd: process.cwd(),
       env: { ...process.env, ...environment, NO_COLOR: '1', NODE_ENV: 'production' },
-      stdio: ['ignore', 'pipe', 'pipe'],
+      stdio: ['pipe', 'pipe', 'pipe'],
     });
     let stderr = '';
     let stdout = '';
@@ -30,6 +30,7 @@ function runCli(args: string[], environment: NodeJS.ProcessEnv): Promise<CliResu
     });
     child.on('error', reject);
     child.on('close', (code) => resolve({ code, stderr, stdout }));
+    child.stdin.end(input);
   });
 }
 
@@ -82,9 +83,9 @@ describe('command contracts', () => {
 
   it('emits exactly one JSON value on stdout in --json mode', async () => {
     const environment = { HOME: testHome };
-    const login = await runCli(['login', '--api-key', 'test-key', '--json'], environment);
+    const login = await runCli(['login', '--json'], { ...environment, NOVE_API_KEY: 'test-key' });
     expect(login.code).to.equal(0);
-    expect(JSON.parse(login.stdout)).to.deep.equal({ authenticated: true });
+    expect(JSON.parse(login.stdout)).to.include({ authenticated: true });
     expect(login.stderr).to.equal('');
 
     const server: Server = createServer((request, response) => {
@@ -121,16 +122,17 @@ describe('command contracts', () => {
       },
     ];
 
-    /* eslint-disable no-await-in-loop */
-    for (const testCase of cases) {
-      const protectedResult = await runCli([...testCase.args, '--json'], { HOME: testHome });
+    const results = await Promise.all(cases.map(async (testCase) => ({
+      dryRunResult: await runCli([...testCase.args, '--dry-run', '--json'], { HOME: testHome }),
+      protectedResult: await runCli([...testCase.args, '--json'], { HOME: testHome }),
+      testCase,
+    })));
+
+    for (const { dryRunResult, protectedResult, testCase } of results) {
       expect(protectedResult.code).to.equal(1);
       expect(protectedResult.stdout).to.equal('');
       expect(JSON.parse(protectedResult.stderr)).to.include({ code: 'CLI_ERROR' });
 
-      const dryRunResult = await runCli([...testCase.args, '--dry-run', '--json'], {
-        HOME: testHome,
-      });
       expect(dryRunResult.code).to.equal(0);
       expect(dryRunResult.stderr).to.equal('');
       expect(JSON.parse(dryRunResult.stdout)).to.include({
@@ -138,12 +140,11 @@ describe('command contracts', () => {
         resource: testCase.resource,
       });
     }
-    /* eslint-enable no-await-in-loop */
   });
 
   it('allows --yes deletion and renders 204 as JSON null', async () => {
     const environment = { HOME: testHome };
-    const login = await runCli(['login', '--api-key', 'test-key', '--json'], environment);
+    const login = await runCli(['login', '--json'], { ...environment, NOVE_API_KEY: 'test-key' });
     expect(login.code).to.equal(0);
 
     const server: Server = createServer((request, response) => {
@@ -170,7 +171,7 @@ describe('command contracts', () => {
 
   it('forwards pagination and half-open date filters exactly', async () => {
     const environment = { HOME: testHome };
-    const login = await runCli(['login', '--api-key', 'test-key', '--json'], environment);
+    const login = await runCli(['login', '--json'], { ...environment, NOVE_API_KEY: 'test-key' });
     expect(login.code).to.equal(0);
 
     let receivedUrl = '';
@@ -217,7 +218,7 @@ describe('command contracts', () => {
 
   it('keeps stdout clean and emits structured API errors to stderr', async () => {
     const environment = { HOME: testHome };
-    const login = await runCli(['login', '--api-key', 'test-key', '--json'], environment);
+    const login = await runCli(['login', '--json'], { ...environment, NOVE_API_KEY: 'test-key' });
     expect(login.code).to.equal(0);
 
     const server: Server = createServer((_request, response) => {
@@ -258,7 +259,122 @@ describe('command contracts', () => {
     expect(result.stdout).to.equal('');
     expect(JSON.parse(result.stderr)).to.deep.equal({
       code: 'CLI_ERROR',
-      message: 'No update parameters provided. Use --title or --status.',
+      message: 'No fields provided to update.',
     });
+  });
+
+  it('supports secure stdin login, status inspection, and logout without exposing the key', async () => {
+    const environment = { HOME: testHome };
+    const login = await runCli(['login', '--api-key-stdin', '--json'], environment, 'stdin-test-key\n');
+    expect(login.code).to.equal(0);
+    expect(login.stdout).not.to.include('stdin-test-key');
+    expect(JSON.parse(login.stdout)).to.include({ authenticated: true });
+
+    const status = await runCli(['auth', 'status', '--json'], environment);
+    expect(status.code).to.equal(0);
+    expect(status.stdout).not.to.include('stdin-test-key');
+    expect(JSON.parse(status.stdout)).to.include({ authenticated: true });
+
+    const logout = await runCli(['logout', '--json'], environment);
+    expect(JSON.parse(logout.stdout)).to.deep.equal({ authenticated: false, removed: true });
+    const loggedOutStatus = await runCli(['auth', 'status', '--json'], environment);
+    expect(JSON.parse(loggedOutStatus.stdout)).to.deep.equal({ authenticated: false });
+  });
+
+  it('supports NOVE_API_KEY and rejects the removed --api-key argument', async () => {
+    const environment = { HOME: testHome, NOVE_API_KEY: 'environment-test-key' };
+    const login = await runCli(['login', '--json'], environment);
+    expect(login.code).to.equal(0);
+    expect(login.stdout).not.to.include('environment-test-key');
+
+    const help = await runCli(['login', '--help'], { HOME: testHome });
+    expect(help.stdout).to.include('--api-key-stdin');
+    expect(help.stdout).not.to.match(/--api-key=<value>/);
+
+    const removedArgument = await runCli(['login', '--api-key', 'test-key', '--json'], {
+      HOME: testHome,
+    });
+    expect(removedArgument.code).to.equal(2);
+    expect(removedArgument.stderr).to.include('Nonexistent flag: --api-key');
+  });
+
+  it('rejects invalid pagination, enum, user, and import inputs before requests', async () => {
+    const invalidPage = await runCli(['meeting', 'list', '--page', '0'], { HOME: testHome });
+    expect(invalidPage.code).to.equal(2);
+    expect(invalidPage.stderr).to.include('Expected an integer greater than or equal to 1');
+
+    const invalidSource = await runCli(['minute', 'list', '--source', 'UPLOAD'], { HOME: testHome });
+    expect(invalidSource.code).to.equal(2);
+    expect(invalidSource.stderr).to.include('Expected --source=UPLOAD to be one of');
+
+    const invalidEmail = await runCli(['user', 'create', '--email', 'invalid', '--json'], {
+      HOME: testHome,
+    });
+    expect(invalidEmail.code).to.equal(1);
+    expect(JSON.parse(invalidEmail.stderr)).to.include({ code: 'CLI_ERROR', message: 'Email address is invalid.' });
+
+    const invalidFile = await runCli(['user', 'import', '--file', 'users.json', '--json'], {
+      HOME: testHome,
+    });
+    expect(invalidFile.code).to.equal(1);
+    expect(JSON.parse(invalidFile.stderr)).to.include({ code: 'CLI_ERROR' });
+  });
+
+  it('fetches all pages and renders selected, sorted table fields', async () => {
+    const environment = { HOME: testHome };
+    expect((await runCli(['login', '--json'], { ...environment, NOVE_API_KEY: 'test-key' })).code).to.equal(0);
+    const requestedPages: string[] = [];
+    const server: Server = createServer((request, response) => {
+      const page = new URL(request.url ?? '', 'http://localhost').searchParams.get('page') ?? '';
+      requestedPages.push(page);
+      response.setHeader('content-type', 'application/json');
+      response.end(JSON.stringify({
+        data: [{ id: `meeting-${page}`, title: page === '1' ? 'Alpha' : 'Zulu' }],
+        limit: 10,
+        page: Number(page),
+        total: 2,
+        totalPages: 2,
+      }));
+      if (page === '2') server.close();
+    });
+    await new Promise<void>((resolve) => {
+      server.listen(0, '127.0.0.1', resolve);
+    });
+    const address = server.address();
+    if (!address || typeof address === 'string') throw new Error('Test server did not bind to a TCP port.');
+
+    const result = await runCli(
+      ['meeting', 'list', '--all', '--fields', 'id,title', '--sort', 'title:desc'],
+      { ...environment, NOVE_API_URL: `http://127.0.0.1:${address.port}` }
+    );
+
+    expect(result.code).to.equal(0);
+    expect(requestedPages).to.deep.equal(['1', '2']);
+    expect(result.stdout).to.include('id');
+    expect(result.stdout).to.include('meeting-2');
+    expect(result.stdout.indexOf('meeting-2')).to.be.lessThan(result.stdout.indexOf('meeting-1'));
+    expect(result.stdout).to.include('Showing 2 of 2 meetings.');
+  });
+
+  it('shows a clear empty-list message outside JSON mode', async () => {
+    const environment = { HOME: testHome };
+    expect((await runCli(['login', '--json'], { ...environment, NOVE_API_KEY: 'test-key' })).code).to.equal(0);
+    const server: Server = createServer((_request, response) => {
+      response.setHeader('content-type', 'application/json');
+      response.end(JSON.stringify({ data: [], page: 1, total: 0, totalPages: 0 }));
+      server.close();
+    });
+    await new Promise<void>((resolve) => {
+      server.listen(0, '127.0.0.1', resolve);
+    });
+    const address = server.address();
+    if (!address || typeof address === 'string') throw new Error('Test server did not bind to a TCP port.');
+
+    const result = await runCli(['meeting', 'list'], {
+      ...environment,
+      NOVE_API_URL: `http://127.0.0.1:${address.port}`,
+    });
+    expect(result.code).to.equal(0);
+    expect(result.stdout).to.equal('No meetings found.\n');
   });
 });
