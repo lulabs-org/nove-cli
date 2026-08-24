@@ -19,7 +19,9 @@ function validateConfig(data: unknown, file: string): CliConfig {
   const record = data as Record<string, unknown>;
   const unknownKeys = Object.keys(record).filter((key) => key !== 'baseUrl');
   if (unknownKeys.length > 0) {
-    throw new Error(`Configuration file contains unsupported keys: ${unknownKeys.join(', ')}.`);
+    for (const key of unknownKeys) {
+      delete record[key];
+    }
   }
 
   if (record.baseUrl !== undefined && typeof record.baseUrl !== 'string') {
