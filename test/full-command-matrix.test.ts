@@ -282,10 +282,10 @@ describe('full command matrix', () => {
       { args: ['meeting', 'delete', 'meeting-1', '--yes'], assertRequest: expectRequest('DELETE', '/meetings/meeting-1'), name: 'meeting delete', status: 204 },
       { args: ['minute', 'get', 'minute-1'], assertRequest: expectRequest('GET', '/minutes/minute-1'), name: 'minute get' },
       {
-        args: ['minute', 'list', '--meetingId', 'meeting-1', '--status', 'COMPLETED', '--source', 'PLATFORM_AUTO', '--page', '2', '--limit', '100'],
+        args: ['minute', 'list', '--meetingId', 'meeting-1', '--source', 'PLATFORM_AUTO', '--page', '2', '--limit', '100'],
         assertRequest(request) {
           expectRequest('GET', '/minutes')(request);
-          expect(Object.fromEntries(request.url.searchParams)).to.deep.equal({ limit: '100', meetingId: 'meeting-1', page: '2', source: 'PLATFORM_AUTO', status: 'COMPLETED' });
+          expect(Object.fromEntries(request.url.searchParams)).to.deep.equal({ limit: '100', meetingId: 'meeting-1', page: '2', source: 'PLATFORM_AUTO' });
         },
         name: 'minute list', response: { data: [], page: 2, total: 0, totalPages: 0 },
       },
@@ -353,7 +353,7 @@ describe('full command matrix', () => {
       ['meeting', 'list', '--status', 'INVALID', '--json'], ['meeting', 'list', '--page', '0', '--json'],
       ['meeting', 'list', '--limit', '101', '--json'], ['meeting', 'list', '--all', '--page', '2', '--json'],
       ['meeting', 'update', 'id', '--participant-count', '-1', '--json'],
-      ['minute', 'list', '--status', 'INVALID', '--json'], ['minute', 'list', '--source', 'INVALID', '--json'],
+      ['minute', 'list', '--source', 'INVALID', '--json'],
       ['minute', 'speaker-summary', 'create', 'id', '--platform-user-id', 'u', '--part-summary', 's', '--generated-by', 'INVALID', '--json'],
       ['minute', 'transcript', 'id', '--format', 'xml', '--json'], ['user', 'create', '--gender', 'INVALID', '--json'],
       ['user', 'list', '--sort-by', 'INVALID', '--json'], ['user', 'list', '--sort-order', 'INVALID', '--json'],

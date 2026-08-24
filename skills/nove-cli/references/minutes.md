@@ -23,7 +23,6 @@
 列表支持：
 
 - `--meeting-id`：按会议 ID 筛选
-- `--status`：`RECORDING`、`PROCESSING`、`COMPLETED`、`FAILED`
 - `--source`：`PLATFORM_AUTO`、`USER_MANUAL` 或 `THIRD_PARTY`
 - `--page`，默认 `1`
 - `--limit`，默认 `10`
@@ -33,15 +32,14 @@
 ```bash
 nove minute list \
   --meeting-id <meeting-id> \
-  --status COMPLETED \
   --all
 ```
 
-用户要求全部记录时使用 `--all`，不要再同时传 `--page`。需要机器处理时使用 `--json`，且不要同时传 `--fields` 或 `--sort`。存在多条记录时，根据记录 ID、状态、来源和时间选择；信息不足时让用户确认，不默认取第一条。
+用户要求全部记录时使用 `--all`，不要再同时传 `--page`。需要机器处理时使用 `--json`，且不要同时传 `--fields` 或 `--sort`。存在多条记录时，根据记录 ID、来源、错误信息和时间选择；信息不足时让用户确认，不默认取第一条。
 
 ## 获取转写
 
-只对状态为 `COMPLETED` 的记录获取转写。先确认记录详情：
+获取转写前先确认记录详情：
 
 ```bash
 nove minute get <minute-id>
@@ -50,7 +48,7 @@ nove minute transcript <minute-id> --format json --json
 
 `--format` 决定 API 返回转写正文还是分段结构，支持 `text` 和 `json`，默认 `text`；`--json` 决定 CLI 是否以单个 JSON 值输出。需要分析、时间轴或长文本处理时使用 `--format json --json`；仅供人阅读正文时可保留默认格式。
 
-若记录仍为 `PROCESSING`，报告当前状态并停止；若为 `FAILED`，报告失败，不用其他会议或记录的内容替代。
+若记录包含 `errorMessage`，先报告错误并停止，不用其他会议或记录的内容替代。没有错误但转写尚不可用时，明确说明资源尚未生成。
 
 ## 参会者总结
 
@@ -103,7 +101,7 @@ nove minute speaker-summary delete <minute-id> <summary-id>
 
 ## 删除记录
 
-删除命令默认要求交互确认。执行前用 `minute get` 展示准确记录 ID、关联会议、状态和来源，取得明确确认后，可先执行 `nove minute delete <minute-id> --dry-run` 检查目标，再执行：
+删除命令默认要求交互确认。执行前用 `minute get` 展示准确记录 ID、关联会议、来源和错误信息，取得明确确认后，可先执行 `nove minute delete <minute-id> --dry-run` 检查目标，再执行：
 
 ```bash
 nove minute delete <minute-id>
