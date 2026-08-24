@@ -1,21 +1,23 @@
 import { Args, Command } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
 export default class UserGet extends Command {
   static args = {
     id: Args.string({ description: 'User ID', required: true }),
   };
   static description = 'Get user details by ID';
+  static flags = { json: jsonFlag };
 
   public async run(): Promise<void> {
-    const { args } = await this.parse(UserGet);
+    const { args, flags } = await this.parse(UserGet);
 
     try {
       const data = await fetchApi(`/admin/users/${args.id}`, {}, this.config.configDir);
-      this.log(JSON.stringify(data, null, 2));
+      outputResult(this, data, { json: flags.json });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, flags.json);
     }
   }
 }

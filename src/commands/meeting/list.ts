@@ -1,11 +1,13 @@
 import { Command, Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
 export default class MeetingList extends Command {
   static description = 'List meetings';
 static flags = {
     endDate: Flags.string({ description: 'End date (ISO string)' }),
+    json: jsonFlag,
     limit: Flags.integer({ default: 10, description: 'Items per page' }),
     page: Flags.integer({ default: 1, description: 'Page number' }),
     platform: Flags.string({ description: 'Platform (e.g. TENCENT_MEETING, FEISHU)' }),
@@ -32,9 +34,9 @@ static flags = {
       if (flags.search) queryParams.append('search', flags.search);
 
       const data = await fetchApi(`/meetings?${queryParams.toString()}`, {}, this.config.configDir);
-      this.log(JSON.stringify(data, null, 2));
+      outputResult(this, data, { json: flags.json });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, flags.json);
     }
   }
 }

@@ -1,6 +1,7 @@
 import { Args, Command, Flags } from '@oclif/core';
 
 import { fetchApi } from '../../../utils/api.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../../utils/output.js';
 
 export default class MinuteSpeakerSummaryList extends Command {
   static args = {
@@ -8,6 +9,7 @@ export default class MinuteSpeakerSummaryList extends Command {
   };
   static description = 'List speaker summaries for a meeting minute';
   static flags = {
+    json: jsonFlag,
     limit: Flags.integer({ default: 20, description: 'Items per page', max: 100, min: 1 }),
     page: Flags.integer({ default: 1, description: 'Page number', min: 1 }),
   };
@@ -22,9 +24,9 @@ export default class MinuteSpeakerSummaryList extends Command {
         {},
         this.config.configDir
       );
-      this.log(JSON.stringify(data, null, 2));
+      outputResult(this, data, { json: flags.json });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, flags.json);
     }
   }
 }

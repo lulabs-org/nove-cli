@@ -55,10 +55,12 @@ nove user list --active --sortBy createdAt --sortOrder desc
 
 ## 删除
 
-删除命令没有内置二次确认。必须先运行：
+删除命令默认要求交互确认。必须先运行：
 
 ```bash
 nove user get <user-id>
 ```
 
-展示准确用户 ID、用户名和脱敏联系方式，取得明确确认后再执行 `nove user delete <user-id>`，最后重新查询验证。不要用关键词搜索结果中的第一项直接删除。
+展示准确用户 ID、用户名和脱敏联系方式，取得明确确认后，可先执行 `nove user delete <user-id> --dry-run` 检查目标，再执行删除并响应 CLI 确认提示，最后重新查询验证。不要用关键词搜索结果中的第一项直接删除。
+
+非交互环境只有在用户已经明确确认准确目标后，才使用 `nove user delete <user-id> --yes`。

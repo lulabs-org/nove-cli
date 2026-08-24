@@ -1,10 +1,12 @@
 import { Command, Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
 export default class MinuteList extends Command {
   static description = 'List meeting minutes';
 static flags = {
+    json: jsonFlag,
     limit: Flags.integer({ default: 10, description: 'Items per page' }),
     meetingId: Flags.string({ description: 'Filter by Meeting ID' }),
     page: Flags.integer({ default: 1, description: 'Page number' }),
@@ -26,9 +28,9 @@ static flags = {
       if (flags.status) queryParams.append('status', flags.status);
 
       const data = await fetchApi(`/minutes?${queryParams.toString()}`, {}, this.config.configDir);
-      this.log(JSON.stringify(data, null, 2));
+      outputResult(this, data, { json: flags.json });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, flags.json);
     }
   }
 }

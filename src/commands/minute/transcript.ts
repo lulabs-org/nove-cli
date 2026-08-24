@@ -1,6 +1,7 @@
 import { Args, Command, Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
 export default class MinuteTranscript extends Command {
   static args = {
@@ -9,6 +10,7 @@ export default class MinuteTranscript extends Command {
 static description = 'Get transcript for a meeting minute';
 static flags = {
     format: Flags.string({ default: 'text', description: 'Format (text or json)', options: ['text', 'json'] }),
+    json: jsonFlag,
   };
 
   public async run(): Promise<void> {
@@ -20,9 +22,9 @@ static flags = {
         {},
         this.config.configDir
       );
-      this.log(JSON.stringify(data, null, 2));
+      outputResult(this, data, { json: flags.json });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, flags.json);
     }
   }
 }

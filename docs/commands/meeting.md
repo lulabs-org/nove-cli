@@ -17,11 +17,12 @@ Create a meeting record
 
 ```
 USAGE
-  $ nove meeting create --platformMeetingId <value> --title <value> [--endTime <value>] [--startTime <value>]
-    [--status <value>]
+  $ nove meeting create --platformMeetingId <value> --title <value> [--endTime <value>] [--json] [--startTime
+    <value>] [--status <value>]
 
 FLAGS
   --endTime=<value>            End time (ISO string)
+  --json                       Output a single JSON value to stdout
   --platformMeetingId=<value>  (required) Platform Meeting ID (e.g. feishu ID)
   --startTime=<value>          Start time (ISO string)
   --status=<value>             Status (e.g. COMPLETED)
@@ -39,10 +40,15 @@ Delete a meeting record
 
 ```
 USAGE
-  $ nove meeting delete ID
+  $ nove meeting delete ID [--dry-run] [-y] [--json]
 
 ARGUMENTS
   ID  Meeting ID
+
+FLAGS
+  -y, --yes      Skip the interactive confirmation
+      --dry-run  Show what would be deleted without sending the request
+      --json     Output a single JSON value to stdout
 
 DESCRIPTION
   Delete a meeting record
@@ -56,10 +62,13 @@ Get a meeting by ID
 
 ```
 USAGE
-  $ nove meeting get ID
+  $ nove meeting get ID [--json]
 
 ARGUMENTS
   ID  Meeting ID
+
+FLAGS
+  --json  Output a single JSON value to stdout
 
 DESCRIPTION
   Get a meeting by ID
@@ -73,11 +82,12 @@ List meetings
 
 ```
 USAGE
-  $ nove meeting list [--endDate <value>] [--limit <value>] [--page <value>] [--platform <value>] [--search
-    <value>] [--startDate <value>] [--status <value>] [--type <value>]
+  $ nove meeting list [--endDate <value>] [--json] [--limit <value>] [--page <value>] [--platform <value>]
+    [--search <value>] [--startDate <value>] [--status <value>] [--type <value>]
 
 FLAGS
   --endDate=<value>    End date (ISO string)
+  --json               Output a single JSON value to stdout
   --limit=<value>      [default: 10] Items per page
   --page=<value>       [default: 1] Page number
   --platform=<value>   Platform (e.g. TENCENT_MEETING, FEISHU)
@@ -98,12 +108,13 @@ Get participants for a meeting
 
 ```
 USAGE
-  $ nove meeting participants ID [--keyword <value>] [--limit <value>] [--page <value>]
+  $ nove meeting participants ID [--json] [--keyword <value>] [--limit <value>] [--page <value>]
 
 ARGUMENTS
   ID  Meeting ID
 
 FLAGS
+  --json             Output a single JSON value to stdout
   --keyword=<value>  Search keyword
   --limit=<value>    [default: 20] Items per page
   --page=<value>     [default: 1] Page number
@@ -120,10 +131,11 @@ Get meeting statistics
 
 ```
 USAGE
-  $ nove meeting stats [--endDate <value>] [--startDate <value>]
+  $ nove meeting stats [--endDate <value>] [--json] [--startDate <value>]
 
 FLAGS
   --endDate=<value>    End date (ISO string)
+  --json               Output a single JSON value to stdout
   --startDate=<value>  Start date (ISO string)
 
 DESCRIPTION
@@ -138,12 +150,13 @@ Update a meeting record
 
 ```
 USAGE
-  $ nove meeting update ID [--status <value>] [--title <value>]
+  $ nove meeting update ID [--json] [--status <value>] [--title <value>]
 
 ARGUMENTS
   ID  Meeting ID
 
 FLAGS
+  --json            Output a single JSON value to stdout
   --status=<value>  New status
   --title=<value>   New meeting title
 

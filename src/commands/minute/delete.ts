@@ -1,17 +1,34 @@
 import { Args, Command } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { confirmDestructiveAction, destructiveFlags } from '../../utils/destructive-action.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
 export default class MinuteDelete extends Command {
   static args = {
     id: Args.string({ description: 'Minute ID', required: true }),
   };
 static description = 'Delete a meeting minute';
+  static flags = { ...destructiveFlags, json: jsonFlag };
 
   public async run(): Promise<void> {
-    const { args } = await this.parse(MinuteDelete);
+    const { args, flags } = await this.parse(MinuteDelete);
 
     try {
+      if (flags['dry-run']) {
+        outputResult(this, { dryRun: true, id: args.id, resource: 'minute' }, { json: flags.json });
+        return;
+      }
+
+      const confirmed = await confirmDestructiveAction(
+        `Delete minute ${args.id}? This action cannot be undone.`,
+        flags.yes
+      );
+      if (!confirmed) {
+        outputResult(this, { cancelled: true, id: args.id, resource: 'minute' }, { json: flags.json });
+        return;
+      }
+
       const data = await fetchApi(
         `/minutes/${args.id}`,
         {
@@ -19,10 +36,12 @@ static description = 'Delete a meeting minute';
         },
         this.config.configDir
       );
-      this.log('✅ Meeting minute deleted successfully.');
-      this.log(JSON.stringify(data, null, 2));
+      outputResult(this, data, {
+        json: flags.json,
+        successMessage: '✅ Meeting minute deleted successfully.',
+      });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, flags.json);
     }
   }
 }

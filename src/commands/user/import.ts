@@ -3,11 +3,13 @@ import { readFileSync } from 'node:fs';
 import { basename } from 'node:path';
 
 import { fetchApi } from '../../utils/api.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
 export default class UserImport extends Command {
   static description = 'Import users from a CSV or XLSX file';
   static flags = {
     file: Flags.string({ description: 'Path to the file to import', required: true }),
+    json: jsonFlag,
   };
 
   public async run(): Promise<void> {
@@ -27,10 +29,12 @@ export default class UserImport extends Command {
         },
         this.config.configDir
       );
-      this.log('✅ Users imported successfully.');
-      this.log(JSON.stringify(data, null, 2));
+      outputResult(this, data, {
+        json: flags.json,
+        successMessage: '✅ Users imported successfully.',
+      });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, flags.json);
     }
   }
 }

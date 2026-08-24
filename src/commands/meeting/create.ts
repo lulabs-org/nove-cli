@@ -1,11 +1,13 @@
 import { Command, Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
 export default class MeetingCreate extends Command {
   static description = 'Create a meeting record';
 static flags = {
     endTime: Flags.string({ description: 'End time (ISO string)' }),
+    json: jsonFlag,
     platformMeetingId: Flags.string({ description: 'Platform Meeting ID (e.g. feishu ID)', required: true }),
     startTime: Flags.string({ description: 'Start time (ISO string)' }),
     status: Flags.string({ description: 'Status (e.g. COMPLETED)' }),
@@ -30,10 +32,12 @@ static flags = {
         },
         this.config.configDir
       );
-      this.log('✅ Meeting created successfully.');
-      this.log(JSON.stringify(data, null, 2));
+      outputResult(this, data, {
+        json: flags.json,
+        successMessage: '✅ Meeting created successfully.',
+      });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, flags.json);
     }
   }
 }

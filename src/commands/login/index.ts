@@ -3,6 +3,8 @@ import { Command, Flags } from '@oclif/core';
 import * as fs from 'node:fs';
 import path from 'node:path';
 
+import { jsonFlag, outputResult } from '../../utils/output.js';
+
 export default class Login extends Command {
   static description = 'Login to Nove API using an API Key';
 static flags = {
@@ -10,6 +12,7 @@ static flags = {
       char: 'k',
       description: 'The API Key to use for authentication (e.g. sk_...)',
     }),
+    json: jsonFlag,
   };
 
   public async run(): Promise<void> {
@@ -39,7 +42,13 @@ static flags = {
 
     fs.writeFileSync(configFile, JSON.stringify(authData, null, 2), 'utf8');
 
-    this.log(`✅ API Key successfully saved to ${configFile}`);
-    this.log('You are now authenticated for future nove-cli commands.');
+    outputResult(
+      this,
+      { authenticated: true },
+      {
+        json: flags.json,
+        successMessage: `✅ API Key successfully saved to ${configFile}\nYou are now authenticated for future nove-cli commands.`,
+      }
+    );
   }
 }

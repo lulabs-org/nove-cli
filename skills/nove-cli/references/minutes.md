@@ -82,13 +82,15 @@ nove minute speaker-summary update <minute-id> <summary-id> \
 
 创建或更新前先确认记录 ID、平台用户 ID、总结 ID 与拟写入内容；执行后使用 `list` 或 `get` 重新读取验证结果。总结正文可能包含个人信息，只展示完成任务所需内容。
 
-删除总结前先用 `get` 展示准确的记录 ID、总结 ID、平台用户 ID 和必要的正文摘要，取得明确确认后再执行：
+删除总结前先用 `get` 展示准确的记录 ID、总结 ID、平台用户 ID 和必要的正文摘要，取得明确确认后，可先用 `--dry-run` 检查目标，再执行删除并响应 CLI 确认提示：
 
 ```bash
 nove minute speaker-summary delete <minute-id> <summary-id>
 ```
 
 删除后重新运行 `get` 或 `list` 验证结果。
+
+非交互环境只有在用户已经明确确认准确目标后，才为删除命令添加 `--yes`。
 
 ## 基于转写总结
 
@@ -100,7 +102,7 @@ nove minute speaker-summary delete <minute-id> <summary-id>
 
 ## 删除记录
 
-删除命令没有内置二次确认。执行前用 `minute get` 展示准确记录 ID、关联会议、状态和来源，取得明确确认后再执行：
+删除命令默认要求交互确认。执行前用 `minute get` 展示准确记录 ID、关联会议、状态和来源，取得明确确认后，可先执行 `nove minute delete <minute-id> --dry-run` 检查目标，再执行：
 
 ```bash
 nove minute delete <minute-id>

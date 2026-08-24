@@ -1,6 +1,7 @@
 import { Command, Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
 export default class UserCreate extends Command {
   static description = 'Create a new user';
@@ -17,6 +18,7 @@ export default class UserCreate extends Command {
     email: Flags.string({ description: 'Email address' }),
     firstName: Flags.string({ description: 'First name' }),
     gender: Flags.string({ description: 'Gender (e.g. MALE, FEMALE, OTHER)' }),
+    json: jsonFlag,
     lastName: Flags.string({ description: 'Last name' }),
     phone: Flags.string({ description: 'Phone number without country code' }),
     username: Flags.string({ description: 'Username' }),
@@ -26,20 +28,23 @@ export default class UserCreate extends Command {
 
   public async run(): Promise<void> {
     const { flags } = await this.parse(UserCreate);
+    const { json, ...body } = flags;
 
     try {
       const data = await fetchApi(
         `/admin/users`,
         {
-          body: JSON.stringify(flags),
+          body: JSON.stringify(body),
           method: 'POST',
         },
         this.config.configDir
       );
-      this.log('✅ User created successfully.');
-      this.log(JSON.stringify(data, null, 2));
+      outputResult(this, data, {
+        json,
+        successMessage: '✅ User created successfully.',
+      });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, json);
     }
   }
 }

@@ -1,6 +1,7 @@
 import { Args, Command } from '@oclif/core';
 
 import { fetchApi } from '../../../utils/api.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../../utils/output.js';
 
 export default class MinuteSpeakerSummaryGet extends Command {
   static args = {
@@ -8,9 +9,10 @@ export default class MinuteSpeakerSummaryGet extends Command {
     summaryId: Args.string({ description: 'Speaker summary ID', required: true }),
   };
   static description = 'Get a speaker summary';
+  static flags = { json: jsonFlag };
 
   public async run(): Promise<void> {
-    const { args } = await this.parse(MinuteSpeakerSummaryGet);
+    const { args, flags } = await this.parse(MinuteSpeakerSummaryGet);
 
     try {
       const data = await fetchApi(
@@ -18,9 +20,9 @@ export default class MinuteSpeakerSummaryGet extends Command {
         {},
         this.config.configDir
       );
-      this.log(JSON.stringify(data, null, 2));
+      outputResult(this, data, { json: flags.json });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, flags.json);
     }
   }
 }

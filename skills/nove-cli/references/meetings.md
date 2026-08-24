@@ -74,10 +74,12 @@ nove meeting get <meeting-id>
 
 ## 删除
 
-删除命令没有内置二次确认。执行前必须：
+删除命令默认要求交互确认。执行前仍必须：
 
 1. 用 `meeting get` 读取目标。
 2. 向用户展示会议 ID、标题和时间。
 3. 获得针对该目标的明确删除确认。
-4. 执行 `nove meeting delete <meeting-id>`。
+4. 可先执行 `nove meeting delete <meeting-id> --dry-run` 检查目标；再执行删除并响应 CLI 确认提示。
 5. 通过重新查询或 API 的明确响应验证结果。
+
+非交互环境只有在用户已经明确确认准确目标后，才使用 `nove meeting delete <meeting-id> --yes`。

@@ -18,8 +18,8 @@ Create a new user
 USAGE
   $ nove user create [--active] [--address <value>] [--avatar <value>] [--bio <value>] [--city <value>]
     [--country <value>] [--countryCode <value>] [--dateOfBirth <value>] [--displayName <value>] [--email <value>]
-    [--firstName <value>] [--gender <value>] [--lastName <value>] [--phone <value>] [--username <value>] [--website
-    <value>] [--zipCode <value>]
+    [--firstName <value>] [--gender <value>] [--json] [--lastName <value>] [--phone <value>] [--username <value>]
+    [--website <value>] [--zipCode <value>]
 
 FLAGS
   --[no-]active          Active status
@@ -34,6 +34,7 @@ FLAGS
   --email=<value>        Email address
   --firstName=<value>    First name
   --gender=<value>       Gender (e.g. MALE, FEMALE, OTHER)
+  --json                 Output a single JSON value to stdout
   --lastName=<value>     Last name
   --phone=<value>        Phone number without country code
   --username=<value>     Username
@@ -52,10 +53,15 @@ Delete a user by ID
 
 ```
 USAGE
-  $ nove user delete ID
+  $ nove user delete ID [--dry-run] [-y] [--json]
 
 ARGUMENTS
   ID  User ID
+
+FLAGS
+  -y, --yes      Skip the interactive confirmation
+      --dry-run  Show what would be deleted without sending the request
+      --json     Output a single JSON value to stdout
 
 DESCRIPTION
   Delete a user by ID
@@ -69,10 +75,13 @@ Get user details by ID
 
 ```
 USAGE
-  $ nove user get ID
+  $ nove user get ID [--json]
 
 ARGUMENTS
   ID  User ID
+
+FLAGS
+  --json  Output a single JSON value to stdout
 
 DESCRIPTION
   Get user details by ID
@@ -86,10 +95,11 @@ Import users from a CSV or XLSX file
 
 ```
 USAGE
-  $ nove user import --file <value>
+  $ nove user import --file <value> [--json]
 
 FLAGS
   --file=<value>  (required) Path to the file to import
+  --json          Output a single JSON value to stdout
 
 DESCRIPTION
   Import users from a CSV or XLSX file
@@ -103,11 +113,12 @@ List users
 
 ```
 USAGE
-  $ nove user list [--active] [--keyword <value>] [--limit <value>] [--page <value>] [--sortBy <value>]
-    [--sortOrder <value>]
+  $ nove user list [--active] [--json] [--keyword <value>] [--limit <value>] [--page <value>] [--sortBy
+    <value>] [--sortOrder <value>]
 
 FLAGS
   --[no-]active        Filter by active status
+  --json               Output a single JSON value to stdout
   --keyword=<value>    Search keyword (username, email, phone, display name)
   --limit=<value>      [default: 20] Items per page
   --page=<value>       [default: 1] Page number
@@ -128,8 +139,8 @@ Update an existing user
 USAGE
   $ nove user update ID [--active] [--address <value>] [--avatar <value>] [--bio <value>] [--city <value>]
     [--country <value>] [--countryCode <value>] [--dateOfBirth <value>] [--displayName <value>] [--email <value>]
-    [--firstName <value>] [--gender <value>] [--lastName <value>] [--phone <value>] [--username <value>] [--website
-    <value>] [--zipCode <value>]
+    [--firstName <value>] [--gender <value>] [--json] [--lastName <value>] [--phone <value>] [--username <value>]
+    [--website <value>] [--zipCode <value>]
 
 ARGUMENTS
   ID  User ID
@@ -147,6 +158,7 @@ FLAGS
   --email=<value>        Email address
   --firstName=<value>    First name
   --gender=<value>       Gender (e.g. MALE, FEMALE, OTHER)
+  --json                 Output a single JSON value to stdout
   --lastName=<value>     Last name
   --phone=<value>        Phone number without country code
   --username=<value>     Username

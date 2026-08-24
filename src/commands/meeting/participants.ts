@@ -1,6 +1,7 @@
 import { Args, Command, Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
 export default class MeetingParticipants extends Command {
   static args = {
@@ -8,6 +9,7 @@ export default class MeetingParticipants extends Command {
   };
 static description = 'Get participants for a meeting';
 static flags = {
+    json: jsonFlag,
     keyword: Flags.string({ description: 'Search keyword' }),
     limit: Flags.integer({ default: 20, description: 'Items per page' }),
     page: Flags.integer({ default: 1, description: 'Page number' }),
@@ -29,9 +31,9 @@ static flags = {
         {},
         this.config.configDir
       );
-      this.log(JSON.stringify(data, null, 2));
+      outputResult(this, data, { json: flags.json });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, flags.json);
     }
   }
 }

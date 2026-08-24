@@ -1,6 +1,7 @@
 import { Args, Command } from '@oclif/core';
 
 import { setConfig } from '../../utils/config.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
 export default class ConfigSet extends Command {
   static args = {
@@ -8,16 +9,20 @@ export default class ConfigSet extends Command {
     value: Args.string({ description: 'Configuration value', required: true }),
   };
 static description = 'Set a configuration value';
+  static flags = { json: jsonFlag };
 
   public async run(): Promise<void> {
-    const { args } = await this.parse(ConfigSet);
+    const { args, flags } = await this.parse(ConfigSet);
     const { configDir } = this.config;
 
     if (args.key === 'api-url') {
       setConfig(configDir, { apiUrl: args.value });
-      this.log(`✅ API URL successfully set to ${args.value}`);
+      outputResult(this, { apiUrl: args.value }, {
+        json: flags.json,
+        successMessage: `✅ API URL successfully set to ${args.value}`,
+      });
     } else {
-      this.error(`Unknown configuration key: ${args.key}`);
+      handleCommandError(this, new Error(`Unknown configuration key: ${args.key}`), flags.json);
     }
   }
 }

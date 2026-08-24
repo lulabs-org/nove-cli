@@ -1,6 +1,7 @@
 import { Args, Command, Flags } from '@oclif/core';
 
 import { fetchApi } from '../../../utils/api.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../../utils/output.js';
 
 export default class MinuteSpeakerSummaryCreate extends Command {
   static args = {
@@ -13,6 +14,7 @@ export default class MinuteSpeakerSummaryCreate extends Command {
       description: 'Generation method',
       options: ['AI', 'HYBRID', 'MANUAL'],
     }),
+    json: jsonFlag,
     keywords: Flags.string({ description: 'Summary keyword (repeat for multiple)', multiple: true }),
     partSummary: Flags.string({ description: 'Speaker summary text', required: true }),
     platformUserId: Flags.string({ description: 'Platform user ID', required: true }),
@@ -20,17 +22,20 @@ export default class MinuteSpeakerSummaryCreate extends Command {
 
   public async run(): Promise<void> {
     const { args, flags } = await this.parse(MinuteSpeakerSummaryCreate);
+    const { json, ...body } = flags;
 
     try {
       const data = await fetchApi(
         `/minutes/${args.minuteId}/speaker-summaries`,
-        { body: JSON.stringify(flags), method: 'POST' },
+        { body: JSON.stringify(body), method: 'POST' },
         this.config.configDir
       );
-      this.log('✅ Speaker summary created successfully.');
-      this.log(JSON.stringify(data, null, 2));
+      outputResult(this, data, {
+        json,
+        successMessage: '✅ Speaker summary created successfully.',
+      });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, json);
     }
   }
 }

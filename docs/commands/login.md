@@ -11,10 +11,11 @@ Login to Nove API using an API Key
 
 ```
 USAGE
-  $ nove login [-k <value>]
+  $ nove login [-k <value>] [--json]
 
 FLAGS
   -k, --api-key=<value>  The API Key to use for authentication (e.g. sk_...)
+      --json             Output a single JSON value to stdout
 
 DESCRIPTION
   Login to Nove API using an API Key

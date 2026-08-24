@@ -1,6 +1,7 @@
 import { Args, Command, Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
 export default class MeetingUpdate extends Command {
   static args = {
@@ -8,6 +9,7 @@ export default class MeetingUpdate extends Command {
   };
 static description = 'Update a meeting record';
 static flags = {
+    json: jsonFlag,
     status: Flags.string({ description: 'New status' }),
     title: Flags.string({ description: 'New meeting title' }),
   };
@@ -16,10 +18,16 @@ static flags = {
     const { args, flags } = await this.parse(MeetingUpdate);
 
     // Remove undefined flags
-    const body = Object.fromEntries(Object.entries(flags).filter(([_, v]) => v !== undefined));
+    const body = Object.fromEntries(
+      Object.entries(flags).filter(([key, value]) => key !== 'json' && value !== undefined)
+    );
 
     if (Object.keys(body).length === 0) {
-      this.error('No update parameters provided. Use --title or --status.');
+      handleCommandError(
+        this,
+        new Error('No update parameters provided. Use --title or --status.'),
+        flags.json
+      );
     }
 
     try {
@@ -31,10 +39,12 @@ static flags = {
         },
         this.config.configDir
       );
-      this.log('✅ Meeting updated successfully.');
-      this.log(JSON.stringify(data, null, 2));
+      outputResult(this, data, {
+        json: flags.json,
+        successMessage: '✅ Meeting updated successfully.',
+      });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, flags.json);
     }
   }
 }

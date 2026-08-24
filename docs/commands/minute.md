@@ -19,10 +19,15 @@ Delete a meeting minute
 
 ```
 USAGE
-  $ nove minute delete ID
+  $ nove minute delete ID [--dry-run] [-y] [--json]
 
 ARGUMENTS
   ID  Minute ID
+
+FLAGS
+  -y, --yes      Skip the interactive confirmation
+      --dry-run  Show what would be deleted without sending the request
+      --json     Output a single JSON value to stdout
 
 DESCRIPTION
   Delete a meeting minute
@@ -36,10 +41,13 @@ Get details of a meeting minute
 
 ```
 USAGE
-  $ nove minute get ID
+  $ nove minute get ID [--json]
 
 ARGUMENTS
   ID  Minute ID
+
+FLAGS
+  --json  Output a single JSON value to stdout
 
 DESCRIPTION
   Get details of a meeting minute
@@ -53,10 +61,11 @@ List meeting minutes
 
 ```
 USAGE
-  $ nove minute list [--limit <value>] [--meetingId <value>] [--page <value>] [--source <value>] [--status
-    <value>]
+  $ nove minute list [--json] [--limit <value>] [--meetingId <value>] [--page <value>] [--source <value>]
+    [--status <value>]
 
 FLAGS
+  --json               Output a single JSON value to stdout
   --limit=<value>      [default: 10] Items per page
   --meetingId=<value>  Filter by Meeting ID
   --page=<value>       [default: 1] Page number
@@ -76,7 +85,7 @@ Create a speaker summary
 ```
 USAGE
   $ nove minute speaker-summary create MINUTEID --partSummary <value> --platformUserId <value> [--aiModel <value>] [--generatedBy
-    AI|HYBRID|MANUAL] [--keywords <value>...]
+    AI|HYBRID|MANUAL] [--json] [--keywords <value>...]
 
 ARGUMENTS
   MINUTEID  Minute ID
@@ -85,6 +94,7 @@ FLAGS
   --aiModel=<value>         AI model used to generate the summary
   --generatedBy=<option>    Generation method
                             <options: AI|HYBRID|MANUAL>
+  --json                    Output a single JSON value to stdout
   --keywords=<value>...     Summary keyword (repeat for multiple)
   --partSummary=<value>     (required) Speaker summary text
   --platformUserId=<value>  (required) Platform user ID
@@ -101,11 +111,16 @@ Delete a speaker summary
 
 ```
 USAGE
-  $ nove minute speaker-summary delete MINUTEID SUMMARYID
+  $ nove minute speaker-summary delete MINUTEID SUMMARYID [--dry-run] [-y] [--json]
 
 ARGUMENTS
   MINUTEID   Minute ID
   SUMMARYID  Speaker summary ID
+
+FLAGS
+  -y, --yes      Skip the interactive confirmation
+      --dry-run  Show what would be deleted without sending the request
+      --json     Output a single JSON value to stdout
 
 DESCRIPTION
   Delete a speaker summary
@@ -119,11 +134,14 @@ Get a speaker summary
 
 ```
 USAGE
-  $ nove minute speaker-summary get MINUTEID SUMMARYID
+  $ nove minute speaker-summary get MINUTEID SUMMARYID [--json]
 
 ARGUMENTS
   MINUTEID   Minute ID
   SUMMARYID  Speaker summary ID
+
+FLAGS
+  --json  Output a single JSON value to stdout
 
 DESCRIPTION
   Get a speaker summary
@@ -137,12 +155,13 @@ List speaker summaries for a meeting minute
 
 ```
 USAGE
-  $ nove minute speaker-summary list MINUTEID [--limit <value>] [--page <value>]
+  $ nove minute speaker-summary list MINUTEID [--json] [--limit <value>] [--page <value>]
 
 ARGUMENTS
   MINUTEID  Minute ID
 
 FLAGS
+  --json           Output a single JSON value to stdout
   --limit=<value>  [default: 20] Items per page
   --page=<value>   [default: 1] Page number
 
@@ -158,13 +177,14 @@ Update a speaker summary
 
 ```
 USAGE
-  $ nove minute speaker-summary update MINUTEID SUMMARYID [--keywords <value>...] [--partSummary <value>]
+  $ nove minute speaker-summary update MINUTEID SUMMARYID [--json] [--keywords <value>...] [--partSummary <value>]
 
 ARGUMENTS
   MINUTEID   Minute ID
   SUMMARYID  Speaker summary ID
 
 FLAGS
+  --json                 Output a single JSON value to stdout
   --keywords=<value>...  Summary keyword (repeat for multiple)
   --partSummary=<value>  Speaker summary text
 
@@ -180,7 +200,7 @@ Get transcript for a meeting minute
 
 ```
 USAGE
-  $ nove minute transcript MINUTEID [--format text|json]
+  $ nove minute transcript MINUTEID [--format text|json] [--json]
 
 ARGUMENTS
   MINUTEID  Minute ID
@@ -188,6 +208,7 @@ ARGUMENTS
 FLAGS
   --format=<option>  [default: text] Format (text or json)
                      <options: text|json>
+  --json             Output a single JSON value to stdout
 
 DESCRIPTION
   Get transcript for a meeting minute

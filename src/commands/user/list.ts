@@ -1,11 +1,13 @@
 import { Command, Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
 export default class UserList extends Command {
   static description = 'List users';
   static flags = {
     active: Flags.boolean({ allowNo: true, description: 'Filter by active status' }),
+    json: jsonFlag,
     keyword: Flags.string({ description: 'Search keyword (username, email, phone, display name)' }),
     limit: Flags.integer({ default: 20, description: 'Items per page' }),
     page: Flags.integer({ default: 1, description: 'Page number' }),
@@ -28,9 +30,9 @@ export default class UserList extends Command {
       if (flags.active !== undefined) queryParams.append('active', flags.active.toString());
 
       const data = await fetchApi(`/admin/users?${queryParams.toString()}`, {}, this.config.configDir);
-      this.log(JSON.stringify(data, null, 2));
+      outputResult(this, data, { json: flags.json });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, flags.json);
     }
   }
 }

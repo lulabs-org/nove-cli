@@ -1,11 +1,13 @@
 import { Command, Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
 export default class MeetingStats extends Command {
   static description = 'Get meeting statistics';
 static flags = {
     endDate: Flags.string({ description: 'End date (ISO string)' }),
+    json: jsonFlag,
     startDate: Flags.string({ description: 'Start date (ISO string)' }),
   };
 
@@ -20,9 +22,9 @@ static flags = {
       const qs = queryParams.toString() ? `?${queryParams.toString()}` : '';
       const data = await fetchApi(`/meetings/stats/summary${qs}`, {}, this.config.configDir);
       
-      this.log(JSON.stringify(data, null, 2));
+      outputResult(this, data, { json: flags.json });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, flags.json);
     }
   }
 }

@@ -1,6 +1,7 @@
 import { Args, Command, Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
 export default class UserUpdate extends Command {
   static args = {
@@ -20,6 +21,7 @@ static flags = {
     email: Flags.string({ description: 'Email address' }),
     firstName: Flags.string({ description: 'First name' }),
     gender: Flags.string({ description: 'Gender (e.g. MALE, FEMALE, OTHER)' }),
+    json: jsonFlag,
     lastName: Flags.string({ description: 'Last name' }),
     phone: Flags.string({ description: 'Phone number without country code' }),
     username: Flags.string({ description: 'Username' }),
@@ -30,23 +32,26 @@ static flags = {
   public async run(): Promise<void> {
     const { args, flags } = await this.parse(UserUpdate);
 
-    if (Object.keys(flags).length === 0) {
-      this.error('No fields provided to update.');
+    const { json, ...body } = flags;
+    if (Object.keys(body).length === 0) {
+      handleCommandError(this, new Error('No fields provided to update.'), json);
     }
 
     try {
       const data = await fetchApi(
         `/admin/users/${args.id}`,
         {
-          body: JSON.stringify(flags),
+          body: JSON.stringify(body),
           method: 'PATCH',
         },
         this.config.configDir
       );
-      this.log('✅ User updated successfully.');
-      this.log(JSON.stringify(data, null, 2));
+      outputResult(this, data, {
+        json,
+        successMessage: '✅ User updated successfully.',
+      });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, json);
     }
   }
 }

@@ -11,11 +11,14 @@ Set a configuration value
 
 ```
 USAGE
-  $ nove config set KEY VALUE
+  $ nove config set KEY VALUE [--json]
 
 ARGUMENTS
   KEY    Configuration key (e.g., api-url)
   VALUE  Configuration value
+
+FLAGS
+  --json  Output a single JSON value to stdout
 
 DESCRIPTION
   Set a configuration value
