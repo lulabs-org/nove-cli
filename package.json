@@ -12,6 +12,7 @@
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
     "@oclif/plugin-warn-if-update-available": "^3.1.73",
+    "open": "^11.0.1",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

@@ -1,24 +1,28 @@
 `nove login`
 ============
 
-Validate and securely store a Nove API Key
+Sign in through the browser, or validate an API Key for automation
 
 * [`nove login`](#nove-login)
 
 ## `nove login`
 
-Validate and securely store a Nove API Key
+Sign in through the browser, or validate an API Key for automation
 
 ```
 USAGE
-  $ nove login [--api-key-stdin] [--json]
+  $ nove login [--api-key-stdin] [--json] [--method oauth|api-key] [--no-browser] [--scope <value>...]
 
 FLAGS
-  --api-key-stdin  Read the API Key from stdin
-  --json           Output a single JSON value to stdout
+  --api-key-stdin     Read the API Key from stdin
+  --json              Output a single JSON value to stdout
+  --method=<option>   Choose the login method
+                      <options: oauth|api-key>
+  --no-browser        Print the authorization URL instead of opening a browser
+  --scope=<value>...  Limit permissions offered on the consent page (repeatable)
 
 DESCRIPTION
-  Validate and securely store a Nove API Key
+  Sign in through the browser, or validate an API Key for automation
 ```
 
 _See code: [src/commands/login/index.ts](https://github.com/lulabs-org/nove-cli/blob/v1.1.0/src/commands/login/index.ts)_

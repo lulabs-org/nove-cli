@@ -1,16 +1,27 @@
 
-import { removeApiKey } from '../../utils/auth.js';
+import { Flags } from '@oclif/core';
+
+import { getStoredAuth, removeCredential } from '../../utils/auth.js';
 import { NoveCommand } from '../../utils/nove-command.js';
+import { revokeOAuthCredential } from '../../utils/oauth.js';
 import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
 
 export default class Logout extends NoveCommand {
-  static description = 'Remove the locally stored Nove API credential';
-  static flags = { json: jsonFlag };
+  static description = 'Revoke OAuth access and remove the locally stored credential';
+  static flags = {
+    json: jsonFlag,
+    'local-only': Flags.boolean({ description: 'Remove local OAuth state without contacting the API' }),
+  };
 
   public async run(): Promise<void> {
     const { flags } = await this.parse(Logout);
     try {
-      const removed = removeApiKey(this.config.configDir);
+      const auth = getStoredAuth(this.config.configDir);
+      if (auth?.method === 'oauth' && !flags['local-only']) {
+        await revokeOAuthCredential(this.config.configDir);
+      }
+
+      const removed = removeCredential(this.config.configDir);
       outputResult(this, { authenticated: false, removed }, {
         json: flags.json,
         successMessage: removed ? 'Logged out successfully.' : 'No stored credential was found.',
