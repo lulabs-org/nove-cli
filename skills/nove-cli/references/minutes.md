@@ -1,8 +1,10 @@
-# 会议记录与转写
+# 会议记录、转写与参会者总结
 
 用于列出会议记录、查看记录详情、读取转写、管理参会者总结，以及删除记录。
 
 会议 ID 用于筛选记录；记录 ID 用于详情、转写、参会者总结和删除；总结 ID 只标识一条参会者总结。不要把这些 ID 互换。
+
+完整资源关系见 [identifiers-and-relations.md](identifiers-and-relations.md)。需要分页合并、JSON 解析、空结果或错误恢复时读取 [output-and-errors.md](output-and-errors.md)。
 
 ## 命令
 
@@ -37,6 +39,8 @@ nove minute list \
 
 用户要求全部记录时使用 `--all`，不要再同时传 `--page`。需要机器处理时使用 `--json`，且不要同时传 `--fields` 或 `--sort`。存在多条记录时，根据记录 ID、来源、错误信息和时间选择；信息不足时让用户确认，不默认取第一条。
 
+列表 `--json` 的数组位于 `data`。表格默认展示 `id`、`meetingId`、`source`、`errorMessage`、`startAt`、`createdAt`；`errorMessage` 为非空时，该记录不能作为正常转写或总结来源。
+
 ## 获取转写
 
 获取转写前先确认记录详情：
@@ -50,6 +54,8 @@ nove minute transcript <minute-id> --format json --json
 
 若记录包含 `errorMessage`，先报告错误并停止，不用其他会议或记录的内容替代。没有错误但转写尚不可用时，明确说明资源尚未生成。
 
+`--format json` 控制 API 返回分段结构，外层 `--json` 控制 CLI 输出协议；自动化分析通常两者都需要。只添加外层 `--json` 不会把文本转写自动变成分段数据。
+
 ## 参会者总结
 
 查询总结列表时使用记录 ID，支持 `--page`（默认 `1`）和 `--limit`（默认 `20`，最大 `100`）：
@@ -60,6 +66,8 @@ nove minute speaker-summary get <minute-id> <summary-id>
 ```
 
 用户要求全部总结时使用 `--all`，不把当前页当成完整结果。列表默认表格；`--fields`、`--sort` 与 `--json` 不同时使用。
+
+总结列表数组位于 `data`。`platformUserId` 标识平台身份，列表项 `id` 才是 summary ID；更新或删除必须传 summary ID。
 
 创建总结必须提供平台用户 ID 和正文。关键词参数可重复；`--generated-by` 支持 `AI`、`HYBRID` 和 `MANUAL`：
 

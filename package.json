@@ -74,6 +74,9 @@
       "minute": {
         "description": "Manage meeting minutes and transcripts"
       },
+      "tracking-report": {
+        "description": "Manage tracking reports"
+      },
       "user": {
         "description": "Manage user accounts"
       }

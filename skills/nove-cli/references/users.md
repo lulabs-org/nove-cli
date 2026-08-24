@@ -2,6 +2,8 @@
 
 用于查询、创建、更新、删除或批量导入 Nove 用户。
 
+本地用户、平台用户和参会快照的区别见 [identifiers-and-relations.md](identifiers-and-relations.md)。需要分页、JSON、批量结果或错误处理时读取 [output-and-errors.md](output-and-errors.md)。
+
 ## 命令
 
 | 任务 | 命令 |
@@ -49,7 +51,7 @@ JSON 结构需要区分：`user list --json` 的每个列表项将 `displayName`
 
 导入接受 CSV 或 XLSX 文件，并会直接写入服务端；当前命令没有 dry-run。
 
-服务端单次最多接受 5 MiB、5000 条数据。首行是表头，常用英文字段为 `username`、`email`、`countryCode`、`phone`、`displayName`、`avatar`、`bio`、`firstName`、`lastName`、`dateOfBirth`、`gender`、`address`、`city`、`country`、`zipCode`、`website`、`active`；也接受对应中文表头。每行至少包含用户名、邮箱或手机号之一，手机号与国家代码成对提供。
+按当前 API 契约，服务端单次最多接受 5 MiB、5000 条数据；这是服务端限制，不应由 CLI 本地检查结果推断线上契约始终不变。首行是表头，常用英文字段为 `username`、`email`、`countryCode`、`phone`、`displayName`、`avatar`、`bio`、`firstName`、`lastName`、`dateOfBirth`、`gender`、`address`、`city`、`country`、`zipCode`、`website`、`active`；也接受对应中文表头。每行至少包含用户名、邮箱或手机号之一，手机号与国家代码成对提供。
 
 导入中的 `active` 可使用 `true/false`、`1/0`、`是/否`、`启用/停用`；`gender` 可使用 `MALE/FEMALE/OTHER/PREFER_NOT_TO_SAY` 或 `男/女/其他/不愿透露`。不要把未识别表头或枚举值当作已成功导入。
 

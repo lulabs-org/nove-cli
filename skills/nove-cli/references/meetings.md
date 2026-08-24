@@ -1,8 +1,10 @@
-# 会议记录
+# 会议资源
 
-用于查询会议、统计、参会人，以及创建、更新或删除 Nove 中的会议记录。
+用于查询会议、统计、参会人，以及创建、更新或删除 Nove 中的会议资源。会议记录、转写和参会者总结属于 `minute` 领域。
 
 `nove meeting create` 只创建 Nove 内部记录，不会在飞书或腾讯会议中安排真实日程。
+
+会议、平台会议号、参会快照和用户身份的区别见 [identifiers-and-relations.md](identifiers-and-relations.md)。涉及完整分页、JSON 或错误判断时读取 [output-and-errors.md](output-and-errors.md)。
 
 ## 命令
 
@@ -12,9 +14,9 @@
 | 获取详情 | `nove meeting get <meeting-id>` |
 | 查询统计 | `nove meeting stats` |
 | 查询参会人 | `nove meeting participants <meeting-id>` |
-| 创建记录 | `nove meeting create --platform <platform> --platform-meeting-id <id> --title <title> --type <type>` |
-| 更新记录 | `nove meeting update <meeting-id> --title <title>` |
-| 删除记录 | `nove meeting delete <meeting-id>` |
+| 创建会议资源 | `nove meeting create --platform <platform> --platform-meeting-id <id> --title <title> --type <type>` |
+| 更新会议资源 | `nove meeting update <meeting-id> --title <title>` |
+| 删除会议资源 | `nove meeting delete <meeting-id>` |
 
 执行前用 `nove meeting <command> --help` 核对当前参数。
 
@@ -46,6 +48,8 @@ nove meeting list \
 
 多条会议名称相近时，展示标题、会议 ID、平台和时间，让用户选择；不要根据标题猜测目标 ID。
 
+列表表格默认展示 `id`、`title`、`platform`、`startAt`、`participantCount`；这些字段用于浏览，不代表完整对象。`--json` 的结果数组位于 `data`，跨步骤必须从每项 `id` 取得 Nove meeting ID。
+
 ## 统计与参会人
 
 统计命令接受 `--start-date` 和 `--end-date`，也支持自然日查询：
@@ -61,6 +65,8 @@ nove meeting participants <meeting-id> --search <name> --all
 ```
 
 查询“谁参加过”时使用参会人接口，不要把转写中出现的人名当作完整参会人名单。
+
+参会人表格中的行 `id` 是 participant ID；`platformUser.id` 与 `user.id` 分别表示平台身份和本地用户。默认字段使用点路径展示嵌套身份。需要判断关联关系或处理同名成员时使用 `--json`，不要从显示名反推用户 ID。
 
 ## 创建与更新
 
