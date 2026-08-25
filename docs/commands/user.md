@@ -18,8 +18,8 @@ Create a new user
 USAGE
   $ nove user create [--active] [--address <value>] [--avatar <value>] [--bio <value>] [--city <value>]
     [--country <value>] [--country-code <value>] [--date-of-birth <value>] [--display-name <value>] [--email <value>]
-    [--first-name <value>] [--gender MALE|FEMALE|OTHER] [--last-name <value>] [--phone <value>] [--username <value>]
-    [--website <value>] [--zip-code <value>] [--json]
+    [--full-name <value>] [--gender MALE|FEMALE|OTHER] [--phone <value>] [--username <value>] [--website <value>]
+    [--zip-code <value>] [--json]
 
 FLAGS
   --[no-]active            Active status
@@ -32,11 +32,10 @@ FLAGS
   --date-of-birth=<value>  Date of birth (YYYY-MM-DD)
   --display-name=<value>   Display name
   --email=<value>          Email address
-  --first-name=<value>     First name
+  --full-name=<value>      Full name supplied by the user (not verified)
   --gender=<option>        Gender
                            <options: MALE|FEMALE|OTHER>
   --json                   Output a single JSON value to stdout
-  --last-name=<value>      Last name
   --phone=<value>          Phone number without country code
   --username=<value>       Username
   --website=<value>        Personal website URL
@@ -145,8 +144,8 @@ Update an existing user
 USAGE
   $ nove user update ID [--active] [--address <value>] [--avatar <value>] [--bio <value>] [--city <value>]
     [--country <value>] [--country-code <value>] [--date-of-birth <value>] [--display-name <value>] [--email <value>]
-    [--first-name <value>] [--gender MALE|FEMALE|OTHER] [--last-name <value>] [--phone <value>] [--username <value>]
-    [--website <value>] [--zip-code <value>] [--json]
+    [--full-name <value>] [--gender MALE|FEMALE|OTHER] [--phone <value>] [--username <value>] [--website <value>]
+    [--zip-code <value>] [--json]
 
 ARGUMENTS
   ID  User ID
@@ -162,11 +161,10 @@ FLAGS
   --date-of-birth=<value>  Date of birth (YYYY-MM-DD)
   --display-name=<value>   Display name
   --email=<value>          Email address
-  --first-name=<value>     First name
+  --full-name=<value>      Full name supplied by the user (not verified)
   --gender=<option>        Gender
                            <options: MALE|FEMALE|OTHER>
   --json                   Output a single JSON value to stdout
-  --last-name=<value>      Last name
   --phone=<value>          Phone number without country code
   --username=<value>       Username
   --website=<value>        Personal website URL
