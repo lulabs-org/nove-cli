@@ -28,27 +28,43 @@ nove config set base-url https://api.example.com
 
 ## 登录
 
-默认让用户在自己的终端交互式输入 API Key：
+交互式终端运行 `nove login` 后会选择登录方式。浏览器 OAuth 授权适合个人登录并允许用户在授权页选择组织和权限；API Key 适合自动化与服务账号：
 
 ```bash
+# 交互式选择浏览器 OAuth（推荐）或 API Key
 nove login
+
+# 明确使用浏览器 OAuth；无法自动打开浏览器时输出授权地址
+nove login --method oauth
+nove login --method oauth --no-browser
+
+# 限制授权页可选择的权限；--scope 可以重复
+nove login --method oauth --scope meeting:read --scope minute:read
 ```
 
-不要让用户把 API Key 发到对话中，不要把 API Key 放入命令参数，也不要读取或展示 CLI 配置目录中的 `auth.json`。
+OAuth 登录使用授权码与 PKCE，并通过本机回调完成认证。不要代替用户在授权页扩大权限，也不要读取或展示 CLI 配置目录中的 `auth.json`。
 
-自动化环境应由 secret manager 设置 `NOVE_API_KEY` 后运行 `nove login`，或通过标准输入调用 `nove login --api-key-stdin`。不要把真实 Key 写入命令文本、日志或回复。
+非交互式终端和 `--json` 模式不会显示选择菜单；没有可推断的登录来源时必须明确传入 `--method oauth` 或 `--method api-key`。自动化环境应由 secret manager 设置 `NOVE_API_KEY`，或通过标准输入提供 API Key：
 
-登录会先向目标 Nove API 校验 Key，验证通过后才写入本地凭据文件；网络不可达、Key 无效或服务未提供校验端点时不会保存。
+```bash
+nove login --method api-key
+printf '%s' "$NOVE_API_KEY" | nove login --method api-key --api-key-stdin
+```
 
-查看状态和退出登录不会暴露凭据：
+不要让用户把 API Key 发到对话中，也不要把 API Key 放入命令参数、日志或回复。API Key 登录会先向目标 Nove API 校验 Key，验证通过后才写入本地凭据；网络不可达、Key 无效或服务未提供校验端点时不会保存。
+
+## 查看状态与退出登录
+
+查看状态使用 `auth` 主题，退出登录只使用顶层命令：
 
 ```bash
 nove auth status
 nove auth status --json
 nove logout
+nove logout --json
 ```
 
-`auth status` 只报告是否已认证及凭据更新时间，不返回 API Key。`logout` 可以重复执行，未登录时也不会暴露或伪造凭据信息。
+`auth status` 只报告非敏感的登录方式、组织、权限和有效期等状态，不返回 API Key 或 Token。`nove logout` 对 OAuth 凭据默认先请求服务端撤销，再删除本地凭据；只有在服务端不可用且用户明确接受仅清理本地状态时才使用 `nove logout --local-only`。API Key 登录退出时只删除本地凭据。`logout` 可以重复执行，未登录时也不会暴露或伪造凭据信息。
 
 凭据文件写入时权限应为 `0600`。如果凭据或配置文件存在但 JSON 已损坏、结构不合法或字段类型错误，CLI 会明确报错；不要把它解释成“未登录”，也不要为了绕过错误读取、重写或删除用户文件。
 

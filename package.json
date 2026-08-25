@@ -1,7 +1,7 @@
 {
   "name": "@novesuite/cli",
   "description": "Command Line Interface for managing Nove API resources (Meetings, Users, etc.)",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "author": "杨仕明 <shiming.y@qq.com>",
   "bin": {
     "nove": "./bin/run.js"
@@ -12,6 +12,7 @@
     "@oclif/core": "^4",
     "@oclif/plugin-help": "^6",
     "@oclif/plugin-warn-if-update-available": "^3.1.73",
+    "open": "^11.0.1",
     "xlsx": "^0.18.5"
   },
   "devDependencies": {

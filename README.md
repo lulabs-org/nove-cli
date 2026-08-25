@@ -54,7 +54,7 @@ $ npm install -g @novesuite/cli
 $ nove COMMAND
 running command...
 $ nove (--version)
-@novesuite/cli/1.1.0 darwin-arm64 node-v22.23.1
+@novesuite/cli/1.2.0 darwin-arm64 node-v22.23.1
 $ nove --help [COMMAND]
 USAGE
   $ nove COMMAND
@@ -69,8 +69,8 @@ USAGE
 * [`nove auth`](docs/commands/auth.md) - Inspect local authentication state
 * [`nove config`](docs/commands/config.md) - Set a configuration value
 * [`nove help`](docs/commands/help.md) - Display help for nove.
-* [`nove login`](docs/commands/login.md) - Validate and securely store a Nove API Key
-* [`nove logout`](docs/commands/logout.md) - Remove the locally stored Nove API credential
+* [`nove login`](docs/commands/login.md) - Sign in through the browser, or validate an API Key for automation
+* [`nove logout`](docs/commands/logout.md) - Revoke OAuth access and remove the locally stored credential
 * [`nove meeting`](docs/commands/meeting.md) - Manage meeting records
 * [`nove minute`](docs/commands/minute.md) - Manage meeting minutes and transcripts
 * [`nove tracking-report`](docs/commands/tracking-report.md) - Manage tracking reports
