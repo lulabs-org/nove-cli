@@ -1,5 +1,5 @@
-import { getApiKey } from './auth.js';
-import { getConfig } from './config.js';
+import { getStoredAuth } from './auth.js';
+import { getBaseUrl, refreshOAuthAccessToken } from './oauth.js';
 
 type FetchOptions = NonNullable<Parameters<typeof globalThis.fetch>[1]>;
 
@@ -29,13 +29,21 @@ interface RequestAttemptControl {
 }
 
 interface RequestContext {
+  authMethod: 'api_key' | 'oauth';
+  configDir: string;
   fetchOptions: FetchOptions;
   headers: Headers;
   maxRetries: number;
   method: string;
+  oauthRefreshAttempted: boolean;
   retryDelayMs: number;
   timeoutMs: number;
   url: URL;
+}
+
+interface ResolvedCredential {
+  method: 'api_key' | 'oauth';
+  value: string;
 }
 
 export class ApiError extends Error {
@@ -157,9 +165,10 @@ function createFetchOptions(options: FetchApiOptions): FetchOptions {
   return fetchOptions;
 }
 
-function createHeaders(apiKey: string, method: string, fetchOptions: FetchOptions): Headers {
+function createHeaders(credential: ResolvedCredential, method: string, fetchOptions: FetchOptions): Headers {
   const headers = new globalThis.Headers(fetchOptions.headers);
-  headers.set('x-api-key', apiKey);
+  if (credential.method === 'api_key') headers.set('x-api-key', credential.value);
+  else headers.set('Authorization', `Bearer ${credential.value}`);
   if (
     !headers.has('Content-Type') &&
     method !== 'GET' &&
@@ -181,29 +190,38 @@ function createAttemptControl(externalSignal: AbortSignal | null | undefined, ti
   return { signal, timeout, timeoutController };
 }
 
-function createRequestContext(
-  endpoint: string,
-  options: FetchApiOptions,
-  configDir: string,
-  apiKeyOverride?: string
-): RequestContext {
-  const apiKey = apiKeyOverride ?? getApiKey(configDir);
-  if (!apiKey) {
-    throw new ApiError('API Key is missing. Please run `nove login` first.', {
+async function resolveCredential(configDir: string, apiKeyOverride?: string): Promise<ResolvedCredential> {
+  if (apiKeyOverride) return { method: 'api_key', value: apiKeyOverride };
+  const auth = getStoredAuth(configDir);
+  if (!auth) {
+    throw new ApiError('Credential is missing. Please run `nove login` first.', {
       code: 'AUTHENTICATION_REQUIRED',
     });
   }
 
-  const config = getConfig(configDir);
-  const baseUrl = process.env.NOVE_API_URL || config.baseUrl || 'https://noveapi.proflu.cn';
+  if (auth.method === 'api_key') return { method: 'api_key', value: auth.apiKey };
+  return { method: 'oauth', value: await refreshOAuthAccessToken(configDir) };
+}
+
+async function createRequestContext(
+  endpoint: string,
+  options: FetchApiOptions,
+  configDir: string,
+  apiKeyOverride?: string
+): Promise<RequestContext> {
+  const credential = await resolveCredential(configDir, apiKeyOverride);
+  const baseUrl = getBaseUrl(configDir);
   const method = (options.method ?? 'GET').toUpperCase();
   const fetchOptions = createFetchOptions(options);
   const canRetry = method === 'GET' || method === 'HEAD';
   return {
+    authMethod: credential.method,
+    configDir,
     fetchOptions,
-    headers: createHeaders(apiKey, method, fetchOptions),
+    headers: createHeaders(credential, method, fetchOptions),
     maxRetries: canRetry ? (options.retries ?? DEFAULT_RETRIES) : 0,
     method,
+    oauthRefreshAttempted: false,
     retryDelayMs: options.retryDelayMs ?? 250,
     timeoutMs: options.timeoutMs ?? DEFAULT_TIMEOUT_MS,
     url: createRequestUrl(baseUrl, endpoint),
@@ -288,6 +306,23 @@ async function performRequestAttempt<T>(context: RequestContext, attempt: number
       method: context.method,
       signal: control.signal,
     });
+    if (response.status === 401 && context.authMethod === 'oauth' && !context.oauthRefreshAttempted) {
+      await response.body?.cancel();
+      context.oauthRefreshAttempted = true;
+      try {
+        const accessToken = await refreshOAuthAccessToken(context.configDir, true);
+        context.headers.set('Authorization', `Bearer ${accessToken}`);
+      } catch (error) {
+        throw new ApiError('OAuth credential expired. Run `nove login` again.', {
+          cause: error,
+          code: 'API_AUTHENTICATION_ERROR',
+          status: 401,
+        });
+      }
+
+      return performRequestAttempt<T>(context, attempt);
+    }
+
     if (shouldRetry(context, attempt, response)) return retryRequest<T>(context, attempt, response);
     return handleResponse<T>(response);
   } catch (error: unknown) {
@@ -302,12 +337,13 @@ export function fetchApi<T = unknown>(
   options: FetchApiOptions = {},
   configDir: string
 ): Promise<T> {
-  return performRequestAttempt<T>(createRequestContext(endpoint, options, configDir), 0);
+  return createRequestContext(endpoint, options, configDir)
+    .then((context) => performRequestAttempt<T>(context, 0));
 }
 
 export async function verifyApiKey(apiKey: string, configDir: string): Promise<void> {
   const response = await performRequestAttempt<unknown>(
-    createRequestContext('/api/auth/api-key/validate', {}, configDir, apiKey),
+    await createRequestContext('/api/auth/api-key/validate', {}, configDir, apiKey),
     0
   );
   if (

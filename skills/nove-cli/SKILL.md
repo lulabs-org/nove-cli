@@ -36,7 +36,7 @@ description: 使用 nove CLI 配置和访问 Nove API，查询或管理会议资
 
 | 用户意图 | 路由 |
 | --- | --- |
-| 登录、切换 API 地址、排查认证或连接错误 | 读取 [authentication-and-config.md](references/authentication-and-config.md) |
+| 登录、退出登录、查看认证状态、切换 API 地址或排查认证/连接错误 | 读取 [authentication-and-config.md](references/authentication-and-config.md) |
 | 查询或维护会议资源、统计和参会人 | 读取 [meetings.md](references/meetings.md) |
 | 查询会议记录、读取转写、管理参会者总结，或删除记录 | 读取 [minutes.md](references/minutes.md) |
 | 查询、创建、更新或删除追踪报告 | 读取 [tracking-reports.md](references/tracking-reports.md) |

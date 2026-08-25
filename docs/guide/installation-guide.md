@@ -32,20 +32,29 @@ nove config set base-url <YOUR_API_URL>
 
 ## 第 3 步 登录
 
-运行以下命令并输入您的 API Key 完成认证授权：
+在交互式终端运行以下命令后，CLI 会先让你选择“浏览器授权”或“API Key”。浏览器授权为推荐选项，选择后请在 Nove 控制台选择组织和权限并同意授权：
 
 ```shell
-# 交互式安全输入 API Key
+# 推荐：浏览器授权码 + PKCE 登录
 nove login
 
-# 或从标准输入读取（适合由密码管理器或 CI secret 注入）
-printf '%s' "$NOVE_API_KEY" | nove login --api-key-stdin
+# 跳过选择，直接使用浏览器授权
+nove login --method oauth
 
-# 已由 secret manager 设置 NOVE_API_KEY 时也可直接登录
-nove login
+# 无法自动打开浏览器时，打印可复制的授权地址
+nove login --no-browser
+
+# 只在授权页提供指定权限（参数可重复）
+nove login --scope meeting:read --scope minute:read
+
+# 自动化环境继续支持 API Key 标准输入
+printf '%s' "$NOVE_API_KEY" | nove login --method api-key --api-key-stdin
+
+# 已由 secret manager 设置 NOVE_API_KEY 时自动使用 API Key 模式
+nove login --method api-key
 ```
 
-不要把 API Key 放入命令参数。CLI 会以 `0600` 权限保存本地凭据。可用 `nove auth status` 查看认证状态，用 `nove logout` 删除本地凭据；这些命令都不会输出 API Key。
+非交互式终端和 `--json` 模式不会显示选择菜单。没有其他方式提示时，必须使用 `--method oauth` 或 `--method api-key`；`NOVE_API_KEY`、`--api-key-stdin` 会自动识别为 API Key 模式，`--no-browser`、`--scope` 会自动识别为 OAuth 模式。不要把 API Key 放入命令参数。CLI 会以 `0600` 权限保存本地凭据，并在 OAuth Access Token 过期时自动轮换 Refresh Token。可用 `nove auth status` 查看登录方式、组织、权限和到期时间；用 `nove logout` 撤销 OAuth 授权并删除本地凭据。这些命令都不会输出 API Key 或 Token。
 
 ## 第 4 步 验证
 
@@ -55,7 +64,7 @@ nove login
 # 获取 CLI 帮助信息
 nove help
 
-# 检查认证状态（不会显示 API Key）
+# 检查认证状态（不会显示 API Key 或 Token）
 nove auth status
 
 # 列出会议数据以测试连通性

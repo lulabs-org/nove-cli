@@ -43,8 +43,11 @@ export default defineConfig({
         items: [
           { link: '/commands/config', text: '配置' },
           { link: '/commands/login', text: '登录' },
+          { link: '/commands/auth', text: '认证状态' },
+          { link: '/commands/logout', text: '退出登录' },
           { link: '/commands/meeting', text: '会议' },
           { link: '/commands/minute', text: '纪要' },
+          { link: '/commands/tracking-report', text: '追踪报告' },
           { link: '/commands/user', text: '用户' },
           { link: '/commands/help', text: '帮助' },
         ],
