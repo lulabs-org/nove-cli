@@ -45,7 +45,7 @@ DESCRIPTION
   Create a new user
 ```
 
-_See code: [src/commands/user/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.2.0/src/commands/user/create.ts)_
+_See code: [src/commands/user/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.1/src/commands/user/create.ts)_
 
 ## `nove user delete ID`
 
@@ -67,7 +67,7 @@ DESCRIPTION
   Delete a user by ID
 ```
 
-_See code: [src/commands/user/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.2.0/src/commands/user/delete.ts)_
+_See code: [src/commands/user/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.1/src/commands/user/delete.ts)_
 
 ## `nove user get ID`
 
@@ -87,7 +87,7 @@ DESCRIPTION
   Get user details by ID
 ```
 
-_See code: [src/commands/user/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.2.0/src/commands/user/get.ts)_
+_See code: [src/commands/user/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.1/src/commands/user/get.ts)_
 
 ## `nove user import`
 
@@ -105,7 +105,7 @@ DESCRIPTION
   Import users from a CSV or XLSX file
 ```
 
-_See code: [src/commands/user/import.ts](https://github.com/lulabs-org/nove-cli/blob/v1.2.0/src/commands/user/import.ts)_
+_See code: [src/commands/user/import.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.1/src/commands/user/import.ts)_
 
 ## `nove user list`
 
@@ -134,7 +134,7 @@ DESCRIPTION
   List users
 ```
 
-_See code: [src/commands/user/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.2.0/src/commands/user/list.ts)_
+_See code: [src/commands/user/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.1/src/commands/user/list.ts)_
 
 ## `nove user update ID`
 
@@ -174,4 +174,4 @@ DESCRIPTION
   Update an existing user
 ```
 
-_See code: [src/commands/user/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.2.0/src/commands/user/update.ts)_
+_See code: [src/commands/user/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.1/src/commands/user/update.ts)_

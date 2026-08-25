@@ -21,4 +21,4 @@ DESCRIPTION
   Revoke OAuth access and remove the locally stored credential
 ```
 
-_See code: [src/commands/logout/index.ts](https://github.com/lulabs-org/nove-cli/blob/v1.2.0/src/commands/logout/index.ts)_
+_See code: [src/commands/logout/index.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.1/src/commands/logout/index.ts)_
