@@ -1,33 +1,44 @@
-import { Args, Command, Flags } from '@oclif/core';
+import { Args, Flags } from '@oclif/core';
 
 import { fetchApi } from '../../../utils/api.js';
+import { NoveCommand } from '../../../utils/nove-command.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../../utils/output.js';
 
-export default class MinuteSpeakerSummaryUpdate extends Command {
+export default class MinuteSpeakerSummaryUpdate extends NoveCommand {
   static args = {
     minuteId: Args.string({ description: 'Minute ID', required: true }),
     summaryId: Args.string({ description: 'Speaker summary ID', required: true }),
   };
   static description = 'Update a speaker summary';
   static flags = {
+    json: jsonFlag,
     keywords: Flags.string({ description: 'Summary keyword (repeat for multiple)', multiple: true }),
-    partSummary: Flags.string({ description: 'Speaker summary text' }),
+    'part-summary': Flags.string({ aliases: ['partSummary'], description: 'Speaker summary text' }),
   };
 
   public async run(): Promise<void> {
     const { args, flags } = await this.parse(MinuteSpeakerSummaryUpdate);
 
-    if (Object.keys(flags).length === 0) this.error('No fields provided to update.');
+    const body = Object.fromEntries(Object.entries({
+      keywords: flags.keywords,
+      partSummary: flags['part-summary'],
+    }).filter(([, value]) => value !== undefined));
+    if (Object.keys(body).length === 0) {
+      handleCommandError(this, new Error('No fields provided to update.'), flags.json);
+    }
 
     try {
       const data = await fetchApi(
         `/minutes/${args.minuteId}/speaker-summaries/${args.summaryId}`,
-        { body: JSON.stringify(flags), method: 'PUT' },
+        { body: JSON.stringify(body), method: 'PUT' },
         this.config.configDir
       );
-      this.log('✅ Speaker summary updated successfully.');
-      this.log(JSON.stringify(data, null, 2));
+      outputResult(this, data, {
+        json: flags.json,
+        successMessage: '✅ Speaker summary updated successfully.',
+      });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, flags.json);
     }
   }
 }

@@ -1,36 +1,50 @@
-import { Command, Flags } from '@oclif/core';
+import { Flags } from '@oclif/core';
 
 import { fetchApi } from '../../utils/api.js';
+import { allFlag, fetchAllPages, fieldsFlag, outputList, sortFlag, validateListFlags } from '../../utils/list-output.js';
+import { NoveCommand } from '../../utils/nove-command.js';
+import { handleCommandError, jsonFlag } from '../../utils/output.js';
+import { SORT_ORDERS, USER_SORT_FIELDS } from '../../utils/validation.js';
 
-export default class UserList extends Command {
+export default class UserList extends NoveCommand {
   static description = 'List users';
   static flags = {
     active: Flags.boolean({ allowNo: true, description: 'Filter by active status' }),
-    keyword: Flags.string({ description: 'Search keyword (username, email, phone, display name)' }),
-    limit: Flags.integer({ default: 20, description: 'Items per page' }),
-    page: Flags.integer({ default: 1, description: 'Page number' }),
-    sortBy: Flags.string({ default: 'createdAt', description: 'Sort field (createdAt, updatedAt, lastLoginAt, username, email)' }),
-    sortOrder: Flags.string({ default: 'desc', description: 'Sort order (asc, desc)' }),
+    all: allFlag,
+    fields: fieldsFlag,
+    json: jsonFlag,
+    keyword: Flags.string({ description: 'Search username, email, phone, or display name' }),
+    limit: Flags.integer({ default: 20, description: 'Items per page', max: 100, min: 1 }),
+    page: Flags.integer({ default: 1, description: 'Page number', min: 1 }),
+    sort: sortFlag,
+    'sort-by': Flags.string({ aliases: ['sortBy'], default: 'createdAt', description: 'Server sort field', options: [...USER_SORT_FIELDS] }),
+    'sort-order': Flags.string({ aliases: ['sortOrder'], default: 'desc', description: 'Server sort order', options: [...SORT_ORDERS] }),
   };
 
   public async run(): Promise<void> {
     const { flags } = await this.parse(UserList);
-
     try {
-      const queryParams = new URLSearchParams({
-        page: flags.page.toString(),
-        pageSize: flags.limit.toString(),
-        sortBy: flags.sortBy,
-        sortOrder: flags.sortOrder,
-      });
-      
-      if (flags.keyword) queryParams.append('keyword', flags.keyword);
-      if (flags.active !== undefined) queryParams.append('active', flags.active.toString());
+      validateListFlags(flags);
+      const fetchPage = (page: number) => {
+        const query = new URLSearchParams({
+          page: String(page), pageSize: String(flags.limit),
+          sortBy: flags['sort-by'], sortOrder: flags['sort-order'],
+        });
+        if (flags.keyword) query.set('keyword', flags.keyword);
+        if (flags.active !== undefined) query.set('active', String(flags.active));
+        return fetchApi<Record<string, unknown>>(`/admin/users?${query}`, {}, this.config.configDir);
+      };
 
-      const data = await fetchApi(`/admin/users?${queryParams.toString()}`, {}, this.config.configDir);
-      this.log(JSON.stringify(data, null, 2));
+      const data = flags.all ? await fetchAllPages(fetchPage) : await fetchPage(flags.page);
+      outputList(this, data, {
+        defaultFields: ['id', 'username', 'displayName', 'email', 'active', 'createdAt'],
+        fields: flags.fields,
+        json: flags.json,
+        noun: 'users',
+        sort: flags.sort,
+      });
     } catch (error: unknown) {
-      this.error(error instanceof Error ? error.message : String(error));
+      handleCommandError(this, error, flags.json);
     }
   }
 }

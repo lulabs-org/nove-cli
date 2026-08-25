@@ -1,45 +1,60 @@
 import { password } from '@inquirer/prompts';
-import { Command, Flags } from '@oclif/core';
-import * as fs from 'node:fs';
-import path from 'node:path';
+import { Flags } from '@oclif/core';
 
-export default class Login extends Command {
-  static description = 'Login to Nove API using an API Key';
-static flags = {
-    'api-key': Flags.string({
-      char: 'k',
-      description: 'The API Key to use for authentication (e.g. sk_...)',
+import { verifyApiKey } from '../../utils/api.js';
+import { saveApiKey } from '../../utils/auth.js';
+import { NoveCommand } from '../../utils/nove-command.js';
+import { handleCommandError, jsonFlag, outputResult } from '../../utils/output.js';
+
+function readApiKeyFromStdin(): Promise<string> {
+  return new Promise((resolve, reject) => {
+    let input = '';
+    process.stdin.setEncoding('utf8');
+    process.stdin.on('data', (chunk: string) => {
+      input += chunk;
+    });
+    process.stdin.on('end', () => resolve(input.trim()));
+    process.stdin.on('error', reject);
+  });
+}
+
+function suppliedSourceCount(stdin: boolean): number {
+  return [Boolean(process.env.NOVE_API_KEY?.trim()), stdin].filter(Boolean).length;
+}
+
+export default class Login extends NoveCommand {
+  static description = 'Validate and securely store a Nove API Key';
+  static flags = {
+    'api-key-stdin': Flags.boolean({
+      description: 'Read the API Key from stdin',
     }),
+    json: jsonFlag,
   };
 
   public async run(): Promise<void> {
     const { flags } = await this.parse(Login);
+    try {
+      if (suppliedSourceCount(flags['api-key-stdin']) > 1) {
+        throw new Error('Choose only one API Key source: stdin or NOVE_API_KEY.');
+      }
 
-    let apiKey = flags['api-key'];
+      let apiKey = process.env.NOVE_API_KEY?.trim();
+      if (flags['api-key-stdin']) apiKey = await readApiKeyFromStdin();
+      if (!apiKey && !process.stdin.isTTY) {
+        throw new Error('No API Key supplied. Pipe it with --api-key-stdin or set NOVE_API_KEY.');
+      }
 
-    if (!apiKey) {
-      apiKey = await password({ mask: '*', message: 'Enter your API Key:' });
+      apiKey ||= await password({ mask: '*', message: 'Enter your API Key:' });
+      if (!apiKey.trim()) throw new Error('API Key is required to login.');
+
+      await verifyApiKey(apiKey.trim(), this.config.configDir);
+      const status = saveApiKey(this.config.configDir, apiKey.trim());
+      outputResult(this, status, {
+        json: flags.json,
+        successMessage: 'API Key saved securely. You are now authenticated.',
+      });
+    } catch (error: unknown) {
+      handleCommandError(this, error, flags.json);
     }
-
-    if (!apiKey) {
-      this.error('API Key is required to login.');
-    }
-
-    // Save the API key to the config directory
-    const {configDir} = this.config;
-    if (!fs.existsSync(configDir)) {
-      fs.mkdirSync(configDir, { recursive: true });
-    }
-
-    const configFile = path.join(configDir, 'auth.json');
-    const authData = {
-      apiKey,
-      updatedAt: new Date().toISOString(),
-    };
-
-    fs.writeFileSync(configFile, JSON.stringify(authData, null, 2), 'utf8');
-
-    this.log(`✅ API Key successfully saved to ${configFile}`);
-    this.log('You are now authenticated for future nove-cli commands.');
   }
 }
