@@ -207,15 +207,14 @@ Get transcript for a meeting minute
 
 ```
 USAGE
-  $ nove minute transcript MINUTEID [--format text|json] [--json]
+  $ nove minute transcript MINUTEID [--include-local-user] [--json]
 
 ARGUMENTS
   MINUTEID  Minute ID
 
 FLAGS
-  --format=<option>  [default: text] Format (text or json)
-                     <options: text|json>
-  --json             Output a single JSON value to stdout
+  --include-local-user  Include linked local user details in transcript segments
+  --json                Output a single JSON value to stdout
 
 DESCRIPTION
   Get transcript for a meeting minute

@@ -38,12 +38,19 @@ describe('minute request matrix', () => {
     response: { data: [], page: 2, total: 0, totalPages: 0 },
   },
   {
-    args: ['minute', 'transcript', 'minute-1', '--format', 'json'],
+    args: ['minute', 'transcript', 'minute-1'],
+    assertRequest: expectRequest('GET', '/minutes/minute-1/transcript'),
+    name: 'minute transcript',
+  },
+  {
+    args: ['minute', 'transcript', 'minute-1', '--includeLocalUser'],
     assertRequest(request) {
       expectRequest('GET', '/minutes/minute-1/transcript')(request);
-      expect(request.url.searchParams.get('format')).to.equal('json');
+      expect(Object.fromEntries(request.url.searchParams)).to.deep.equal({
+        includeLocalUser: 'true',
+      });
     },
-    name: 'minute transcript',
+    name: 'minute transcript with local user',
   },
   {
     args: ['minute', 'delete', 'minute-1', '--yes'],
