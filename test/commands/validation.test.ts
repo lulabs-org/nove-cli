@@ -17,7 +17,8 @@ describe('command validation matrix', () => {
     const cases = [
       ['config', 'set', '--json'], ['meeting', 'create', '--json'], ['meeting', 'get', '--json'],
       ['meeting', 'participants', '--json'], ['meeting', 'update', '--json'], ['minute', 'get', '--json'],
-      ['minute', 'transcript', '--json'], ['minute', 'speaker-summary', 'create', '--json'],
+      ['minute', 'meeting-transcripts', '--json'], ['minute', 'transcript', '--json'],
+      ['minute', 'transcript-context', '--json'], ['minute', 'speaker-summary', 'create', '--json'],
       ['minute', 'speaker-summary', 'get', '--json'], ['minute', 'speaker-summary', 'update', '--json'],
       ['tracking-report', 'create', '--json'], ['tracking-report', 'get', '--json'],
       ['tracking-report', 'update', '--json'],
@@ -42,6 +43,10 @@ describe('command validation matrix', () => {
       ['meeting', 'list', '--limit', '101', '--json'], ['meeting', 'list', '--all', '--page', '2', '--json'],
       ['meeting', 'update', 'id', '--participant-count', '-1', '--json'],
       ['minute', 'list', '--source', 'INVALID', '--json'],
+      [
+        'minute', 'transcript-context', 'minute-1', 'platform-user-1',
+        '--depth', '21', '--json',
+      ],
       ['minute', 'speaker-summary', 'create', 'id', '--platform-user-id', 'u', '--part-summary', 's', '--generated-by', 'INVALID', '--json'],
       ['minute', 'transcript', 'id', '--format', 'json', '--json'], ['user', 'create', '--gender', 'INVALID', '--json'],
       ['tracking-report', 'list', '--target-type', 'INVALID', '--json'],
@@ -61,6 +66,16 @@ describe('command validation matrix', () => {
 
     const localCases = [
       ['meeting', 'stats', '--date', '2026-02-30', '--json'],
+      [
+        'minute', 'meeting-transcripts', 'platform-user-1',
+        '--start-date', '2026-08-02T00:00:00Z',
+        '--end-date', '2026-08-01T00:00:00Z', '--json',
+      ],
+      [
+        'minute', 'meeting-transcripts', 'platform-user-1',
+        '--start-date', '2026-08-01T00:00:00Z',
+        '--end-date', '2026-09-02T00:00:00Z', '--json',
+      ],
       ['meeting', 'list', '--fields', 'id', '--json'], ['meeting', 'list', '--sort', 'id:asc', '--json'],
       ['meeting', 'stats', '--date', '2026-08-24', '--start-date', '2026-08-24T00:00:00Z', '--json'],
       ['meeting', 'stats', '--start-date', '2026-08-25T00:00:00Z', '--end-date', '2026-08-24T00:00:00Z', '--json'],
