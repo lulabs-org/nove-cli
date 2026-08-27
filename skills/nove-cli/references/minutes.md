@@ -13,6 +13,8 @@
 | 列出记录 | `nove minute list` |
 | 获取记录详情 | `nove minute get <minute-id>` |
 | 获取转写 | `nove minute transcript <minute-id>` |
+| 查询平台用户在时间段内的会议及本人发言 | `nove minute meeting-transcripts <platform-user-id>` |
+| 获取平台用户在指定记录中的转写上下文 | `nove minute transcript-context <minute-id> <platform-user-id>` |
 | 列出参会者总结 | `nove minute speaker-summary list <minute-id>` |
 | 获取参会者总结 | `nove minute speaker-summary get <minute-id> <summary-id>` |
 | 创建参会者总结 | `nove minute speaker-summary create <minute-id>` |
@@ -55,6 +57,31 @@ nove minute transcript <minute-id> --format json --json
 若记录包含 `errorMessage`，先报告错误并停止，不用其他会议或记录的内容替代。没有错误但转写尚不可用时，明确说明资源尚未生成。
 
 `--format json` 控制 API 返回分段结构，外层 `--json` 控制 CLI 输出协议；自动化分析通常两者都需要。只添加外层 `--json` 不会把文本转写自动变成分段数据。
+
+## 按平台用户查询会议转写
+
+使用平台用户 ID 和带明确时区的半开时间区间，查询该用户参加的会议、Minute，以及该用户自己的转写段落。单次区间最多 31 天：
+
+```bash
+nove minute meeting-transcripts <platform-user-id> \
+  --start-date '2026-08-01T00:00:00+08:00' \
+  --end-date '2026-09-01T00:00:00+08:00' \
+  --json
+```
+
+响应保留 `meetings -> minutes -> transcripts -> segments` 嵌套结构；没有录制、转写或本人发言时，对应数组可能为空。这里必须传 `PlatformUser.id`，不能传 participant ID 或本地 user ID。
+
+## 获取平台用户的转写上下文
+
+使用 Minute ID、平台用户 ID 和 `--depth` 获取目标发言前后各 N 个段落；深度范围为 `0–20`：
+
+```bash
+nove minute transcript-context <minute-id> <platform-user-id> \
+  --depth 3 \
+  --json
+```
+
+不同 Transcript 独立返回，重叠窗口会合并去重；`isTargetSpeaker` 用于区分目标用户发言和上下文。用户必须是该 Minute 所属会议的有效参会者。
 
 ## 参会者总结
 
