@@ -43,7 +43,7 @@ describe('command validation matrix', () => {
       ['meeting', 'update', 'id', '--participant-count', '-1', '--json'],
       ['minute', 'list', '--source', 'INVALID', '--json'],
       ['minute', 'speaker-summary', 'create', 'id', '--platform-user-id', 'u', '--part-summary', 's', '--generated-by', 'INVALID', '--json'],
-      ['minute', 'transcript', 'id', '--format', 'xml', '--json'], ['user', 'create', '--gender', 'INVALID', '--json'],
+      ['minute', 'transcript', 'id', '--format', 'json', '--json'], ['user', 'create', '--gender', 'INVALID', '--json'],
       ['tracking-report', 'list', '--target-type', 'INVALID', '--json'],
       ['tracking-report', 'list', '--tracking-type', 'INVALID', '--json'],
       ['tracking-report', 'list', '--cadence', 'INVALID', '--json'],
