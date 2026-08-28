@@ -6,7 +6,6 @@ Manage meeting minutes and transcripts
 * [`nove minute delete ID`](#nove-minute-delete-id)
 * [`nove minute get ID`](#nove-minute-get-id)
 * [`nove minute list`](#nove-minute-list)
-* [`nove minute meeting-transcripts PLATFORMUSERID`](#nove-minute-meeting-transcripts-platformuserid)
 * [`nove minute speaker-summary create MINUTEID`](#nove-minute-speaker-summary-create-minuteid)
 * [`nove minute speaker-summary delete MINUTEID SUMMARYID`](#nove-minute-speaker-summary-delete-minuteid-summaryid)
 * [`nove minute speaker-summary get MINUTEID SUMMARYID`](#nove-minute-speaker-summary-get-minuteid-summaryid)
@@ -14,6 +13,7 @@ Manage meeting minutes and transcripts
 * [`nove minute speaker-summary update MINUTEID SUMMARYID`](#nove-minute-speaker-summary-update-minuteid-summaryid)
 * [`nove minute transcript MINUTEID`](#nove-minute-transcript-minuteid)
 * [`nove minute transcript-context MINUTEID PLATFORMUSERID`](#nove-minute-transcript-context-minuteid-platformuserid)
+* [`nove minute user-transcripts PLATFORMUSERID`](#nove-minute-user-transcripts-platformuserid)
 
 ## `nove minute delete ID`
 
@@ -82,28 +82,6 @@ DESCRIPTION
 ```
 
 _See code: [src/commands/minute/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.1/src/commands/minute/list.ts)_
-
-## `nove minute meeting-transcripts PLATFORMUSERID`
-
-Get minutes where a platform user spoke and their transcript segments
-
-```
-USAGE
-  $ nove minute meeting-transcripts PLATFORMUSERID --end-date <value> --start-date <value> [--json]
-
-ARGUMENTS
-  PLATFORMUSERID  Platform user ID
-
-FLAGS
-  --end-date=<value>    (required) Exclusive ISO 8601 end date with explicit timezone
-  --json                Output a single JSON value to stdout
-  --start-date=<value>  (required) Inclusive ISO 8601 start date with explicit timezone
-
-DESCRIPTION
-  Get minutes where a platform user spoke and their transcript segments
-```
-
-_See code: [src/commands/minute/meeting-transcripts.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.1/src/commands/minute/meeting-transcripts.ts)_
 
 ## `nove minute speaker-summary create MINUTEID`
 
@@ -267,3 +245,25 @@ DESCRIPTION
 ```
 
 _See code: [src/commands/minute/transcript-context.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.1/src/commands/minute/transcript-context.ts)_
+
+## `nove minute user-transcripts PLATFORMUSERID`
+
+Get minutes where a platform user spoke and their transcript segments
+
+```
+USAGE
+  $ nove minute user-transcripts PLATFORMUSERID --end-date <value> --start-date <value> [--json]
+
+ARGUMENTS
+  PLATFORMUSERID  Platform user ID
+
+FLAGS
+  --end-date=<value>    (required) Exclusive ISO 8601 end date with explicit timezone
+  --json                Output a single JSON value to stdout
+  --start-date=<value>  (required) Inclusive ISO 8601 start date with explicit timezone
+
+DESCRIPTION
+  Get minutes where a platform user spoke and their transcript segments
+```
+
+_See code: [src/commands/minute/user-transcripts.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.1/src/commands/minute/user-transcripts.ts)_

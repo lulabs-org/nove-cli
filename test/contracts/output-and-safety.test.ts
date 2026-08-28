@@ -27,7 +27,7 @@ describe('output and safety contracts', () => {
       ['minute', 'delete'],
       ['minute', 'get'],
       ['minute', 'list'],
-      ['minute', 'meeting-transcripts'],
+      ['minute', 'user-transcripts'],
       ['minute', 'speaker-summary', 'create'],
       ['minute', 'speaker-summary', 'delete'],
       ['minute', 'speaker-summary', 'get'],

@@ -43,7 +43,9 @@ JSON 结构需要区分：`user list --json` 的每个列表项将 `displayName`
 
 `username`、`email`、`phone`、`country-code`、`display-name`、`full-name`、`active`、`gender`、`date-of-birth`、`avatar`、`bio`、`address`、`city`、`country`、`website`、`zip-code`。`full-name` 是用户填写的完整姓名，不代表已完成实名认证。
 
-使用 `--active` 设置启用，使用 `--no-active` 设置停用。`--gender` 支持 `MALE`、`FEMALE`、`OTHER`；日期格式为有效的 `YYYY-MM-DD`；头像和网站必须使用 HTTP(S) URL。创建用户时至少提供用户名、邮箱或手机号之一，电话号码本体与 `--country-code` 必须一起传递。
+使用 `--active` 设置启用，使用 `--no-active` 设置停用。`--gender` 支持 `MALE`、`FEMALE`、`OTHER`；日期格式为有效的 `YYYY-MM-DD`；头像和网站必须使用 HTTP(S) URL。
+
+创建用户时至少提供用户名、邮箱或手机号之一；如果提供手机号，`--phone` 与 `--country-code` 必须成对传递。更新命令允许只修改手机号或国家代码中的一个字段，因此更新前必须读取现有详情，确认更新后的组合仍然有效。
 
 更新前先获取用户详情，明确展示将改变的字段；未提供任何字段时不要执行。完成后再次 `user get` 验证。
 

@@ -27,7 +27,7 @@ TrackingTarget（被追踪业务对象）
 | `meetingId` | Nove 内部会议 ID | `meeting list/get` 的 `id` | `meeting get/participants/update/delete`、`minute list --meeting-id` |
 | `platformMeetingId` | 飞书、腾讯会议等平台侧会议 ID | 会议详情的 `platformMeetingId` | 创建会议记录或识别外部会议；不能代替 `meetingId` |
 | participant `id` | 一条参会快照 ID | `meeting participants` | 识别某次参会记录；不是 user ID |
-| `platformUserId` | 平台身份 ID | participant 的 `platformUser.id` 或总结的 `platformUserId` | 创建/定位 speaker summary、查询用户会议转写和 Minute 转写上下文；不能代替本地 user ID |
+| `platformUserId` | Nove 平台用户记录 ID，即 `PlatformUser.id` | participant 的 `platformUser.id` 或总结的 `platformUserId` | 创建/定位 speaker summary、查询用户有发言的 Minute 和转写上下文；不能代替 participant ID、本地 user ID 或第三方平台原始用户 ID |
 | `userId` | Nove 本地用户 ID | `user list/get` 的 `id` 或 participant 的 `user.id` | `user get/update/delete`，也可作为 USER 类型的追踪 `target-id` |
 | `minuteId` | 一份会议记录 ID | `minute list/get` 的 `id` | `minute get/transcript/delete` 和全部 speaker-summary 命令 |
 | `summaryId` | 一条 speaker summary ID | `minute speaker-summary list/get` 的 `id` | 更新或删除该总结 |
@@ -42,7 +42,7 @@ TrackingTarget（被追踪业务对象）
 | `target-type` | `target-id` 应表示 |
 | --- | --- |
 | `USER` | Nove 本地用户 ID |
-| `PLATFORM_USER` | 外部平台用户 ID |
+| `PLATFORM_USER` | Nove `PlatformUser.id`，不是第三方平台原始用户 ID |
 | `PROJECT` | 项目业务 ID |
 | `ORGANIZATION` | 组织或团队业务 ID |
 

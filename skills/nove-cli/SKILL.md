@@ -1,6 +1,6 @@
 ---
 name: nove
-description: 使用 nove CLI 配置和访问 Nove API，查询或管理会议资源、参会人、会议记录、转写、参会者总结、追踪报告与用户。用户提到 nove、nove-cli、Nove 会议记录、会议转写、参会者总结、追踪报告、用户导入，或明确要求通过 Nove 命令行完成任务时使用；不用于创建飞书、腾讯会议等第三方日程。
+description: 使用 nove CLI 配置和访问 Nove API，查询或管理会议资源、参会人、会议记录、转写、参会者总结、追踪报告与用户，也支持按平台用户检索其发言录制和转写上下文。用户提到 nove、nove-cli、Nove 会议记录、会议转写、用户发言、参会者总结、追踪报告、用户导入，或明确要求通过 Nove 命令行完成任务时使用；不用于创建飞书、腾讯会议等第三方日程。
 ---
 
 # Nove CLI
@@ -38,13 +38,13 @@ description: 使用 nove CLI 配置和访问 Nove API，查询或管理会议资
 | --- | --- |
 | 登录、退出登录、查看认证状态、切换 API 地址或排查认证/连接错误 | 读取 [authentication-and-config.md](references/authentication-and-config.md) |
 | 查询或维护会议资源、统计和参会人 | 读取 [meetings.md](references/meetings.md) |
-| 查询会议记录、读取转写、管理参会者总结，或删除记录 | 读取 [minutes.md](references/minutes.md) |
+| 查询会议记录、读取转写、按平台用户检索发言与上下文、管理参会者总结，或删除记录 | 读取 [minutes.md](references/minutes.md) |
 | 查询、创建、更新或删除追踪报告 | 读取 [tracking-reports.md](references/tracking-reports.md) |
 | 查询、创建、更新、删除或导入用户 | 读取 [users.md](references/users.md) |
 
 ## 常见组合
 
-查询会议并读取转写、确认参会人、维护参会者总结或从证据创建追踪报告时，按需读取 [workflows.md](references/workflows.md)。
+查询会议并读取转写、分析某个平台用户在时间段内讨论的内容、确认参会人、维护参会者总结或从证据创建追踪报告时，按需读取 [workflows.md](references/workflows.md)。
 
 ## 返回结果
 

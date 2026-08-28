@@ -19,7 +19,7 @@ describe('command help matrix', () => {
       ['meeting', 'create'], ['meeting', 'delete'], ['meeting', 'get'], ['meeting', 'list'],
       ['meeting', 'participants'], ['meeting', 'stats'], ['meeting', 'update'],
       ['minute', 'delete'], ['minute', 'get'], ['minute', 'list'],
-      ['minute', 'meeting-transcripts'],
+      ['minute', 'user-transcripts'],
       ['minute', 'speaker-summary', 'create'], ['minute', 'speaker-summary', 'delete'],
       ['minute', 'speaker-summary', 'get'], ['minute', 'speaker-summary', 'list'],
       ['minute', 'speaker-summary', 'update'], ['minute', 'transcript'],
