@@ -85,7 +85,7 @@ _See code: [src/commands/minute/list.ts](https://github.com/lulabs-org/nove-cli/
 
 ## `nove minute meeting-transcripts PLATFORMUSERID`
 
-Get meetings, minutes, and transcript segments for a platform user
+Get minutes where a platform user spoke and their transcript segments
 
 ```
 USAGE
@@ -100,7 +100,7 @@ FLAGS
   --start-date=<value>  (required) Inclusive ISO 8601 start date with explicit timezone
 
 DESCRIPTION
-  Get meetings, minutes, and transcript segments for a platform user
+  Get minutes where a platform user spoke and their transcript segments
 ```
 
 _See code: [src/commands/minute/meeting-transcripts.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.1/src/commands/minute/meeting-transcripts.ts)_

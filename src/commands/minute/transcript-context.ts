@@ -26,7 +26,7 @@ export default class MinuteTranscriptContext extends NoveCommand {
     try {
       const query = new URLSearchParams({ depth: String(flags.depth) });
       const data = await fetchApi(
-        `/minutes/${args.minuteId}/platform-users/${args.platformUserId}/transcript-context?${query}`,
+        `/platform-users/${args.platformUserId}/minutes/${args.minuteId}/transcript-context?${query}`,
         {},
         this.config.configDir,
       );

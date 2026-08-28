@@ -4,50 +4,24 @@
 [![Version](https://img.shields.io/npm/v/@novesuite/cli.svg)](https://npmjs.org/package/@novesuite/cli)
 [![Downloads/week](https://img.shields.io/npm/dw/@novesuite/cli.svg)](https://npmjs.org/package/@novesuite/cli)
 
-**Nove CLI** 是 [Nove](https://github.com/lulabs-org/nove-api) 的官方命令行工具，旨在帮助开发者、系统管理员以及 AI Agent 快速、高效地管理和交互 Nove 平台的核心业务资源。
+**Nove CLI** 是 [nove 组织级 Agent 数据基础设施](https://github.com/lulabs-org/nove-api) 的官方命令行数据访问工具。
 
-借助 Nove CLI，您可以直接在终端或自动化脚本中完成对**会议记录**、**用户账户**、**会议转写与统计**等模块的操作，从而将 Nove 无缝集成到您的日常工作流或 AI 智能体体系中。
+作为 nove 数据网关的 CLI 访问入口，它不仅方便开发者与系统管理员在终端中快速管理和查询多源汇聚的数据资产，更采用了 **AI Agent 友好型设计**，提供标准化的参数输入与结构化（JSON）的数据输出，使其极易被各种 Agent Harness 和自动化脚本直接集成调用。
 
-## ✨ 核心特性
+所有通过 Nove CLI 的访问操作，均受到 nove 平台统一的“人机权限与审计体系”严格管控，确保组织数据的安全与合规。
 
-- 🎙️ **会议与转写管理**：在终端快速检索、创建、更新会议记录，拉取会议转写并管理参会者总结。
-- 👥 **用户统一管理**：支持命令行的形式轻松管理用户数据。
-- 🤖 **AI Agent 友好型设计**：提供标准化的参数输入与结构化的数据输出，使其极易被大语言模型（LLM）的自动化流程调用。
-- ⚙️ **灵活的环境配置**：支持便捷的身份认证登录及本地配置管理。
-- 🔌 **高度可扩展**：基于 Oclif 框架构建，支持指令集的持续迭代。
+## 📖 文档导航
 
-## 🚀 适用场景
+有关 nove 系统的整体架构定位、数据治理原则与路线图，请参阅全局文档：
+- **[nove-doc 项目级业务文档仓库](https://github.com/lulabs-org/nove-doc)**
 
-- 👨‍💻 **开发者**：在本地开发过程中快速测试与调用 Nove 后端 API（`nove_api`）。
-- 🛠 **运维与数据分析师**：批量执行会议信息统计或资源管理。
-- 🤖 **AI 智能体研发**：赋予 AI Agent 操作底层业务数据的权限，完成诸如“查询上周例会总结”等自动化任务。
-
-## 🗺️ 长期规划 (Roadmap)
-
-随着 **Nove API** 底层能力的不断演进（如多租户架构、飞书多维表格同步、腾讯会议 Webhook 深度集成等），**Nove CLI** 的长期规划也将紧跟业务发展，进一步丰富功能：
-
-- **🔗 第三方平台深度集成**：
-  - 提供对**腾讯会议**、**飞书/钉钉**等平台集成配置的快捷管理命令。
-  - 支持一键导出会议数据至**飞书多维表格（Bitable）**或本地 CSV/Excel。
-- **🏢 组织与权限高级管理**：
-  - 增加针对**多租户架构（Multi-tenant）**及 RBAC 角色权限体系的 CLI 操作支持，方便管理员跨空间管理。
-- **🧠 进阶 AI 与自动化能力**：
-  - 接入与强化 OpenAI/大模型分析能力，支持通过 CLI 进行本地化的批量 Prompt 测试与转写重处理（Reprocess）。
-  - 提供标准化的自动化流水线（CI/CD）集成脚本输出功能。
-- **🌐 交互与体验优化**：
-  - 引入更丰富的 TUI（终端用户界面）交互。
-  - 支持多环境（Dev, Staging, Prod）配置的无缝热切。
+**有关 CLI 所有的具体命令、参数以及详细的使用示例，请直接进入 `docs/` 目录查阅：**
+- 👉 **[查看 Nove CLI 命令详情 (docs/)](./docs/README.md)** 👈
 
 ---
 
-<!-- toc -->
-* [Nove CLI (@novesuite/cli)](#nove-cli-novesuitecli)
-* [Usage](#usage)
-* [Commands](#commands)
-* [Command Topics](#command-topics)
-<!-- tocstop -->
+## 🚀 快速开始 (Usage)
 
-# Usage
 <!-- usage -->
 ```sh-session
 $ npm install -g @novesuite/cli
@@ -62,18 +36,18 @@ USAGE
 ```
 <!-- usagestop -->
 
-# Commands
+## 🛠️ 命令速览 (Command Topics)
+
+*以下为命令一级主题，详细的子命令与参数用法请点击进入对应文档：*
+
 <!-- commands -->
-# Command Topics
-
-* [`nove auth`](docs/commands/auth.md) - Inspect local authentication state
-* [`nove config`](docs/commands/config.md) - Set a configuration value
-* [`nove help`](docs/commands/help.md) - Display help for nove.
-* [`nove login`](docs/commands/login.md) - Sign in through the browser, or validate an API Key for automation
-* [`nove logout`](docs/commands/logout.md) - Revoke OAuth access and remove the locally stored credential
-* [`nove meeting`](docs/commands/meeting.md) - Manage meeting records
-* [`nove minute`](docs/commands/minute.md) - Manage meeting minutes and transcripts
-* [`nove tracking-report`](docs/commands/tracking-report.md) - Manage tracking reports
-* [`nove user`](docs/commands/user.md) - Manage user accounts
-
+* [`nove auth`](docs/commands/auth.md) - 查看本地鉴权状态与凭证
+* [`nove config`](docs/commands/config.md) - 设置与管理本地环境配置
+* [`nove help`](docs/commands/help.md) - 显示帮助信息
+* [`nove login`](docs/commands/login.md) - 登录授权（支持浏览器交互或基于 API Key 的无头授权）
+* [`nove logout`](docs/commands/logout.md) - 退出登录并清理本地凭证
+* [`nove meeting`](docs/commands/meeting.md) - 操作与查询会议记录相关数据
+* [`nove minute`](docs/commands/minute.md) - 操作与查询会议转写、智能总结等文本段落
+* [`nove tracking-report`](docs/commands/tracking-report.md) - 操作与查询追踪报告
+* [`nove user`](docs/commands/user.md) - 操作与查询平台用户档案
 <!-- commandsstop -->

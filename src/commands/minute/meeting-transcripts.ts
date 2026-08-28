@@ -11,7 +11,7 @@ export default class MinuteMeetingTranscripts extends NoveCommand {
   static args = {
     platformUserId: Args.string({ description: 'Platform user ID', required: true }),
   };
-  static description = 'Get meetings, minutes, and transcript segments for a platform user';
+  static description = 'Get minutes where a platform user spoke and their transcript segments';
   static flags = {
     'end-date': Flags.string({
       aliases: ['endDate'],
@@ -40,7 +40,7 @@ export default class MinuteMeetingTranscripts extends NoveCommand {
         startDate: flags['start-date'],
       });
       const data = await fetchApi(
-        `/platform-users/${args.platformUserId}/meeting-transcripts?${query}`,
+        `/platform-users/${args.platformUserId}/minutes/transcripts?${query}`,
         {},
         this.config.configDir,
       );

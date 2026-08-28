@@ -59,20 +59,20 @@ describe('minute request matrix', () => {
       '--endDate', '2026-09-01T00:00:00+08:00',
     ],
     assertRequest(request) {
-      expectRequest('GET', '/platform-users/platform-user-1/meeting-transcripts')(request);
+      expectRequest('GET', '/platform-users/platform-user-1/minutes/transcripts')(request);
       expect(Object.fromEntries(request.url.searchParams)).to.deep.equal({
         endDate: '2026-09-01T00:00:00+08:00',
         startDate: '2026-08-01T00:00:00+08:00',
       });
     },
-    name: 'platform user meeting transcripts',
+    name: 'platform user minute transcripts',
   },
   {
     args: ['minute', 'transcript-context', 'minute-1', 'platform-user-1', '--depth', '3'],
     assertRequest(request) {
       expectRequest(
         'GET',
-        '/minutes/minute-1/platform-users/platform-user-1/transcript-context',
+        '/platform-users/platform-user-1/minutes/minute-1/transcript-context',
       )(request);
       expect(Object.fromEntries(request.url.searchParams)).to.deep.equal({ depth: '3' });
     },
