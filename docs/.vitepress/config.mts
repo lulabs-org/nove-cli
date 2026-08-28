@@ -36,6 +36,7 @@ export default defineConfig({
       {
         items: [
           { link: '/guide/installation-guide', text: '安装与配置' },
+          { link: '/guide/changelog', text: '发布记录' },
         ],
         text: '开始使用',
       },
