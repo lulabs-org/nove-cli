@@ -40,7 +40,7 @@ export default class MinuteMeetingTranscripts extends NoveCommand {
         startDate: flags['start-date'],
       });
       const data = await fetchApi(
-        `/platform-users/${args.platformUserId}/minute-transcripts?${query}`,
+        `/platform-users/${args.platformUserId}/minutes/transcripts?${query}`,
         {},
         this.config.configDir,
       );
