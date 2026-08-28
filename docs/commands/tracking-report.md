@@ -48,7 +48,7 @@ DESCRIPTION
   Create a tracking report
 ```
 
-_See code: [src/commands/tracking-report/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.1/src/commands/tracking-report/create.ts)_
+_See code: [src/commands/tracking-report/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/tracking-report/create.ts)_
 
 ## `nove tracking-report delete ID`
 
@@ -70,7 +70,7 @@ DESCRIPTION
   Delete a tracking report
 ```
 
-_See code: [src/commands/tracking-report/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.1/src/commands/tracking-report/delete.ts)_
+_See code: [src/commands/tracking-report/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/tracking-report/delete.ts)_
 
 ## `nove tracking-report get ID`
 
@@ -90,7 +90,7 @@ DESCRIPTION
   Get a tracking report by ID
 ```
 
-_See code: [src/commands/tracking-report/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.1/src/commands/tracking-report/get.ts)_
+_See code: [src/commands/tracking-report/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/tracking-report/get.ts)_
 
 ## `nove tracking-report list`
 
@@ -125,7 +125,7 @@ DESCRIPTION
   List tracking reports
 ```
 
-_See code: [src/commands/tracking-report/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.1/src/commands/tracking-report/list.ts)_
+_See code: [src/commands/tracking-report/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/tracking-report/list.ts)_
 
 ## `nove tracking-report update ID`
 
@@ -155,4 +155,4 @@ DESCRIPTION
   Update a tracking report
 ```
 
-_See code: [src/commands/tracking-report/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.1/src/commands/tracking-report/update.ts)_
+_See code: [src/commands/tracking-report/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/tracking-report/update.ts)_

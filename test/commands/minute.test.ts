@@ -54,7 +54,7 @@ describe('minute request matrix', () => {
   },
   {
     args: [
-      'minute', 'meeting-transcripts', 'platform-user-1',
+      'minute', 'user-transcripts', 'platform-user-1',
       '--startDate', '2026-08-01T00:00:00+08:00',
       '--endDate', '2026-09-01T00:00:00+08:00',
     ],

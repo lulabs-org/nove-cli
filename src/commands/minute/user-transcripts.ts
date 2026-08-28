@@ -7,7 +7,7 @@ import { validateDateRange } from '../../utils/validation.js';
 
 const MAX_DATE_RANGE_MS = 31 * 24 * 60 * 60 * 1000;
 
-export default class MinuteMeetingTranscripts extends NoveCommand {
+export default class MinuteUserTranscripts extends NoveCommand {
   static args = {
     platformUserId: Args.string({ description: 'Platform user ID', required: true }),
   };
@@ -27,7 +27,7 @@ export default class MinuteMeetingTranscripts extends NoveCommand {
   };
 
   public async run(): Promise<void> {
-    const { args, flags } = await this.parse(MinuteMeetingTranscripts);
+    const { args, flags } = await this.parse(MinuteUserTranscripts);
 
     try {
       validateDateRange(flags['start-date'], flags['end-date']);

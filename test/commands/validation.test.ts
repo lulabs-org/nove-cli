@@ -17,7 +17,7 @@ describe('command validation matrix', () => {
     const cases = [
       ['config', 'set', '--json'], ['meeting', 'create', '--json'], ['meeting', 'get', '--json'],
       ['meeting', 'participants', '--json'], ['meeting', 'update', '--json'], ['minute', 'get', '--json'],
-      ['minute', 'meeting-transcripts', '--json'], ['minute', 'transcript', '--json'],
+      ['minute', 'user-transcripts', '--json'], ['minute', 'transcript', '--json'],
       ['minute', 'transcript-context', '--json'], ['minute', 'speaker-summary', 'create', '--json'],
       ['minute', 'speaker-summary', 'get', '--json'], ['minute', 'speaker-summary', 'update', '--json'],
       ['tracking-report', 'create', '--json'], ['tracking-report', 'get', '--json'],
@@ -67,12 +67,12 @@ describe('command validation matrix', () => {
     const localCases = [
       ['meeting', 'stats', '--date', '2026-02-30', '--json'],
       [
-        'minute', 'meeting-transcripts', 'platform-user-1',
+        'minute', 'user-transcripts', 'platform-user-1',
         '--start-date', '2026-08-02T00:00:00Z',
         '--end-date', '2026-08-01T00:00:00Z', '--json',
       ],
       [
-        'minute', 'meeting-transcripts', 'platform-user-1',
+        'minute', 'user-transcripts', 'platform-user-1',
         '--start-date', '2026-08-01T00:00:00Z',
         '--end-date', '2026-09-02T00:00:00Z', '--json',
       ],
