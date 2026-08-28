@@ -41,13 +41,16 @@ USAGE
 *以下为命令一级主题，详细的子命令与参数用法请点击进入对应文档：*
 
 <!-- commands -->
-* [`nove auth`](docs/commands/auth.md) - 查看本地鉴权状态与凭证
-* [`nove config`](docs/commands/config.md) - 设置与管理本地环境配置
-* [`nove help`](docs/commands/help.md) - 显示帮助信息
-* [`nove login`](docs/commands/login.md) - 登录授权（支持浏览器交互或基于 API Key 的无头授权）
-* [`nove logout`](docs/commands/logout.md) - 退出登录并清理本地凭证
-* [`nove meeting`](docs/commands/meeting.md) - 操作与查询会议记录相关数据
-* [`nove minute`](docs/commands/minute.md) - 操作与查询会议转写、智能总结等文本段落
-* [`nove tracking-report`](docs/commands/tracking-report.md) - 操作与查询追踪报告
-* [`nove user`](docs/commands/user.md) - 操作与查询平台用户档案
+# Command Topics
+
+* [`nove auth`](docs/commands/auth.md) - Inspect local authentication state
+* [`nove config`](docs/commands/config.md) - Set a configuration value
+* [`nove help`](docs/commands/help.md) - Display help for nove.
+* [`nove login`](docs/commands/login.md) - Sign in through the browser, or validate an API Key for automation
+* [`nove logout`](docs/commands/logout.md) - Revoke OAuth access and remove the locally stored credential
+* [`nove meeting`](docs/commands/meeting.md) - Manage meeting records
+* [`nove minute`](docs/commands/minute.md) - Manage meeting minutes and transcripts
+* [`nove tracking-report`](docs/commands/tracking-report.md) - Manage tracking reports
+* [`nove user`](docs/commands/user.md) - Manage user accounts
+
 <!-- commandsstop -->
