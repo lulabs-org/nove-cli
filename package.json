@@ -75,6 +75,12 @@
       "minute": {
         "description": "Manage meeting minutes and transcripts"
       },
+      "order": {
+        "description": "Manage orders"
+      },
+      "product": {
+        "description": "Manage products"
+      },
       "tracking-report": {
         "description": "Manage tracking reports"
       },

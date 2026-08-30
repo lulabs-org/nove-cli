@@ -14,6 +14,8 @@ export const DEFAULT_OAUTH_SCOPES = [
   'speaker-summary:read', 'speaker-summary:create', 'speaker-summary:update', 'speaker-summary:delete',
   'tracking-report:read', 'tracking-report:create', 'tracking-report:update', 'tracking-report:delete',
   'user:read', 'user:create', 'user:update', 'user:delete',
+  'product:read', 'product:create', 'product:update', 'product:toggle-status', 'product:delete',
+  'order:read', 'order:create', 'order:update', 'order:status', 'order:delete',
 ] as const;
 
 interface OAuthTokenResponse {
