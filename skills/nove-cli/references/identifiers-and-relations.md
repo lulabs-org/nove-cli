@@ -18,6 +18,7 @@ TrackingTarget（被追踪业务对象）
     └── TrackingReportSource（证据引用）
 
 Product（产品）
+├── Project（项目可选关联产品）
 └── Order（订单，可保存产品 ID 关联和产品名称快照）
     ├── purchaserId / currentOwnerId / financialCloserId（Nove 本地用户 ID）
     └── channelId（渠道 ID）
@@ -38,6 +39,7 @@ Product（产品）
 | `summaryId` | 一条 speaker summary ID | `minute speaker-summary list/get` 的 `id` | 更新或删除该总结 |
 | `reportId` | 一份追踪报告 ID | `tracking-report list/get` 的 `id` | `tracking-report get/update/delete` |
 | `productId` | 一项产品 ID | `product list/get` 的 `id` | `product get/update/status/delete`、订单的 `--product-id` |
+| `projectId` | 当前组织中的项目 ID | `project list/get` 的 `id` | `project get/update/status/delete`、PROJECT 类型追踪目标 |
 | `orderId` | 一笔订单 ID | `order list/get` 的 `id` | `order get/update/status/delete` |
 | `channelId` | 订单渠道 ID，整数 | 订单详情或渠道资源 | 订单的 `--channel-id`；不能代替产品或用户 ID |
 | tracking `targetId` | 被追踪对象的业务 ID | 由 `targetType` 决定 | 创建或筛选追踪报告；不是 TrackingTarget 数据库行 ID |
@@ -86,4 +88,5 @@ metadata 是证据快照的补充信息，不改变 `sourceId` 的含义。写�
 - tracking report 的 `id` 与其 `target.targetId` 不同。
 - `sourceId` 没有统一命名空间，必须与同一项的 `sourceType` 一起解释。
 - order 的 `productId` 是关联键，`productName` 是写入时的名称快照；名称不能代替产品 ID。
+- project 的 `ownerId` 是 Nove 本地用户 ID，`productId` 是产品 ID；两者都不能用显示名称替代。
 - order 的 `purchaserId`、`currentOwnerId` 和 `financialCloserId` 都使用 Nove 本地 user ID，但业务角色不同。

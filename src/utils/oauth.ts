@@ -15,6 +15,7 @@ export const DEFAULT_OAUTH_SCOPES = [
   'tracking-report:read', 'tracking-report:create', 'tracking-report:update', 'tracking-report:delete',
   'user:read', 'user:create', 'user:update', 'user:delete',
   'product:read', 'product:create', 'product:update', 'product:toggle-status', 'product:delete',
+  'project:read', 'project:create', 'project:update', 'project:toggle-status', 'project:delete',
   'order:read', 'order:create', 'order:update', 'order:status', 'order:delete',
 ] as const;
 

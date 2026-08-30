@@ -75,6 +75,7 @@ describe('list command matrix', () => {
       ['meeting', 'participants', 'meeting-1', '--sort', 'id:sideways'],
       ['order', 'list', '--fields', ','], ['order', 'list', '--sort', 'id:sideways'],
       ['product', 'list', '--fields', ','], ['product', 'list', '--sort', 'id:sideways'],
+      ['project', 'list', '--fields', ','], ['project', 'list', '--sort', 'id:sideways'],
       ['tracking-report', 'list', '--fields', ','], ['tracking-report', 'list', '--sort', 'id:sideways'],
       ['user', 'list', '--sort', 'id:sideways'],
     ];
@@ -89,6 +90,7 @@ describe('list command matrix', () => {
       runPagedListCase(testHome, ['minute', 'speaker-summary', 'list', 'minute-1'], 'data'),
       runPagedListCase(testHome, ['order', 'list'], 'items'),
       runPagedListCase(testHome, ['product', 'list'], 'items'),
+      runPagedListCase(testHome, ['project', 'list'], 'items'),
       runPagedListCase(testHome, ['tracking-report', 'list'], 'data'),
       runPagedListCase(testHome, ['user', 'list'], 'items'),
     ]);

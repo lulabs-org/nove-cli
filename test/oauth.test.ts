@@ -57,9 +57,10 @@ describe('OAuth browser authentication', () => {
     rmSync(configDir, { force: true, recursive: true });
   });
 
-  it('requests product and order permissions by default', () => {
+  it('requests project, product, and order permissions by default', () => {
     expect(DEFAULT_OAUTH_SCOPES).to.include.members([
       'product:read', 'product:create', 'product:update', 'product:toggle-status', 'product:delete',
+      'project:read', 'project:create', 'project:update', 'project:toggle-status', 'project:delete',
       'order:read', 'order:create', 'order:update', 'order:status', 'order:delete',
     ]);
   });

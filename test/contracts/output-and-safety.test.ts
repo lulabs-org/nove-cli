@@ -39,6 +39,8 @@ describe('output and safety contracts', () => {
       ['order', 'status'], ['order', 'update'],
       ['product', 'create'], ['product', 'delete'], ['product', 'get'], ['product', 'list'],
       ['product', 'status'], ['product', 'update'],
+      ['project', 'create'], ['project', 'delete'], ['project', 'get'], ['project', 'list'],
+      ['project', 'status'], ['project', 'update'],
       ['user', 'create'],
       ['user', 'delete'],
       ['user', 'get'],
