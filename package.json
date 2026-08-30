@@ -81,6 +81,9 @@
       "product": {
         "description": "Manage products"
       },
+      "project": {
+        "description": "Manage projects in the current organization"
+      },
       "tracking-report": {
         "description": "Manage tracking reports"
       },

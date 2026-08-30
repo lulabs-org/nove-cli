@@ -118,6 +118,14 @@ nove tracking-report create \
 6. 从响应的 `id` 取得 report ID，再 `tracking-report get <report-id> --json` 核对目标、周期、正文和 `sourceCount`。
 7. 409 时查询同目标、类型和周期的现有报告；不要改日期或重复创建来绕过冲突。
 
+## 创建或维护项目
+
+1. 用 `project list --all --json` 检查同名、同编号或同 slug 项目，避免重复创建。
+2. 需要负责人或产品关联时，先分别用 `user get/list --json` 与 `product get/list --json` 确认准确 ID。
+3. 执行 `project create/update/status` 后，使用响应 ID 再运行 `project get ID --json`，核对状态、人数、关联、排期、列表字段和 metadata。
+4. 删除前运行 `project delete ID --dry-run --json` 查看 API 返回的准确目标；确认后才运行 `--yes --json`。
+5. 删除后用 `project get ID --json` 和普通列表确认项目不可见。删除是软删除，不代表成员或课程数据被物理清除。
+
 ## 创建关联产品的订单
 
 ```text

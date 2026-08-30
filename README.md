@@ -52,6 +52,7 @@ USAGE
 * [`nove minute`](docs/commands/minute.md) - Manage meeting minutes and transcripts
 * [`nove order`](docs/commands/order.md) - Manage orders
 * [`nove product`](docs/commands/product.md) - Manage products
+* [`nove project`](docs/commands/project.md) - Manage projects in the current organization
 * [`nove tracking-report`](docs/commands/tracking-report.md) - Manage tracking reports
 * [`nove user`](docs/commands/user.md) - Manage user accounts
 

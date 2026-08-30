@@ -4,7 +4,7 @@ layout: home
 hero:
   name: Nove CLI
   text: 在终端中管理 Nove 资源
-  tagline: 面向人类与 AI Agent 的命令行工具，支持会议、纪要、用户、产品与订单管理。
+  tagline: 面向人类与 AI Agent 的命令行工具，支持会议、纪要、用户、项目、产品与订单管理。
   actions:
     - theme: brand
       text: 开始使用
@@ -26,6 +26,9 @@ features:
   - title: 产品与订单
     details: 管理产品目录、订单、业务状态、关联信息与筛选查询。
     link: /commands/product
+  - title: 项目管理
+    details: 管理当前组织的项目、负责人、产品关联、排期、人数与生命周期状态。
+    link: /commands/project
   - title: Agent 友好
     details: 通过结构清晰的命令与参数，让自动化流程和 AI Agent 易于调用。
     link: /guide/installation-guide

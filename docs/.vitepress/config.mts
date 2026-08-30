@@ -49,6 +49,7 @@ export default defineConfig({
           { link: '/commands/meeting', text: '会议' },
           { link: '/commands/minute', text: '纪要' },
           { link: '/commands/product', text: '产品' },
+          { link: '/commands/project', text: '项目' },
           { link: '/commands/order', text: '订单' },
           { link: '/commands/tracking-report', text: '追踪报告' },
           { link: '/commands/user', text: '用户' },
