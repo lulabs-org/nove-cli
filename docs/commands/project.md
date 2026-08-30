@@ -16,21 +16,19 @@ Create a project in the current organization
 
 ```
 USAGE
-  $ nove project create --title <value> [--category <value>] [--code <value>] [--description <value>] [--duration
-    <value>] [--end-date <value>] [--enroll-deadline <value>] [--enrolled-count <value>] [--featured] [--image <value>]
-    [--level BEGINNER|INTERMEDIATE|ADVANCED] [--max-students <value>] [--metadata <value>] [--outcome <value>...]
-    [--owner-id <value>] [--prerequisite <value>...] [--product-id <value>] [--slug <value>] [--sort-order <value>]
-    [--start-date <value>] [--status DRAFT|PUBLISHED|ENROLLING|IN_PROGRESS|COMPLETED|ARCHIVED] [--subtitle <value>]
-    [--tag <value>...] [--json]
+  $ nove project create --title <value> [--category <value>] [--description <value>] [--duration <value>]
+    [--end-date <value>] [--enroll-deadline <value>] [--featured] [--image <value>] [--level
+    BEGINNER|INTERMEDIATE|ADVANCED] [--max-students <value>] [--metadata <value>] [--outcome <value>...] [--owner-id
+    <value>] [--prerequisite <value>...] [--product-id <value>] [--slug <value>] [--sort-order <value>] [--start-date
+    <value>] [--status DRAFT|PUBLISHED|ENROLLING|IN_PROGRESS|COMPLETED|ARCHIVED] [--subtitle <value>] [--tag <value>...]
+    [--json]
 
 FLAGS
   --category=<value>         Project category
-  --code=<value>             Project code
   --description=<value>      Detailed project description
   --duration=<value>         Project duration, for example 8 weeks
   --end-date=<value>         End ISO 8601 date-time with timezone
   --enroll-deadline=<value>  Enrollment deadline ISO 8601 date-time with timezone
-  --enrolled-count=<value>   Current enrollment count
   --[no-]featured            Mark the project as featured
   --image=<value>            Absolute site image path or HTTP(S) URL
   --json                     Output a single JSON value to stdout
@@ -107,8 +105,8 @@ List projects in the current organization
 USAGE
   $ nove project list [--all | --page <value>] [--category <value>] [--featured] [--fields <value>] [--json]
     [--keyword <value>] [--level BEGINNER|INTERMEDIATE|ADVANCED] [--limit <value>] [--owner-id <value>] [--product-id
-    <value>] [--sort <value>] [--sort-by createdAt|updatedAt|title|sortOrder|startDate|publishedAt|enrolledCount]
-    [--sort-order asc|desc] [--status DRAFT|PUBLISHED|ENROLLING|IN_PROGRESS|COMPLETED|ARCHIVED]
+    <value>] [--sort <value>] [--sort-by createdAt|updatedAt|title|sortOrder|startDate|publishedAt] [--sort-order
+    asc|desc] [--status DRAFT|PUBLISHED|ENROLLING|IN_PROGRESS|COMPLETED|ARCHIVED]
 
 FLAGS
   --all                  Fetch every result page
@@ -125,7 +123,7 @@ FLAGS
   --product-id=<value>   Filter by related product ID
   --sort=<value>         Table sort field with optional :asc or :desc suffix
   --sort-by=<option>     [default: sortOrder] Server sort field
-                         <options: createdAt|updatedAt|title|sortOrder|startDate|publishedAt|enrolledCount>
+                         <options: createdAt|updatedAt|title|sortOrder|startDate|publishedAt>
   --sort-order=<option>  [default: asc] Server sort order
                          <options: asc|desc>
   --status=<option>      Filter by project status
@@ -165,13 +163,13 @@ Update a project in the current organization
 
 ```
 USAGE
-  $ nove project update ID [--category <value>] [--code <value>] [--description <value>] [--duration <value>]
-    [--end-date <value>] [--enroll-deadline <value>] [--enrolled-count <value>] [--featured] [--image <value>] [--level
-    BEGINNER|INTERMEDIATE|ADVANCED] [--max-students <value>] [--metadata <value>] [--outcome <value>...] [--owner-id
-    <value>] [--prerequisite <value>...] [--product-id <value>] [--slug <value>] [--sort-order <value>] [--start-date
-    <value>] [--status DRAFT|PUBLISHED|ENROLLING|IN_PROGRESS|COMPLETED|ARCHIVED] [--subtitle <value>] [--tag <value>...]
-    [--title <value>] [--clear subtitle|code|slug|category|image|description|duration|max-students|prerequisites|outcome
-    s|tags|owner-id|product-id|start-date|end-date|enroll-deadline...] [--json]
+  $ nove project update ID [--category <value>] [--description <value>] [--duration <value>] [--end-date <value>]
+    [--enroll-deadline <value>] [--featured] [--image <value>] [--level BEGINNER|INTERMEDIATE|ADVANCED] [--max-students
+    <value>] [--metadata <value>] [--outcome <value>...] [--owner-id <value>] [--prerequisite <value>...] [--product-id
+    <value>] [--slug <value>] [--sort-order <value>] [--start-date <value>] [--status
+    DRAFT|PUBLISHED|ENROLLING|IN_PROGRESS|COMPLETED|ARCHIVED] [--subtitle <value>] [--tag <value>...] [--title <value>]
+    [--clear subtitle|slug|category|image|description|duration|max-students|prerequisites|outcomes|tags|owner-id|product
+    -id|start-date|end-date|enroll-deadline...] [--json]
 
 ARGUMENTS
   ID  Project ID
@@ -179,14 +177,12 @@ ARGUMENTS
 FLAGS
   --category=<value>         Project category
   --clear=<option>...        Clear a nullable field; repeat for multiple fields
-                             <options: subtitle|code|slug|category|image|description|duration|max-students|prerequisites
-                             |outcomes|tags|owner-id|product-id|start-date|end-date|enroll-deadline>
-  --code=<value>             Project code
+                             <options: subtitle|slug|category|image|description|duration|max-students|prerequisites|outc
+                             omes|tags|owner-id|product-id|start-date|end-date|enroll-deadline>
   --description=<value>      Detailed project description
   --duration=<value>         Project duration, for example 8 weeks
   --end-date=<value>         End ISO 8601 date-time with timezone
   --enroll-deadline=<value>  Enrollment deadline ISO 8601 date-time with timezone
-  --enrolled-count=<value>   Current enrollment count
   --[no-]featured            Mark the project as featured
   --image=<value>            Absolute site image path or HTTP(S) URL
   --json                     Output a single JSON value to stdout

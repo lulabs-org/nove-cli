@@ -60,6 +60,9 @@ describe('command validation matrix', () => {
       ['order', 'list', '--status', 'INVALID', '--json'],
       ['product', 'list', '--category', 'INVALID', '--json'],
       ['project', 'list', '--level', 'INVALID', '--json'],
+      ['project', 'create', '--title', 'P', '--enrolled-count', '3', '--json'],
+      ['project', 'create', '--title', 'P', '--code', 'PRJ-001', '--json'],
+      ['project', 'list', '--sort-by', 'enrolledCount', '--json'],
       ['tracking-report', 'list', '--page', '0', '--json'], ['tracking-report', 'list', '--limit', '101', '--json'],
       ['user', 'list', '--sort-by', 'INVALID', '--json'], ['user', 'list', '--sort-order', 'INVALID', '--json'],
     ];
@@ -97,7 +100,6 @@ describe('command validation matrix', () => {
       ['product', 'update', 'product-1', '--json'],
       ['project', 'update', 'project-1', '--json'],
       ['project', 'create', '--title', 'P', '--metadata', '[]', '--json'],
-      ['project', 'create', '--title', 'P', '--max-students', '2', '--enrolled-count', '3', '--json'],
       ['project', 'update', 'project-1', '--tag', 'x', '--clear', 'tags', '--json'],
       ['product', 'create', '--product-code', 'P', '--name', 'P', '--category', 'OTHER', '--rating', '6', '--json'],
       ['product', 'update', 'product-1', '--tag', 'x', '--clear', 'tags', '--json'],

@@ -21,17 +21,15 @@ describe('project request matrix', () => {
     const cases: SuccessCase[] = [
       {
         args: [
-          'project', 'create', '--title', 'Agent Project', '--code', 'PRJ-001',
+          'project', 'create', '--title', 'Agent Project',
           '--slug', 'Agent_Project', '--level', 'ADVANCED', '--status', 'ENROLLING',
-          '--max-students', '20', '--enrolled-count', '5', '--tag', 'Agent',
+          '--max-students', '20', '--tag', 'Agent',
           '--prerequisite', 'TypeScript', '--outcome', 'Working agent', '--owner-id', 'user-1',
           '--product-id', 'product-1', '--featured', '--metadata', '{"source":"cli"}',
           '--start-date', '2026-09-01T09:00:00+08:00', '--end-date', '2026-09-01T18:00:00+08:00',
         ],
         assertRequest: expectRequest('POST', '/admin/projects', {
-          code: 'PRJ-001',
           endDate: '2026-09-01T18:00:00+08:00',
-          enrolledCount: 5,
           isFeatured: true,
           level: 'ADVANCED',
           maxStudents: 20,
@@ -57,7 +55,7 @@ describe('project request matrix', () => {
         args: [
           'project', 'list', '--keyword', 'Agent', '--category', 'AI', '--status', 'ENROLLING',
           '--level', 'ADVANCED', '--featured', '--owner-id', 'user-1', '--product-id', 'product-1',
-          '--page', '2', '--limit', '50', '--sort-by', 'enrolledCount', '--sort-order', 'desc',
+          '--page', '2', '--limit', '50', '--sort-by', 'updatedAt', '--sort-order', 'desc',
         ],
         assertRequest(request) {
           expectRequest('GET', '/admin/projects')(request);
@@ -70,7 +68,7 @@ describe('project request matrix', () => {
             page: '2',
             pageSize: '50',
             productId: 'product-1',
-            sortField: 'enrolledCount',
+            sortField: 'updatedAt',
             sortOrder: 'desc',
             status: 'ENROLLING',
           });
