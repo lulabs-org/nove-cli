@@ -1,5 +1,26 @@
 # 发布记录 (Changelog)
 
+## 🚀 v1.3.0
+
+这个版本是 `nove-cli` 的重要功能升级，全面支持了电商资源（商品与订单）和项目管理能力，同时增强了会议转写（结构化与平台级转写）、简化了用户名称参数，并完善了安全删除与命令行文档。
+
+### ✨ Features (新特性)
+* **commerce (product & order):** 新增商品（`product`）与订单（`order`）全套管理命令（创建、查询、列表、更新、状态流转、安全删除），并支持 CSV/Excel/JSON 批量与交互式数据录入 (#35)
+* **project:** 新增项目（`project`）全套管理命令（创建、详情、列表、更新、状态变更、安全软删除与 Dry-run 演练） (#36)
+* **minute:** 接入结构化会议转写接口与平台级用户会议转写命令 (`platform user transcript commands`) (#31, #32)
+* **user:** 优化用户姓名参数，使用统一名称 flag 简化用户创建与更新操作 (#30)
+
+### 🐛 Bug Fixes (问题修复)
+* **minute:** 修复平台级用户会议转写接口调用的地址问题 (#33)
+
+### ♻️ Code Refactoring (代码重构)
+* **minute:** 重构并重命名用户会议转写命令，统一 CLI 命令动词与输出契约 (#34)
+
+### 📝 Documentation (文档更新)
+* **docs:** 全面更新各模块（`product`、`order`、`project`、`minute` 等）参考文档、SKILL.md 及 VitePress 站点命令手册
+
+---
+
 ## 🚀 v1.3.0-beta.2
 
 这个版本进一步完善了 `minute`（会议记录/转写）相关的命令，并修复了一些已知问题，同时更新了命令行的帮助文档。

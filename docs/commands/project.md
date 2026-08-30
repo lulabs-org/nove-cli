@@ -55,7 +55,7 @@ DESCRIPTION
   Create a project in the current organization
 ```
 
-_See code: [src/commands/project/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/project/create.ts)_
+_See code: [src/commands/project/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/project/create.ts)_
 
 ## `nove project delete ID`
 
@@ -77,7 +77,7 @@ DESCRIPTION
   Soft delete a project after reading the exact target
 ```
 
-_See code: [src/commands/project/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/project/delete.ts)_
+_See code: [src/commands/project/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/project/delete.ts)_
 
 ## `nove project get ID`
 
@@ -97,7 +97,7 @@ DESCRIPTION
   Get a project by ID in the current organization
 ```
 
-_See code: [src/commands/project/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/project/get.ts)_
+_See code: [src/commands/project/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/project/get.ts)_
 
 ## `nove project list`
 
@@ -135,7 +135,7 @@ DESCRIPTION
   List projects in the current organization
 ```
 
-_See code: [src/commands/project/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/project/list.ts)_
+_See code: [src/commands/project/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/project/list.ts)_
 
 ## `nove project status ID`
 
@@ -157,7 +157,7 @@ DESCRIPTION
   Update a project status
 ```
 
-_See code: [src/commands/project/status.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/project/status.ts)_
+_See code: [src/commands/project/status.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/project/status.ts)_
 
 ## `nove project update ID`
 
@@ -211,4 +211,4 @@ DESCRIPTION
   Update a project in the current organization
 ```
 
-_See code: [src/commands/project/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/project/update.ts)_
+_See code: [src/commands/project/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/project/update.ts)_

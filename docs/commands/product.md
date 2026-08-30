@@ -54,7 +54,7 @@ DESCRIPTION
   Create a product
 ```
 
-_See code: [src/commands/product/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/product/create.ts)_
+_See code: [src/commands/product/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/product/create.ts)_
 
 ## `nove product delete ID`
 
@@ -76,7 +76,7 @@ DESCRIPTION
   Delete a product
 ```
 
-_See code: [src/commands/product/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/product/delete.ts)_
+_See code: [src/commands/product/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/product/delete.ts)_
 
 ## `nove product get ID`
 
@@ -96,7 +96,7 @@ DESCRIPTION
   Get a product by ID
 ```
 
-_See code: [src/commands/product/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/product/get.ts)_
+_See code: [src/commands/product/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/product/get.ts)_
 
 ## `nove product list`
 
@@ -134,7 +134,7 @@ DESCRIPTION
   List products
 ```
 
-_See code: [src/commands/product/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/product/list.ts)_
+_See code: [src/commands/product/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/product/list.ts)_
 
 ## `nove product status ID`
 
@@ -156,7 +156,7 @@ DESCRIPTION
   Update a product status
 ```
 
-_See code: [src/commands/product/status.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/product/status.ts)_
+_See code: [src/commands/product/status.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/product/status.ts)_
 
 ## `nove product update ID`
 
@@ -209,4 +209,4 @@ DESCRIPTION
   Update a product
 ```
 
-_See code: [src/commands/product/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/product/update.ts)_
+_See code: [src/commands/product/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/product/update.ts)_

@@ -28,7 +28,7 @@ $ npm install -g @novesuite/cli
 $ nove COMMAND
 running command...
 $ nove (--version)
-@novesuite/cli/1.3.0-beta.2 darwin-arm64 node-v22.23.1
+@novesuite/cli/1.3.0 darwin-arm64 node-v22.23.1
 $ nove --help [COMMAND]
 USAGE
   $ nove COMMAND

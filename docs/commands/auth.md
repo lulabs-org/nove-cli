@@ -20,4 +20,4 @@ DESCRIPTION
   Show authentication status without exposing credentials
 ```
 
-_See code: [src/commands/auth/status.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0-beta.2/src/commands/auth/status.ts)_
+_See code: [src/commands/auth/status.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/auth/status.ts)_
