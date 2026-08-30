@@ -24,7 +24,7 @@ export default class ProjectList extends NoveCommand {
     'sort-by': Flags.string({
       default: 'sortOrder',
       description: 'Server sort field',
-      options: ['createdAt', 'updatedAt', 'title', 'sortOrder', 'startDate', 'publishedAt', 'enrolledCount'],
+      options: ['createdAt', 'updatedAt', 'title', 'sortOrder', 'startDate', 'publishedAt'],
     }),
     'sort-order': Flags.string({ default: 'asc', description: 'Server sort order', options: [...SORT_ORDERS] }),
     status: Flags.string({ description: 'Filter by project status', options: [...PROJECT_STATUSES] }),
