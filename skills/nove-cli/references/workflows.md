@@ -22,7 +22,7 @@ nove meeting list --date YYYY-MM-DD --timezone Asia/Shanghai --all --json
 meeting list/get
   -> minute list --meeting-id
   -> minute get
-  -> minute transcript --format json --json
+  -> minute transcript --json
   -> 分析完整转写
 ```
 
@@ -30,8 +30,40 @@ meeting list/get
 2. 使用 `minute list --meeting-id <meeting-id> --all --json`；一场会议可能有多份记录。
 3. 根据 minute 的 `id`、`source`、`errorMessage` 和时间选择记录。多份均可用但用户意图不明确时请求选择。
 4. `minute get <minute-id> --json` 存在 `errorMessage` 时停止并报告。
-5. 用 `minute transcript <minute-id> --format json --json` 获取完整结构；不要分析表格截断或普通输出的一小段。
+5. 用 `minute transcript <minute-id> --json` 获取完整结构；需要关联本地用户信息时增加 `--include-local-user`。不要分析表格截断或普通输出的一小段。
 6. 长转写可以分块分析，但最终结论必须覆盖全部分块。区分原文事实、总结、建议和推断；标记疑似 ASR 错误。
+
+## 查询平台用户在时间段内主要讨论的内容
+
+```text
+PlatformUser.id + 带时区的时间区间
+  -> minute user-transcripts
+  -> 从命中结果取得 minuteId
+  -> minute transcript-context
+  -> 分析目标发言及其必要上下文
+```
+
+1. 先确认使用的是 Nove `PlatformUser.id`，不是 participant ID、本地 `User.id` 或第三方平台原始用户 ID。
+2. 使用最多 31 天的半开区间定位该用户有发言的录制：
+
+```bash
+nove minute user-transcripts <platform-user-id> \
+  --start-date '<inclusive-iso-date-time-with-timezone>' \
+  --end-date '<exclusive-iso-date-time-with-timezone>' \
+  --json
+```
+
+3. 第一步按 `Minute.startAt` 查询并只返回目标用户自己的段落，适合定位相关 Minute。
+4. 对需要理解上下文的每个 `minuteId`，再运行：
+
+```bash
+nove minute transcript-context <minute-id> <platform-user-id> \
+  --depth <0-to-20> \
+  --json
+```
+
+5. 不同 Transcript 独立分析；`isTargetSpeaker` 为 `true` 的段落才是目标用户发言，其余段落只是上下文。无需为了这个目标额外拉取整份转写。
+6. 这两个命令都要求 `platform-user:read` 和 `minute:read`。没有命中发言是成功的空结果，不等同于用户未参会；判断参会仍使用 `meeting participants`。
 
 ## 确认某人是否参会
 
@@ -85,3 +117,28 @@ nove tracking-report create \
 
 6. 从响应的 `id` 取得 report ID，再 `tracking-report get <report-id> --json` 核对目标、周期、正文和 `sourceCount`。
 7. 409 时查询同目标、类型和周期的现有报告；不要改日期或重复创建来绕过冲突。
+
+## 创建或维护项目
+
+1. 用 `project list --all --json` 检查同名、同编号或同 slug 项目，避免重复创建。
+2. 需要负责人或产品关联时，先分别用 `user get/list --json` 与 `product get/list --json` 确认准确 ID。
+3. 执行 `project create/update/status` 后，使用响应 ID 再运行 `project get ID --json`，核对状态、人数、关联、排期、列表字段和 metadata。
+4. 删除前运行 `project delete ID --dry-run --json` 查看 API 返回的准确目标；确认后才运行 `--yes --json`。
+5. 删除后用 `project get ID --json` 和普通列表确认项目不可见。删除是软删除，不代表成员或课程数据被物理清除。
+
+## 创建关联产品的订单
+
+```text
+product list/get
+  -> user list/get（如需购买者或负责人）
+  -> order list（重复预检）
+  -> 明确创建授权
+  -> order create
+  -> order get 验证
+```
+
+1. 用产品编号或关键词运行 `product list --json`，再以 `product get <product-id> --json` 核对产品 ID、名称、状态、价格和币种。
+2. 订单涉及购买者、负责人或财务结单人时，分别查询本地 user ID；不要用 participant 或 platform user ID。
+3. 有外部订单号时，用 `order list --keyword '<external-id>' --all --json` 检查重复；同时核对渠道 ID，因为外部订单号的唯一性与渠道有关。
+4. 向用户复述产品、金额、币种、购买者、渠道和初始状态，取得明确创建授权。
+5. 运行 `order create ... --json`，从响应获取 order ID，再以 `order get <order-id> --json` 核对订单号、金额、状态、产品和用户关联。

@@ -9,6 +9,15 @@ export const PROCESSING_STATUSES = ['PENDING', 'PROCESSING', 'COMPLETED', 'FAILE
 export const RECORDING_SOURCES = ['PLATFORM_AUTO', 'USER_MANUAL', 'THIRD_PARTY'] as const;
 export const USER_SORT_FIELDS = ['createdAt', 'updatedAt', 'lastLoginAt', 'username', 'email'] as const;
 export const SORT_ORDERS = ['asc', 'desc'] as const;
+export const CURRENCIES = ['CNY', 'USD', 'EUR', 'GBP', 'JPY', 'HKD', 'TWD', 'SGD', 'AUD', 'CAD'] as const;
+export const ORDER_STATUSES = ['UNPAID', 'PAID', 'CANCELLED', 'REFUNDED', 'COMPLETED'] as const;
+export const PAYMENT_PROVIDERS = ['STRIPE', 'PAYPAL', 'WECHAT', 'ALIPAY', 'APPLE_PAY', 'GOOGLE_PAY', 'OTHER'] as const;
+export const PRODUCT_CATEGORIES = ['COURSE', 'MEMBERSHIP', 'CONSULTATION', 'MATERIAL', 'OTHER'] as const;
+export const PRODUCT_STATUSES = ['ACTIVE', 'INACTIVE', 'DRAFT', 'ARCHIVED'] as const;
+export const PROJECT_LEVELS = ['BEGINNER', 'INTERMEDIATE', 'ADVANCED'] as const;
+export const PROJECT_STATUSES = [
+  'DRAFT', 'PUBLISHED', 'ENROLLING', 'IN_PROGRESS', 'COMPLETED', 'ARCHIVED',
+] as const;
 export const TRACKING_REPORT_CADENCES = ['DAILY', 'WEEKLY', 'MONTHLY', 'QUARTERLY', 'YEARLY'] as const;
 export const TRACKING_REPORT_TYPES = [
   'MEETING_SUMMARY', 'TRAINING_PLAN', 'DEVELOPMENT_PLAN', 'PROJECT_PROGRESS', 'USER_PROFILE',

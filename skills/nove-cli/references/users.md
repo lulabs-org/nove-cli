@@ -41,9 +41,11 @@ JSON 结构需要区分：`user list --json` 的每个列表项将 `displayName`
 
 支持的资料字段包括：
 
-`username`、`email`、`phone`、`country-code`、`display-name`、`first-name`、`last-name`、`active`、`gender`、`date-of-birth`、`avatar`、`bio`、`address`、`city`、`country`、`website`、`zip-code`。
+`username`、`email`、`phone`、`country-code`、`display-name`、`full-name`、`active`、`gender`、`date-of-birth`、`avatar`、`bio`、`address`、`city`、`country`、`website`、`zip-code`。`full-name` 是用户填写的完整姓名，不代表已完成实名认证。
 
-使用 `--active` 设置启用，使用 `--no-active` 设置停用。`--gender` 支持 `MALE`、`FEMALE`、`OTHER`；日期格式为有效的 `YYYY-MM-DD`；头像和网站必须使用 HTTP(S) URL。创建用户时至少提供用户名、邮箱或手机号之一，电话号码本体与 `--country-code` 必须一起传递。
+使用 `--active` 设置启用，使用 `--no-active` 设置停用。`--gender` 支持 `MALE`、`FEMALE`、`OTHER`；日期格式为有效的 `YYYY-MM-DD`；头像和网站必须使用 HTTP(S) URL。
+
+创建用户时至少提供用户名、邮箱或手机号之一；如果提供手机号，`--phone` 与 `--country-code` 必须成对传递。更新命令允许只修改手机号或国家代码中的一个字段，因此更新前必须读取现有详情，确认更新后的组合仍然有效。
 
 更新前先获取用户详情，明确展示将改变的字段；未提供任何字段时不要执行。完成后再次 `user get` 验证。
 
@@ -51,7 +53,9 @@ JSON 结构需要区分：`user list --json` 的每个列表项将 `displayName`
 
 导入接受 CSV 或 XLSX 文件，并会直接写入服务端；当前命令没有 dry-run。
 
-按当前 API 契约，服务端单次最多接受 5 MiB、5000 条数据；这是服务端限制，不应由 CLI 本地检查结果推断线上契约始终不变。首行是表头，常用英文字段为 `username`、`email`、`countryCode`、`phone`、`displayName`、`avatar`、`bio`、`firstName`、`lastName`、`dateOfBirth`、`gender`、`address`、`city`、`country`、`zipCode`、`website`、`active`；也接受对应中文表头。每行至少包含用户名、邮箱或手机号之一，手机号与国家代码成对提供。
+按当前 API 契约，服务端单次最多接受 5 MiB、5000 条数据；这是服务端限制，不应由 CLI 本地检查结果推断线上契约始终不变。首行是表头，常用英文字段为 `username`、`email`、`countryCode`、`phone`、`displayName`、`avatar`、`bio`、`fullName`、`dateOfBirth`、`gender`、`address`、`city`、`country`、`zipCode`、`website`、`active`；也接受对应中文表头。每行至少包含用户名、邮箱或手机号之一，手机号与国家代码成对提供。
+
+为防止旧导入文件丢失姓名，服务端仍兼容旧表头 `firstName`/`lastName`（或“名”/“姓”），并在导入边界合并为 `fullName`。新文件应直接使用 `fullName`。
 
 导入中的 `active` 可使用 `true/false`、`1/0`、`是/否`、`启用/停用`；`gender` 可使用 `MALE/FEMALE/OTHER/PREFER_NOT_TO_SAY` 或 `男/女/其他/不愿透露`。不要把未识别表头或枚举值当作已成功导入。
 

@@ -25,4 +25,4 @@ DESCRIPTION
   Sign in through the browser, or validate an API Key for automation
 ```
 
-_See code: [src/commands/login/index.ts](https://github.com/lulabs-org/nove-cli/blob/v1.2.0/src/commands/login/index.ts)_
+_See code: [src/commands/login/index.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/login/index.ts)_

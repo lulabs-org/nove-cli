@@ -16,6 +16,12 @@ Meeting（会议）
 TrackingTarget（被追踪业务对象）
 └── TrackingReport（按类型和周期生成的报告）
     └── TrackingReportSource（证据引用）
+
+Product（产品）
+├── Project（项目可选关联产品）
+└── Order（订单，可保存产品 ID 关联和产品名称快照）
+    ├── purchaserId / currentOwnerId / financialCloserId（Nove 本地用户 ID）
+    └── channelId（渠道 ID）
 ```
 
 用户和追踪目标可能与会议有关，但它们不是会议的子资源。报告的 source 只是引用证据，不会复制或改变原资源。
@@ -27,11 +33,15 @@ TrackingTarget（被追踪业务对象）
 | `meetingId` | Nove 内部会议 ID | `meeting list/get` 的 `id` | `meeting get/participants/update/delete`、`minute list --meeting-id` |
 | `platformMeetingId` | 飞书、腾讯会议等平台侧会议 ID | 会议详情的 `platformMeetingId` | 创建会议记录或识别外部会议；不能代替 `meetingId` |
 | participant `id` | 一条参会快照 ID | `meeting participants` | 识别某次参会记录；不是 user ID |
-| `platformUserId` | 平台身份 ID | participant 的 `platformUser.id` 或总结的 `platformUserId` | 创建/定位 speaker summary；不能代替本地 user ID |
+| `platformUserId` | Nove 平台用户记录 ID，即 `PlatformUser.id` | participant 的 `platformUser.id` 或总结的 `platformUserId` | 创建/定位 speaker summary、查询用户有发言的 Minute 和转写上下文；不能代替 participant ID、本地 user ID 或第三方平台原始用户 ID |
 | `userId` | Nove 本地用户 ID | `user list/get` 的 `id` 或 participant 的 `user.id` | `user get/update/delete`，也可作为 USER 类型的追踪 `target-id` |
 | `minuteId` | 一份会议记录 ID | `minute list/get` 的 `id` | `minute get/transcript/delete` 和全部 speaker-summary 命令 |
 | `summaryId` | 一条 speaker summary ID | `minute speaker-summary list/get` 的 `id` | 更新或删除该总结 |
 | `reportId` | 一份追踪报告 ID | `tracking-report list/get` 的 `id` | `tracking-report get/update/delete` |
+| `productId` | 一项产品 ID | `product list/get` 的 `id` | `product get/update/status/delete`、订单的 `--product-id` |
+| `projectId` | 当前组织中的项目 ID | `project list/get` 的 `id` | `project get/update/status/delete`、PROJECT 类型追踪目标 |
+| `orderId` | 一笔订单 ID | `order list/get` 的 `id` | `order get/update/status/delete` |
+| `channelId` | 订单渠道 ID，整数 | 订单详情或渠道资源 | 订单的 `--channel-id`；不能代替产品或用户 ID |
 | tracking `targetId` | 被追踪对象的业务 ID | 由 `targetType` 决定 | 创建或筛选追踪报告；不是 TrackingTarget 数据库行 ID |
 | source `sourceId` | 报告引用的证据 ID | 由 `sourceType` 决定 | 写入 tracking report 的 sources |
 
@@ -42,7 +52,7 @@ TrackingTarget（被追踪业务对象）
 | `target-type` | `target-id` 应表示 |
 | --- | --- |
 | `USER` | Nove 本地用户 ID |
-| `PLATFORM_USER` | 外部平台用户 ID |
+| `PLATFORM_USER` | Nove `PlatformUser.id`，不是第三方平台原始用户 ID |
 | `PROJECT` | 项目业务 ID |
 | `ORGANIZATION` | 组织或团队业务 ID |
 
@@ -77,3 +87,6 @@ metadata 是证据快照的补充信息，不改变 `sourceId` 的含义。写�
 - speaker summary 属于 minute，不直接属于 meeting。
 - tracking report 的 `id` 与其 `target.targetId` 不同。
 - `sourceId` 没有统一命名空间，必须与同一项的 `sourceType` 一起解释。
+- order 的 `productId` 是关联键，`productName` 是写入时的名称快照；名称不能代替产品 ID。
+- project 的 `ownerId` 是 Nove 本地用户 ID，`productId` 是产品 ID；两者都不能用显示名称替代。
+- order 的 `purchaserId`、`currentOwnerId` 和 `financialCloserId` 都使用 Nove 本地 user ID，但业务角色不同。

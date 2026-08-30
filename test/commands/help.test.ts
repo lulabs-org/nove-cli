@@ -19,9 +19,17 @@ describe('command help matrix', () => {
       ['meeting', 'create'], ['meeting', 'delete'], ['meeting', 'get'], ['meeting', 'list'],
       ['meeting', 'participants'], ['meeting', 'stats'], ['meeting', 'update'],
       ['minute', 'delete'], ['minute', 'get'], ['minute', 'list'],
+      ['minute', 'user-transcripts'],
       ['minute', 'speaker-summary', 'create'], ['minute', 'speaker-summary', 'delete'],
       ['minute', 'speaker-summary', 'get'], ['minute', 'speaker-summary', 'list'],
       ['minute', 'speaker-summary', 'update'], ['minute', 'transcript'],
+      ['minute', 'transcript-context'],
+      ['order', 'create'], ['order', 'delete'], ['order', 'get'], ['order', 'list'],
+      ['order', 'status'], ['order', 'update'],
+      ['product', 'create'], ['product', 'delete'], ['product', 'get'], ['product', 'list'],
+      ['product', 'status'], ['product', 'update'],
+      ['project', 'create'], ['project', 'delete'], ['project', 'get'], ['project', 'list'],
+      ['project', 'status'], ['project', 'update'],
       ['tracking-report', 'create'], ['tracking-report', 'delete'], ['tracking-report', 'get'],
       ['tracking-report', 'list'], ['tracking-report', 'update'],
       ['user', 'create'], ['user', 'delete'], ['user', 'get'], ['user', 'import'],
@@ -42,7 +50,8 @@ describe('command help matrix', () => {
 
   it('loads root, topic, and explicit help entry points', async () => {
     const cases = [
-      [], ['help'], ['meeting', '--help'], ['minute', '--help'],
+      [], ['help'], ['meeting', '--help'], ['minute', '--help'], ['order', '--help'],
+      ['product', '--help'], ['project', '--help'],
       ['tracking-report', '--help'], ['user', '--help'],
     ];
     const results = await Promise.all(cases.map((args) => runCli(args, { HOME: testHome })));

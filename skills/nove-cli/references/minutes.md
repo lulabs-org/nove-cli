@@ -13,6 +13,8 @@
 | 列出记录 | `nove minute list` |
 | 获取记录详情 | `nove minute get <minute-id>` |
 | 获取转写 | `nove minute transcript <minute-id>` |
+| 查询平台用户在时间段内有发言的录制 | `nove minute user-transcripts <platform-user-id>` |
+| 获取平台用户在指定记录中的转写上下文 | `nove minute transcript-context <minute-id> <platform-user-id>` |
 | 列出参会者总结 | `nove minute speaker-summary list <minute-id>` |
 | 获取参会者总结 | `nove minute speaker-summary get <minute-id> <summary-id>` |
 | 创建参会者总结 | `nove minute speaker-summary create <minute-id>` |
@@ -27,7 +29,7 @@
 - `--meeting-id`：按会议 ID 筛选
 - `--source`：`PLATFORM_AUTO`、`USER_MANUAL` 或 `THIRD_PARTY`
 - `--page`，默认 `1`
-- `--limit`，默认 `10`
+- `--limit`，默认 `10`，最大 `100`
 - `--all`，自动获取并合并全部分页
 - `--fields`、`--sort`，只控制表格输出
 
@@ -47,14 +49,54 @@ nove minute list \
 
 ```bash
 nove minute get <minute-id>
-nove minute transcript <minute-id> --format json --json
+nove minute transcript <minute-id> --json
 ```
 
-`--format` 决定 API 返回转写正文还是分段结构，支持 `text` 和 `json`，默认 `text`；`--json` 决定 CLI 是否以单个 JSON 值输出。需要分析、时间轴或长文本处理时使用 `--format json --json`；仅供人阅读正文时可保留默认格式。
+当前 `minute transcript` 命令始终读取结构化转写，没有 `--format` 参数。`--json` 只决定 CLI 是否以单个 JSON 值输出；自动化分析、时间轴处理或跨步骤读取时使用 `--json`。
+
+转写段落默认包含平台用户关联。需要同时读取已关联的 Nove 本地用户信息时使用：
+
+```bash
+nove minute transcript <minute-id> --include-local-user --json
+```
 
 若记录包含 `errorMessage`，先报告错误并停止，不用其他会议或记录的内容替代。没有错误但转写尚不可用时，明确说明资源尚未生成。
 
-`--format json` 控制 API 返回分段结构，外层 `--json` 控制 CLI 输出协议；自动化分析通常两者都需要。只添加外层 `--json` 不会把文本转写自动变成分段数据。
+`--include-local-user` 只补充段落中的本地用户详情，不改变转写段落范围；不要把平台用户 ID 与补充返回的本地用户 ID 混用。
+
+## 按平台用户查询有发言的录制
+
+使用平台用户 ID 和带明确时区的半开时间区间，按 `Minute.startAt` 查询该用户确实有发言的 Minute，以及该用户自己的转写段落。单次区间最多 31 天：
+
+```bash
+nove minute user-transcripts <platform-user-id> \
+  --start-date '2026-08-01T00:00:00+08:00' \
+  --end-date '2026-09-01T00:00:00+08:00' \
+  --json
+```
+
+响应使用 `minutes -> transcripts -> segments` 嵌套结构，每个 Minute 同时返回 nullable 的 `meeting` 元数据。不会返回没有本人发言的 Minute 或 Transcript；没有命中时 `minutes` 为空。这里必须传 `PlatformUser.id`，不能传 participant ID 或本地 user ID。
+
+查询主体和响应主体都是 Minute，不按 `Meeting.startAt` 查询，也不返回 `meetings` 根数组。命中结果证明该用户存在发言段落，但不能替代 `meeting participants` 查询完整参会关系。
+
+此命令要求当前凭据同时具有 `platform-user:read` 和 `minute:read` 权限。
+
+## 获取平台用户的转写上下文
+
+使用 Minute ID、平台用户 ID 和 `--depth` 获取目标发言前后各 N 个段落；深度范围为 `0–20`：
+
+```bash
+nove minute transcript-context <minute-id> <platform-user-id> \
+  --depth 3 \
+  --json
+```
+
+不同 Transcript 独立返回，重叠窗口会合并去重；`isTargetSpeaker` 用于区分目标用户发言和上下文。用户必须是该 Minute 所属会议的有效参会者。
+
+- `depth=0` 时只返回目标用户本人的发言。
+- PlatformUser、Minute、参会关系或 Transcript 不存在时，API 返回 404。
+- Transcript 存在但目标用户没有发言时，命令成功，对应 Transcript 的 `segments` 为空。
+- 此命令要求当前凭据同时具有 `platform-user:read` 和 `minute:read` 权限。
 
 ## 参会者总结
 
@@ -69,7 +111,7 @@ nove minute speaker-summary get <minute-id> <summary-id>
 
 总结列表数组位于 `data`。`platformUserId` 标识平台身份，列表项 `id` 才是 summary ID；更新或删除必须传 summary ID。
 
-创建总结必须提供平台用户 ID 和正文。关键词参数可重复；`--generated-by` 支持 `AI`、`HYBRID` 和 `MANUAL`：
+创建总结必须提供平台用户 ID 和正文。关键词参数可重复；`--generated-by` 支持 `AI`、`HYBRID` 和 `MANUAL`，`--ai-model` 可记录生成总结所用的模型：
 
 ```bash
 nove minute speaker-summary create <minute-id> \

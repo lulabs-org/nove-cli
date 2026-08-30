@@ -38,12 +38,45 @@ describe('minute request matrix', () => {
     response: { data: [], page: 2, total: 0, totalPages: 0 },
   },
   {
-    args: ['minute', 'transcript', 'minute-1', '--format', 'json'],
+    args: ['minute', 'transcript', 'minute-1'],
+    assertRequest: expectRequest('GET', '/minutes/minute-1/transcript'),
+    name: 'minute transcript',
+  },
+  {
+    args: ['minute', 'transcript', 'minute-1', '--includeLocalUser'],
     assertRequest(request) {
       expectRequest('GET', '/minutes/minute-1/transcript')(request);
-      expect(request.url.searchParams.get('format')).to.equal('json');
+      expect(Object.fromEntries(request.url.searchParams)).to.deep.equal({
+        includeLocalUser: 'true',
+      });
     },
-    name: 'minute transcript',
+    name: 'minute transcript with local user',
+  },
+  {
+    args: [
+      'minute', 'user-transcripts', 'platform-user-1',
+      '--startDate', '2026-08-01T00:00:00+08:00',
+      '--endDate', '2026-09-01T00:00:00+08:00',
+    ],
+    assertRequest(request) {
+      expectRequest('GET', '/platform-users/platform-user-1/minutes/transcripts')(request);
+      expect(Object.fromEntries(request.url.searchParams)).to.deep.equal({
+        endDate: '2026-09-01T00:00:00+08:00',
+        startDate: '2026-08-01T00:00:00+08:00',
+      });
+    },
+    name: 'platform user minute transcripts',
+  },
+  {
+    args: ['minute', 'transcript-context', 'minute-1', 'platform-user-1', '--depth', '3'],
+    assertRequest(request) {
+      expectRequest(
+        'GET',
+        '/platform-users/platform-user-1/minutes/minute-1/transcript-context',
+      )(request);
+      expect(Object.fromEntries(request.url.searchParams)).to.deep.equal({ depth: '3' });
+    },
+    name: 'platform user transcript context',
   },
   {
     args: ['minute', 'delete', 'minute-1', '--yes'],

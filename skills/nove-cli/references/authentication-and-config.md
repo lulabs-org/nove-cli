@@ -66,6 +66,8 @@ nove logout --json
 
 `auth status` 只报告非敏感的登录方式、组织、权限和有效期等状态，不返回 API Key 或 Token。`nove logout` 对 OAuth 凭据默认先请求服务端撤销，再删除本地凭据；只有在服务端不可用且用户明确接受仅清理本地状态时才使用 `nove logout --local-only`。API Key 登录退出时只删除本地凭据。`logout` 可以重复执行，未登录时也不会暴露或伪造凭据信息。
 
+新增资源权限不会自动进入既有 OAuth 会话。执行项目、产品或订单操作前，可从 `nove auth status --json` 检查对应 `project:*`、`product:*` 或 `order:*` scope；缺失时请用户重新完成 OAuth 授权。API Key 的 scope 由服务端管理，CLI 不会自行扩大。
+
 凭据文件写入时权限应为 `0600`。如果凭据或配置文件存在但 JSON 已损坏、结构不合法或字段类型错误，CLI 会明确报错；不要把它解释成“未登录”，也不要为了绕过错误读取、重写或删除用户文件。
 
 ## 执行前检查
