@@ -24,6 +24,10 @@ describe('command help matrix', () => {
       ['minute', 'speaker-summary', 'get'], ['minute', 'speaker-summary', 'list'],
       ['minute', 'speaker-summary', 'update'], ['minute', 'transcript'],
       ['minute', 'transcript-context'],
+      ['order', 'create'], ['order', 'delete'], ['order', 'get'], ['order', 'list'],
+      ['order', 'status'], ['order', 'update'],
+      ['product', 'create'], ['product', 'delete'], ['product', 'get'], ['product', 'list'],
+      ['product', 'status'], ['product', 'update'],
       ['tracking-report', 'create'], ['tracking-report', 'delete'], ['tracking-report', 'get'],
       ['tracking-report', 'list'], ['tracking-report', 'update'],
       ['user', 'create'], ['user', 'delete'], ['user', 'get'], ['user', 'import'],
@@ -44,7 +48,8 @@ describe('command help matrix', () => {
 
   it('loads root, topic, and explicit help entry points', async () => {
     const cases = [
-      [], ['help'], ['meeting', '--help'], ['minute', '--help'],
+      [], ['help'], ['meeting', '--help'], ['minute', '--help'], ['order', '--help'],
+      ['product', '--help'],
       ['tracking-report', '--help'], ['user', '--help'],
     ];
     const results = await Promise.all(cases.map((args) => runCli(args, { HOME: testHome })));

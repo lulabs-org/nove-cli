@@ -117,3 +117,20 @@ nove tracking-report create \
 
 6. 从响应的 `id` 取得 report ID，再 `tracking-report get <report-id> --json` 核对目标、周期、正文和 `sourceCount`。
 7. 409 时查询同目标、类型和周期的现有报告；不要改日期或重复创建来绕过冲突。
+
+## 创建关联产品的订单
+
+```text
+product list/get
+  -> user list/get（如需购买者或负责人）
+  -> order list（重复预检）
+  -> 明确创建授权
+  -> order create
+  -> order get 验证
+```
+
+1. 用产品编号或关键词运行 `product list --json`，再以 `product get <product-id> --json` 核对产品 ID、名称、状态、价格和币种。
+2. 订单涉及购买者、负责人或财务结单人时，分别查询本地 user ID；不要用 participant 或 platform user ID。
+3. 有外部订单号时，用 `order list --keyword '<external-id>' --all --json` 检查重复；同时核对渠道 ID，因为外部订单号的唯一性与渠道有关。
+4. 向用户复述产品、金额、币种、购买者、渠道和初始状态，取得明确创建授权。
+5. 运行 `order create ... --json`，从响应获取 order ID，再以 `order get <order-id> --json` 核对订单号、金额、状态、产品和用户关联。

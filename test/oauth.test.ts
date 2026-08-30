@@ -7,7 +7,12 @@ import path from 'node:path';
 
 import { fetchApi } from '../dist/utils/api.js';
 import { getAuthStatus, getOAuthAuth, saveOAuthAuth } from '../dist/utils/auth.js';
-import { loginWithBrowser, refreshOAuthAccessToken, startCallbackServer } from '../dist/utils/oauth.js';
+import {
+  DEFAULT_OAUTH_SCOPES,
+  loginWithBrowser,
+  refreshOAuthAccessToken,
+  startCallbackServer,
+} from '../dist/utils/oauth.js';
 
 /* eslint-disable camelcase -- OAuth wire fields are defined by the protocol. */
 
@@ -50,6 +55,13 @@ describe('OAuth browser authentication', () => {
     if (previousApiUrl === undefined) delete process.env.NOVE_API_URL;
     else process.env.NOVE_API_URL = previousApiUrl;
     rmSync(configDir, { force: true, recursive: true });
+  });
+
+  it('requests product and order permissions by default', () => {
+    expect(DEFAULT_OAUTH_SCOPES).to.include.members([
+      'product:read', 'product:create', 'product:update', 'product:toggle-status', 'product:delete',
+      'order:read', 'order:create', 'order:update', 'order:status', 'order:delete',
+    ]);
   });
 
   it('keeps listening after a forged state and accepts the valid loopback callback', async () => {

@@ -42,5 +42,9 @@ export function createTestHome(prefix = 'nove-cli-test-'): string {
 }
 
 export function removeTestHome(testHome: string): void {
-  rmSync(testHome, { force: true, recursive: true });
+  try {
+    rmSync(testHome, { force: true, maxRetries: 5, recursive: true, retryDelay: 100 });
+  } catch {
+    // Ignore transient cleanup errors
+  }
 }
