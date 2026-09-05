@@ -35,6 +35,8 @@
 
 更新时可重复使用 `--clear FIELD` 解除可空关联或清空可空值。订单状态的单一变化优先使用 `order status`，产品状态的单一变化优先使用 `product status`，便于匹配权限和审计语义。
 
+订单权益周期使用 `--benefit-start` 和 `--benefit-end`；不要使用已移除的 `--effective-at`。退款时间属于独立退款记录，不通过订单创建或更新的 `--refunded-at` 写入；订单退款状态仍通过 `order status` 管理。
+
 ## 写操作闭环
 
 1. 创建前用唯一编号或相关 ID 查询，避免重复产品、订单或错误关联。
