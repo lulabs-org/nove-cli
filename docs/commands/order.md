@@ -18,12 +18,12 @@ Create an order
 USAGE
   $ nove order create --amount <value> [--amount-cny <value>] [--benefit-end <value>] [--benefit-start <value>]
     [--cancelled-at <value>] [--channel-id <value>] [--completed-at <value>] [--currency
-    CNY|USD|EUR|GBP|JPY|HKD|TWD|SGD|AUD|CAD] [--current-owner-id <value>] [--effective-at <value>] [--email <value>]
-    [--external-id <value>] [--financial-closed-at <value>] [--financial-closer-id <value>] [--fx-locked-at <value>]
-    [--fx-rate-to-cny <value>] [--metadata <value>] [--order-code <value>] [--order-number <value>] [--paid-at <value>]
-    [--payment-provider STRIPE|PAYPAL|WECHAT|ALIPAY|APPLE_PAY|GOOGLE_PAY|OTHER] [--phone <value>] [--phone-code <value>]
-    [--product-id <value>] [--product-name <value>] [--provider-trade-no <value>] [--purchaser-id <value>]
-    [--refunded-at <value>] [--status UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED] [--json]
+    CNY|USD|EUR|GBP|JPY|HKD|TWD|SGD|AUD|CAD] [--current-owner-id <value>] [--email <value>] [--external-id <value>]
+    [--financial-closed-at <value>] [--financial-closer-id <value>] [--fx-locked-at <value>] [--fx-rate-to-cny <value>]
+    [--metadata <value>] [--order-code <value>] [--order-number <value>] [--paid-at <value>] [--payment-provider
+    STRIPE|PAYPAL|WECHAT|ALIPAY|APPLE_PAY|GOOGLE_PAY|OTHER] [--phone <value>] [--phone-code <value>] [--product-id
+    <value>] [--product-name <value>] [--provider-trade-no <value>] [--purchaser-id <value>] [--status
+    UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED] [--json]
 
 FLAGS
   --amount=<value>               (required) Order amount in the smallest currency unit
@@ -36,7 +36,6 @@ FLAGS
   --currency=<option>            Currency
                                  <options: CNY|USD|EUR|GBP|JPY|HKD|TWD|SGD|AUD|CAD>
   --current-owner-id=<value>     Current owner user ID
-  --effective-at=<value>         Effective ISO 8601 date-time with timezone
   --email=<value>                Customer email
   --external-id=<value>          External platform order ID
   --financial-closed-at=<value>  Financial close ISO 8601 date-time with timezone
@@ -56,7 +55,6 @@ FLAGS
   --product-name=<value>         Product name snapshot
   --provider-trade-no=<value>    Payment provider transaction number
   --purchaser-id=<value>         Purchaser user ID
-  --refunded-at=<value>          Refund ISO 8601 date-time with timezone
   --status=<option>              Order status
                                  <options: UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED>
 
@@ -187,15 +185,14 @@ Update an order
 USAGE
   $ nove order update ID [--amount <value>] [--amount-cny <value>] [--benefit-end <value>] [--benefit-start
     <value>] [--cancelled-at <value>] [--channel-id <value>] [--completed-at <value>] [--currency
-    CNY|USD|EUR|GBP|JPY|HKD|TWD|SGD|AUD|CAD] [--current-owner-id <value>] [--effective-at <value>] [--email <value>]
-    [--external-id <value>] [--financial-closed-at <value>] [--financial-closer-id <value>] [--fx-locked-at <value>]
-    [--fx-rate-to-cny <value>] [--metadata <value>] [--order-code <value>] [--order-number <value>] [--paid-at <value>]
-    [--payment-provider STRIPE|PAYPAL|WECHAT|ALIPAY|APPLE_PAY|GOOGLE_PAY|OTHER] [--phone <value>] [--phone-code <value>]
-    [--product-id <value>] [--product-name <value>] [--provider-trade-no <value>] [--purchaser-id <value>]
-    [--refunded-at <value>] [--status UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED] [--clear
-    external-id|metadata|product-id|product-name|purchaser-id|channel-id|email|phone|phone-code|current-owner-id|financi
-    al-closer-id|financial-closed-at|fx-locked-at|paid-at|cancelled-at|refunded-at|completed-at|effective-at|benefit-sta
-    rt|benefit-end|amount-cny|fx-rate-to-cny|payment-provider|provider-trade-no...] [--json]
+    CNY|USD|EUR|GBP|JPY|HKD|TWD|SGD|AUD|CAD] [--current-owner-id <value>] [--email <value>] [--external-id <value>]
+    [--financial-closed-at <value>] [--financial-closer-id <value>] [--fx-locked-at <value>] [--fx-rate-to-cny <value>]
+    [--metadata <value>] [--order-code <value>] [--order-number <value>] [--paid-at <value>] [--payment-provider
+    STRIPE|PAYPAL|WECHAT|ALIPAY|APPLE_PAY|GOOGLE_PAY|OTHER] [--phone <value>] [--phone-code <value>] [--product-id
+    <value>] [--product-name <value>] [--provider-trade-no <value>] [--purchaser-id <value>] [--status
+    UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED] [--clear external-id|metadata|product-id|product-name|purchaser-id|channel
+    -id|email|phone|phone-code|current-owner-id|financial-closer-id|financial-closed-at|fx-locked-at|paid-at|cancelled-a
+    t|completed-at|benefit-start|benefit-end|amount-cny|fx-rate-to-cny|payment-provider|provider-trade-no...] [--json]
 
 ARGUMENTS
   ID  Order ID
@@ -210,13 +207,12 @@ FLAGS
   --clear=<option>...            Clear a nullable field; repeat for multiple fields
                                  <options: external-id|metadata|product-id|product-name|purchaser-id|channel-id|email|ph
                                  one|phone-code|current-owner-id|financial-closer-id|financial-closed-at|fx-locked-at|pa
-                                 id-at|cancelled-at|refunded-at|completed-at|effective-at|benefit-start|benefit-end|amou
-                                 nt-cny|fx-rate-to-cny|payment-provider|provider-trade-no>
+                                 id-at|cancelled-at|completed-at|benefit-start|benefit-end|amount-cny|fx-rate-to-cny|pay
+                                 ment-provider|provider-trade-no>
   --completed-at=<value>         Completion ISO 8601 date-time with timezone
   --currency=<option>            Currency
                                  <options: CNY|USD|EUR|GBP|JPY|HKD|TWD|SGD|AUD|CAD>
   --current-owner-id=<value>     Current owner user ID
-  --effective-at=<value>         Effective ISO 8601 date-time with timezone
   --email=<value>                Customer email
   --external-id=<value>          External platform order ID
   --financial-closed-at=<value>  Financial close ISO 8601 date-time with timezone
@@ -236,7 +232,6 @@ FLAGS
   --product-name=<value>         Product name snapshot
   --provider-trade-no=<value>    Payment provider transaction number
   --purchaser-id=<value>         Purchaser user ID
-  --refunded-at=<value>          Refund ISO 8601 date-time with timezone
   --status=<option>              Order status
                                  <options: UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED>
 

@@ -9,8 +9,8 @@ import {
 } from './validation.js';
 
 const DATE_FLAGS = [
-  'financial-closed-at', 'fx-locked-at', 'paid-at', 'cancelled-at', 'refunded-at',
-  'completed-at', 'effective-at', 'benefit-start', 'benefit-end',
+  'financial-closed-at', 'fx-locked-at', 'paid-at', 'cancelled-at',
+  'completed-at', 'benefit-start', 'benefit-end',
 ] as const;
 
 const CLEARABLE_ORDER_FIELDS = [
@@ -29,7 +29,6 @@ const baseOrderFlags = {
   'completed-at': Flags.string({ description: 'Completion ISO 8601 date-time with timezone' }),
   currency: Flags.string({ description: 'Currency', options: [...CURRENCIES] }),
   'current-owner-id': Flags.string({ description: 'Current owner user ID' }),
-  'effective-at': Flags.string({ description: 'Effective ISO 8601 date-time with timezone' }),
   email: Flags.string({ description: 'Customer email' }),
   'external-id': Flags.string({ description: 'External platform order ID' }),
   'financial-closed-at': Flags.string({ description: 'Financial close ISO 8601 date-time with timezone' }),
@@ -47,7 +46,6 @@ const baseOrderFlags = {
   'product-name': Flags.string({ description: 'Product name snapshot' }),
   'provider-trade-no': Flags.string({ description: 'Payment provider transaction number' }),
   'purchaser-id': Flags.string({ description: 'Purchaser user ID' }),
-  'refunded-at': Flags.string({ description: 'Refund ISO 8601 date-time with timezone' }),
   status: Flags.string({ description: 'Order status', options: [...ORDER_STATUSES] }),
 };
 
@@ -77,7 +75,6 @@ const orderFields: Record<string, string> = {
   'completed-at': 'completedAt',
   currency: 'currency',
   'current-owner-id': 'currentOwnerId',
-  'effective-at': 'effectiveAt',
   email: 'email',
   'external-id': 'externalId',
   'financial-closed-at': 'financialClosedAt',
@@ -95,7 +92,6 @@ const orderFields: Record<string, string> = {
   'product-name': 'productName',
   'provider-trade-no': 'providerTradeNo',
   'purchaser-id': 'purchaserId',
-  'refunded-at': 'refundedAt',
   status: 'status',
 };
 
