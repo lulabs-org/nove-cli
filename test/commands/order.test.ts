@@ -93,8 +93,8 @@ describe('order request matrix', () => {
         name: 'order update',
       },
       {
-        args: ['order', 'status', 'order-1', '--status', 'REFUNDED'],
-        assertRequest: expectRequest('PATCH', '/admin/orders/order-1/status', { status: 'REFUNDED' }),
+        args: ['order', 'status', 'order-1', '--status', 'COMPLETED'],
+        assertRequest: expectRequest('PATCH', '/admin/orders/order-1/status', { status: 'COMPLETED' }),
         name: 'order status',
       },
       {
@@ -114,6 +114,27 @@ describe('order request matrix', () => {
       ['order', 'create', '--amount', '1', '--refunded-at', '2026-09-05T00:00:00Z', '--json'],
       ['order', 'update', 'order-1', '--clear', 'effective-at', '--json'],
       ['order', 'update', 'order-1', '--clear', 'refunded-at', '--json'],
+    ];
+
+    const results = await Promise.all(cases.map((args) => runCli(args, {
+      HOME: testHome,
+      NOVE_API_URL: 'http://127.0.0.1:1',
+    })));
+
+    for (const [index, result] of results.entries()) {
+      const args = cases[index];
+      expect(result.code, args.join(' ')).to.equal(2);
+      expect(result.stdout, args.join(' ')).to.equal('');
+      expect(JSON.parse(result.stderr), args.join(' ')).to.include({ code: 'CLI_USAGE_ERROR' });
+    }
+  });
+
+  it('rejects the removed REFUNDED status before sending a request', async () => {
+    const cases = [
+      ['order', 'create', '--amount', '1', '--status', 'REFUNDED', '--json'],
+      ['order', 'update', 'order-1', '--status', 'REFUNDED', '--json'],
+      ['order', 'list', '--status', 'REFUNDED', '--json'],
+      ['order', 'status', 'order-1', '--status', 'REFUNDED', '--json'],
     ];
 
     const results = await Promise.all(cases.map((args) => runCli(args, {

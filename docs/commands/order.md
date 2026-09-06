@@ -23,7 +23,7 @@ USAGE
     [--metadata <value>] [--order-code <value>] [--order-number <value>] [--paid-at <value>] [--payment-provider
     STRIPE|PAYPAL|WECHAT|ALIPAY|APPLE_PAY|GOOGLE_PAY|OTHER] [--phone <value>] [--phone-code <value>] [--product-id
     <value>] [--product-name <value>] [--provider-trade-no <value>] [--purchaser-id <value>] [--status
-    UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED] [--json]
+    UNPAID|PAID|CANCELLED|COMPLETED] [--json]
 
 FLAGS
   --amount=<value>               (required) Order amount in the smallest currency unit
@@ -56,7 +56,7 @@ FLAGS
   --provider-trade-no=<value>    Payment provider transaction number
   --purchaser-id=<value>         Purchaser user ID
   --status=<option>              Order status
-                                 <options: UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED>
+                                 <options: UNPAID|PAID|CANCELLED|COMPLETED>
 
 DESCRIPTION
   Create an order
@@ -118,7 +118,7 @@ USAGE
     [--payment-provider STRIPE|PAYPAL|WECHAT|ALIPAY|APPLE_PAY|GOOGLE_PAY|OTHER] [--product-id <value>] [--purchaser-id
     <value>] [--sort <value>] [--sort-by
     createdAt|updatedAt|paidAt|amount|status|orderCode|orderNumber|financialClosedAt] [--sort-order asc|desc] [--status
-    UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED]
+    UNPAID|PAID|CANCELLED|COMPLETED]
 
 FLAGS
   --all                        Fetch every result page
@@ -147,7 +147,7 @@ FLAGS
   --sort-order=<option>        [default: desc] Server sort order
                                <options: asc|desc>
   --status=<option>            Filter by order status
-                               <options: UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED>
+                               <options: UNPAID|PAID|CANCELLED|COMPLETED>
 
 DESCRIPTION
   List orders
@@ -161,7 +161,7 @@ Update an order status
 
 ```
 USAGE
-  $ nove order status ID --status UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED [--json]
+  $ nove order status ID --status UNPAID|PAID|CANCELLED|COMPLETED [--json]
 
 ARGUMENTS
   ID  Order ID
@@ -169,7 +169,7 @@ ARGUMENTS
 FLAGS
   --json             Output a single JSON value to stdout
   --status=<option>  (required) Order status
-                     <options: UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED>
+                     <options: UNPAID|PAID|CANCELLED|COMPLETED>
 
 DESCRIPTION
   Update an order status
@@ -190,9 +190,9 @@ USAGE
     [--metadata <value>] [--order-code <value>] [--order-number <value>] [--paid-at <value>] [--payment-provider
     STRIPE|PAYPAL|WECHAT|ALIPAY|APPLE_PAY|GOOGLE_PAY|OTHER] [--phone <value>] [--phone-code <value>] [--product-id
     <value>] [--product-name <value>] [--provider-trade-no <value>] [--purchaser-id <value>] [--status
-    UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED] [--clear external-id|metadata|product-id|product-name|purchaser-id|channel
-    -id|email|phone|phone-code|current-owner-id|financial-closer-id|financial-closed-at|fx-locked-at|paid-at|cancelled-a
-    t|completed-at|benefit-start|benefit-end|amount-cny|fx-rate-to-cny|payment-provider|provider-trade-no...] [--json]
+    UNPAID|PAID|CANCELLED|COMPLETED] [--clear external-id|metadata|product-id|product-name|purchaser-id|channel-id|email
+    |phone|phone-code|current-owner-id|financial-closer-id|financial-closed-at|fx-locked-at|paid-at|cancelled-at|complet
+    ed-at|benefit-start|benefit-end|amount-cny|fx-rate-to-cny|payment-provider|provider-trade-no...] [--json]
 
 ARGUMENTS
   ID  Order ID
@@ -233,7 +233,7 @@ FLAGS
   --provider-trade-no=<value>    Payment provider transaction number
   --purchaser-id=<value>         Purchaser user ID
   --status=<option>              Order status
-                                 <options: UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED>
+                                 <options: UNPAID|PAID|CANCELLED|COMPLETED>
 
 DESCRIPTION
   Update an order
