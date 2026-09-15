@@ -22,9 +22,19 @@ Product（产品）
 └── Order（订单，可保存产品 ID 关联和产品名称快照）
     ├── purchaserId / currentOwnerId / financialCloserId（Nove 本地用户 ID）
     └── channelId（渠道 ID）
+
+DriveSpace（云盘空间：个人空间 PERSONAL 与组织空间 ORG）
+├── DriveGrant（空间根级访问控制授权）
+└── DriveNode（目录树节点：FOLDER 文件夹或 FILE 文件挂载点）
+    ├── DriveGrant（节点级访问控制授权）
+    ├── DriveAuditLog（节点操作审计记录）
+    └── DriveFile（底层文件元数据）
+        ├── FileVersion（存储版本，包含 Content-Type、大小、SHA-256 与安全扫描状态）
+        │   └── StorageObject（底层 OSS/S3 物理存储对象）
+        └── FileBinding（业务实体关联绑定，如 Minute 等）
 ```
 
-用户和追踪目标可能与会议有关，但它们不是会议的子资源。报告的 source 只是引用证据，不会复制或改变原资源。
+用户、追踪目标与云盘空间具有独立生命周期。文件的业务绑定（FileBinding）仅表示业务系统引用该文件，并不改变云盘内部物理版本。
 
 ## ID 对照
 
@@ -44,6 +54,11 @@ Product（产品）
 | `channelId` | 订单渠道 ID，整数 | 订单详情或渠道资源 | 订单的 `--channel-id`；不能代替产品或用户 ID |
 | tracking `targetId` | 被追踪对象的业务 ID | 由 `targetType` 决定 | 创建或筛选追踪报告；不是 TrackingTarget 数据库行 ID |
 | source `sourceId` | 报告引用的证据 ID | 由 `sourceType` 决定 | 写入 tracking report 的 sources |
+| `spaceId` | 云盘空间 ID | `drive spaces` 或 `drive space list` 的 `id` | `drive list --space-id`、`drive folder create`、`drive upload`、`drive trash list`、`drive grant * --space-id` |
+| `nodeId` | 云盘目录树节点 ID（文件夹或文件挂载点） | `drive list` 的 `id` | `drive node update/move/delete/restore/audit`、`drive trash purge`、`drive grant * --node-id` |
+| `fileId` | 云盘文件底层实体 ID | `drive list` 的 `fileId` 或详情 | `drive file get/preview-url/download-url/bindings`、`drive download` |
+| `grantId` | 访问控制授权规则 ID | `drive grant list` 的 `id` | `drive grant remove <grantId>` |
+| `sessionId` | 分片上传会话 ID | 分片创建接口返回 | `drive upload-session abort <sessionId>` |
 
 ## 追踪目标
 

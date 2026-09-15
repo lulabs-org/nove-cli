@@ -20,6 +20,9 @@ features:
   - title: 纪要管理
     details: 管理会议纪要，支持查询和获取转写文本数据。
     link: /commands/minute
+  - title: 云盘管理
+    details: 浏览空间与目录，支持大文件分片上传、流式下载、回收站与细粒度授权控制。
+    link: /commands/drive
   - title: 用户管理
     details: 创建、查询和维护用户，支持从 CSV 或 XLSX 文件批量导入。
     link: /commands/user

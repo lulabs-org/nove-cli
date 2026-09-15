@@ -1,6 +1,6 @@
 ---
 name: nove
-description: 使用 nove CLI 配置和访问 Nove API，查询或管理会议、记录、转写、总结、追踪报告、用户、项目、产品与订单。用户提到 nove、nove-cli、Nove 会议数据、用户、项目、产品、订单，或明确要求通过 Nove 命令行完成任务时使用；不用于创建飞书、腾讯会议等第三方日程。
+description: 使用 nove CLI 配置和访问 Nove API，查询或管理会议、记录、转写、总结、追踪报告、用户、项目、产品、订单与云盘文件。用户提到 nove、nove-cli、Nove 会议数据、用户、项目、产品、订单、云盘、Drive 文件与权限，或明确要求通过 Nove 命令行完成任务时使用；不用于创建飞书、腾讯会议等第三方日程。
 ---
 
 # Nove CLI
@@ -43,6 +43,7 @@ description: 使用 nove CLI 配置和访问 Nove API，查询或管理会议、
 | 查询、创建、更新、删除或导入用户 | 读取 [users.md](references/users.md) |
 | 查询或维护当前组织的项目，或调整项目状态 | 读取 [projects.md](references/projects.md) |
 | 查询或维护产品、订单，或调整其状态 | 读取 [commerce.md](references/commerce.md) |
+| 查询或维护云盘空间、目录、文件、分片上传、回收站及访问授权 | 读取 [drive.md](references/drive.md) |
 
 ## 常见组合
 

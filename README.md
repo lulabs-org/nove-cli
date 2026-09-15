@@ -45,6 +45,7 @@ USAGE
 
 * [`nove auth`](docs/commands/auth.md) - Inspect local authentication state
 * [`nove config`](docs/commands/config.md) - Set a configuration value
+* [`nove drive`](docs/commands/drive.md) - Manage cloud drive spaces, files, folders, and permissions
 * [`nove help`](docs/commands/help.md) - Display help for nove.
 * [`nove login`](docs/commands/login.md) - Sign in through the browser, or validate an API Key for automation
 * [`nove logout`](docs/commands/logout.md) - Revoke OAuth access and remove the locally stored credential

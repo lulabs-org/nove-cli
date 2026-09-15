@@ -69,6 +69,9 @@
       "auth": {
         "description": "Inspect local authentication state"
       },
+      "drive": {
+        "description": "Manage cloud drive spaces, files, folders, and permissions"
+      },
       "meeting": {
         "description": "Manage meeting records"
       },

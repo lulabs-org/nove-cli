@@ -48,6 +48,7 @@ export default defineConfig({
           { link: '/commands/logout', text: '退出登录' },
           { link: '/commands/meeting', text: '会议' },
           { link: '/commands/minute', text: '纪要' },
+          { link: '/commands/drive', text: '云盘' },
           { link: '/commands/product', text: '产品' },
           { link: '/commands/project', text: '项目' },
           { link: '/commands/order', text: '订单' },
