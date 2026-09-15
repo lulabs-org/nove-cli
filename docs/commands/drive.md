@@ -150,7 +150,7 @@ DESCRIPTION
   Download a cloud drive file to local disk
 ```
 
-_See code: [src/commands/drive/download.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/download.ts)_
+_See code: [src/commands/drive/download.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/download.ts)_
 
 ## `nove drive download-url FILEID`
 
@@ -198,7 +198,7 @@ ALIASES
   $ nove drive bindings
 ```
 
-_See code: [src/commands/drive/file/bindings.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/file/bindings.ts)_
+_See code: [src/commands/drive/file/bindings.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/file/bindings.ts)_
 
 ## `nove drive file download-url FILEID`
 
@@ -222,7 +222,7 @@ ALIASES
   $ nove drive download-url
 ```
 
-_See code: [src/commands/drive/file/download-url.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/file/download-url.ts)_
+_See code: [src/commands/drive/file/download-url.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/file/download-url.ts)_
 
 ## `nove drive file get FILEID`
 
@@ -246,7 +246,7 @@ ALIASES
   $ nove drive get
 ```
 
-_See code: [src/commands/drive/file/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/file/get.ts)_
+_See code: [src/commands/drive/file/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/file/get.ts)_
 
 ## `nove drive file preview-url FILEID`
 
@@ -270,7 +270,7 @@ ALIASES
   $ nove drive preview-url
 ```
 
-_See code: [src/commands/drive/file/preview-url.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/file/preview-url.ts)_
+_See code: [src/commands/drive/file/preview-url.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/file/preview-url.ts)_
 
 ## `nove drive folder create`
 
@@ -294,7 +294,7 @@ ALIASES
   $ nove drive mkdir
 ```
 
-_See code: [src/commands/drive/folder/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/folder/create.ts)_
+_See code: [src/commands/drive/folder/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/folder/create.ts)_
 
 ## `nove drive get FILEID`
 
@@ -337,7 +337,7 @@ DESCRIPTION
   List access grants for a drive space root or node
 ```
 
-_See code: [src/commands/drive/grant/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/grant/list.ts)_
+_See code: [src/commands/drive/grant/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/grant/list.ts)_
 
 ## `nove drive grant remove GRANTID`
 
@@ -361,7 +361,7 @@ DESCRIPTION
   Remove an access grant from a drive space root or node
 ```
 
-_See code: [src/commands/drive/grant/remove.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/grant/remove.ts)_
+_See code: [src/commands/drive/grant/remove.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/grant/remove.ts)_
 
 ## `nove drive grant set`
 
@@ -389,7 +389,7 @@ DESCRIPTION
   Create or update an access grant on a drive space root or node
 ```
 
-_See code: [src/commands/drive/grant/set.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/grant/set.ts)_
+_See code: [src/commands/drive/grant/set.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/grant/set.ts)_
 
 ## `nove drive list`
 
@@ -414,7 +414,7 @@ DESCRIPTION
   List files and folders in a cloud drive space
 ```
 
-_See code: [src/commands/drive/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/list.ts)_
+_See code: [src/commands/drive/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/list.ts)_
 
 ## `nove drive mkdir`
 
@@ -486,7 +486,7 @@ ALIASES
   $ nove drive audit
 ```
 
-_See code: [src/commands/drive/node/audit.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/node/audit.ts)_
+_See code: [src/commands/drive/node/audit.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/node/audit.ts)_
 
 ## `nove drive node delete NODEID`
 
@@ -512,7 +512,7 @@ ALIASES
   $ nove drive delete
 ```
 
-_See code: [src/commands/drive/node/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/node/delete.ts)_
+_See code: [src/commands/drive/node/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/node/delete.ts)_
 
 ## `nove drive node move NODEID`
 
@@ -538,7 +538,7 @@ ALIASES
   $ nove drive move
 ```
 
-_See code: [src/commands/drive/node/move.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/node/move.ts)_
+_See code: [src/commands/drive/node/move.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/node/move.ts)_
 
 ## `nove drive node restore NODEID`
 
@@ -562,7 +562,7 @@ ALIASES
   $ nove drive restore
 ```
 
-_See code: [src/commands/drive/node/restore.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/node/restore.ts)_
+_See code: [src/commands/drive/node/restore.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/node/restore.ts)_
 
 ## `nove drive node update NODEID`
 
@@ -588,7 +588,7 @@ ALIASES
   $ nove drive update
 ```
 
-_See code: [src/commands/drive/node/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/node/update.ts)_
+_See code: [src/commands/drive/node/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/node/update.ts)_
 
 ## `nove drive preview-url FILEID`
 
@@ -651,7 +651,7 @@ DESCRIPTION
   List accessible cloud drive spaces
 ```
 
-_See code: [src/commands/drive/space/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/space/list.ts)_
+_See code: [src/commands/drive/space/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/space/list.ts)_
 
 ## `nove drive spaces`
 
@@ -674,7 +674,7 @@ ALIASES
   $ nove drive space list
 ```
 
-_See code: [src/commands/drive/spaces.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/spaces.ts)_
+_See code: [src/commands/drive/spaces.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/spaces.ts)_
 
 ## `nove drive trash list`
 
@@ -694,7 +694,7 @@ DESCRIPTION
   List trashed items in a cloud drive space
 ```
 
-_See code: [src/commands/drive/trash/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/trash/list.ts)_
+_See code: [src/commands/drive/trash/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/trash/list.ts)_
 
 ## `nove drive trash purge NODEID`
 
@@ -716,7 +716,7 @@ DESCRIPTION
   Permanently purge a trashed node and its storage objects
 ```
 
-_See code: [src/commands/drive/trash/purge.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/trash/purge.ts)_
+_See code: [src/commands/drive/trash/purge.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/trash/purge.ts)_
 
 ## `nove drive trash restore NODEID`
 
@@ -736,7 +736,7 @@ DESCRIPTION
   Restore a file or folder from trash
 ```
 
-_See code: [src/commands/drive/trash/restore.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/trash/restore.ts)_
+_See code: [src/commands/drive/trash/restore.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/trash/restore.ts)_
 
 ## `nove drive update NODEID`
 
@@ -785,7 +785,7 @@ DESCRIPTION
   Upload a file to cloud drive with multipart chunking and integrity check
 ```
 
-_See code: [src/commands/drive/upload.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/upload.ts)_
+_See code: [src/commands/drive/upload.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/upload.ts)_
 
 ## `nove drive upload-session abort ID`
 
@@ -809,4 +809,4 @@ ALIASES
   $ nove drive abort-upload
 ```
 
-_See code: [src/commands/drive/upload-session/abort.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/drive/upload-session/abort.ts)_
+_See code: [src/commands/drive/upload-session/abort.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/drive/upload-session/abort.ts)_
