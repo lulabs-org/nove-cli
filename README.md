@@ -3,6 +3,7 @@
 [![oclif](https://img.shields.io/badge/cli-oclif-brightgreen.svg)](https://oclif.io)
 [![Version](https://img.shields.io/npm/v/@novesuite/cli.svg)](https://npmjs.org/package/@novesuite/cli)
 [![Downloads/week](https://img.shields.io/npm/dw/@novesuite/cli.svg)](https://npmjs.org/package/@novesuite/cli)
+[![License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
 **Nove CLI** 是 [nove 组织级 Agent 数据基础设施](https://github.com/lulabs-org/nove-api) 的官方命令行数据访问工具。
 
@@ -58,3 +59,9 @@ USAGE
 * [`nove user`](docs/commands/user.md) - Manage user accounts
 
 <!-- commandsstop -->
+
+---
+
+## 📄 许可
+
+本项目采用 [MIT License](./LICENSE) 开源协议。
