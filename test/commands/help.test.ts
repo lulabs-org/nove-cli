@@ -16,6 +16,14 @@ describe('command help matrix', () => {
   it('loads help for every current command and exposes the expected public flag style', async () => {
     const commands = [
       ['auth', 'status'], ['config', 'set'], ['login'], ['logout'],
+      ['drive', 'download'], ['drive', 'file', 'bindings'], ['drive', 'file', 'download-url'],
+      ['drive', 'file', 'get'], ['drive', 'file', 'preview-url'], ['drive', 'folder', 'create'],
+      ['drive', 'grant', 'list'], ['drive', 'grant', 'remove'], ['drive', 'grant', 'set'],
+      ['drive', 'list'], ['drive', 'node', 'audit'], ['drive', 'node', 'delete'],
+      ['drive', 'node', 'move'], ['drive', 'node', 'restore'], ['drive', 'node', 'update'],
+      ['drive', 'space', 'list'], ['drive', 'spaces'], ['drive', 'trash', 'list'],
+      ['drive', 'trash', 'purge'], ['drive', 'trash', 'restore'], ['drive', 'upload'],
+      ['drive', 'upload-session', 'abort'],
       ['meeting', 'create'], ['meeting', 'delete'], ['meeting', 'get'], ['meeting', 'list'],
       ['meeting', 'participants'], ['meeting', 'stats'], ['meeting', 'update'],
       ['minute', 'delete'], ['minute', 'get'], ['minute', 'list'],
@@ -50,7 +58,7 @@ describe('command help matrix', () => {
 
   it('loads root, topic, and explicit help entry points', async () => {
     const cases = [
-      [], ['help'], ['meeting', '--help'], ['minute', '--help'], ['order', '--help'],
+      [], ['help'], ['drive', '--help'], ['meeting', '--help'], ['minute', '--help'], ['order', '--help'],
       ['product', '--help'], ['project', '--help'],
       ['tracking-report', '--help'], ['user', '--help'],
     ];

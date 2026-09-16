@@ -4,6 +4,18 @@
 
 需要解释结构化错误、退出状态和自动重试时，同时读取 [output-and-errors.md](output-and-errors.md)。
 
+## 安装 @novesuite/cli
+
+运行环境要求 Node.js `>= 22.0.0`。在终端全局安装即可获得 `nove` 命令：
+
+```bash
+npm install -g @novesuite/cli
+# 或
+pnpm add -g @novesuite/cli
+```
+
+安装后可通过 `nove --version` 验证。若 `command -v nove` 失败，提示用户在终端执行上述命令安装；**AI Agent 不得自行在宿主环境中全局安装**。
+
 ## 地址优先级
 
 CLI 按以下顺序选择 API 地址：
@@ -86,6 +98,7 @@ nove meeting list --help
 
 | 现象 | 处理 |
 | --- | --- |
+| `command not found: nove` | 报告缺少 CLI 并输出全局安装指引（`npm install -g @novesuite/cli`），禁止 Agent 擅自全局安装 |
 | `API Key is missing` | 请用户运行 `nove login`，不要索取 Key |
 | `API_AUTHENTICATION_ERROR` / 401 | 说明认证无效或已过期，请用户重新登录 |
 | `API_PERMISSION_ERROR` / 403 | 说明当前 Key 无权访问目标，不要换身份或扩大权限 |
