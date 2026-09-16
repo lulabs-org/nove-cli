@@ -21,6 +21,9 @@ npm install -g @novesuite/cli
 # npm link
 ```
 
+> [!TIP]
+> 关于本地开发的全部 npm 脚本命令（构建、静态检查、测试套件与打包发布），请参阅[开发工作流与项目脚本](/guide/development-scripts)。
+
 ## 第 2 步 配置 API 地址
 
 配置 Nove API 的后端服务地址：

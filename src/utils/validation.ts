@@ -10,7 +10,7 @@ export const RECORDING_SOURCES = ['PLATFORM_AUTO', 'USER_MANUAL', 'THIRD_PARTY']
 export const USER_SORT_FIELDS = ['createdAt', 'updatedAt', 'lastLoginAt', 'username', 'email'] as const;
 export const SORT_ORDERS = ['asc', 'desc'] as const;
 export const CURRENCIES = ['CNY', 'USD', 'EUR', 'GBP', 'JPY', 'HKD', 'TWD', 'SGD', 'AUD', 'CAD'] as const;
-export const ORDER_STATUSES = ['UNPAID', 'PAID', 'CANCELLED', 'REFUNDED', 'COMPLETED'] as const;
+export const ORDER_STATUSES = ['UNPAID', 'PAID', 'CANCELLED', 'COMPLETED'] as const;
 export const PAYMENT_PROVIDERS = ['STRIPE', 'PAYPAL', 'WECHAT', 'ALIPAY', 'APPLE_PAY', 'GOOGLE_PAY', 'OTHER'] as const;
 export const PRODUCT_CATEGORIES = ['COURSE', 'MEMBERSHIP', 'CONSULTATION', 'MATERIAL', 'OTHER'] as const;
 export const PRODUCT_STATUSES = ['ACTIVE', 'INACTIVE', 'DRAFT', 'ARCHIVED'] as const;
@@ -24,9 +24,18 @@ export const TRACKING_REPORT_TYPES = [
 ] as const;
 export const TRACKING_SOURCE_TYPES = ['SPEAKER_SUMMARY', 'TRACKING_REPORT', 'DOCUMENT', 'MEETING'] as const;
 export const TRACKING_TARGET_TYPES = ['USER', 'PLATFORM_USER', 'PROJECT', 'ORGANIZATION'] as const;
+export const DRIVE_PRINCIPAL_TYPES = ['ORG', 'USER', 'ORG_MEMBER', 'DEPARTMENT', 'ROLE'] as const;
+export const DRIVE_GRANT_EFFECTS = ['ALLOW', 'DENY'] as const;
+export const DRIVE_ACTIONS = [
+  'VIEW', 'DOWNLOAD', 'UPLOAD', 'RENAME', 'MOVE', 'SHARE', 'DELETE', 'MANAGE_ACL',
+] as const;
+export const DRIVE_SPACE_TYPES = ['PERSONAL', 'ORG'] as const;
+export const DRIVE_NODE_TYPES = ['FILE', 'FOLDER'] as const;
+export const FILE_VERSION_STATUSES = ['VERIFYING', 'ACTIVE', 'REJECTED'] as const;
 
 const ISO_WITH_TIMEZONE = /^\d{4}-\d{2}-\d{2}T.+(?:Z|[+-]\d{2}:\d{2})$/;
 const DATE_ONLY = /^(\d{4})-(\d{2})-(\d{2})$/;
+const SHA256_REGEX = /^[a-f0-9]{64}$/;
 
 export function validateHttpUrl(value: string, label = 'URL'): string {
   let parsed: URL;
@@ -165,4 +174,25 @@ export function resolveDateRange(options: {
   if (options.date) return dayRange(options.date, options.timeZone);
   validateDateRange(options.startDate, options.endDate);
   return { endDate: options.endDate, startDate: options.startDate };
+}
+
+export function validateSha256Checksum(value: string, label = 'Checksum'): string {
+  if (!SHA256_REGEX.test(value)) {
+    throw new Error(`${label} must be a 64-character lowercase hexadecimal SHA-256 string.`);
+  }
+
+  return value;
+}
+
+export function normalizeDriveNodeName(value: string): string {
+  const name = value.trim();
+  if (!name || name === '.' || name === '..' || /[\\/\0\r\n]/.test(name)) {
+    throw new Error('Name is invalid.');
+  }
+
+  if (name.length > 255) {
+    throw new Error('Name cannot exceed 255 characters.');
+  }
+
+  return name;
 }

@@ -36,6 +36,7 @@ export default defineConfig({
       {
         items: [
           { link: '/guide/installation-guide', text: '安装与配置' },
+          { link: '/guide/development-scripts', text: '开发与项目脚本' },
           { link: '/guide/changelog', text: '发布记录' },
         ],
         text: '开始使用',
@@ -48,6 +49,7 @@ export default defineConfig({
           { link: '/commands/logout', text: '退出登录' },
           { link: '/commands/meeting', text: '会议' },
           { link: '/commands/minute', text: '纪要' },
+          { link: '/commands/drive', text: '云盘' },
           { link: '/commands/product', text: '产品' },
           { link: '/commands/project', text: '项目' },
           { link: '/commands/order', text: '订单' },

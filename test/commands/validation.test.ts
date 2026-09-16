@@ -15,7 +15,9 @@ describe('command validation matrix', () => {
 
   it('returns structured errors for missing arguments and required flags on every command family', async () => {
     const cases = [
-      ['config', 'set', '--json'], ['meeting', 'create', '--json'], ['meeting', 'get', '--json'],
+      ['config', 'set', '--json'], ['drive', 'file', 'get', '--json'], ['drive', 'folder', 'create', '--json'],
+      ['drive', 'list', '--json'], ['drive', 'node', 'move', '--json'],
+      ['meeting', 'create', '--json'], ['meeting', 'get', '--json'],
       ['meeting', 'participants', '--json'], ['meeting', 'update', '--json'], ['minute', 'get', '--json'],
       ['minute', 'user-transcripts', '--json'], ['minute', 'transcript', '--json'],
       ['minute', 'transcript-context', '--json'], ['minute', 'speaker-summary', 'create', '--json'],
@@ -41,6 +43,11 @@ describe('command validation matrix', () => {
 
   it('rejects every enum family, integer boundary, date conflict, and malformed user field before HTTP', async () => {
     const usageCases = [
+      ['drive', 'list', '--space-id', 's', '--limit', '101', '--json'],
+      ['drive', 'list', '--space-id', 's', '--limit', '0', '--json'],
+      ['drive', 'grant', 'set', '--space-id', 's', '--principal-id', 'p', '--principal-type', 'INVALID', '--effect', 'ALLOW', '--action', 'VIEW', '--json'],
+      ['drive', 'grant', 'set', '--space-id', 's', '--principal-id', 'p', '--principal-type', 'USER', '--effect', 'INVALID', '--action', 'VIEW', '--json'],
+      ['drive', 'grant', 'set', '--space-id', 's', '--principal-id', 'p', '--principal-type', 'USER', '--effect', 'ALLOW', '--action', 'INVALID', '--json'],
       ['meeting', 'create', '--platform-meeting-id', 'id', '--title', 'x', '--platform', 'INVALID', '--type', 'ONE_TIME', '--json'],
       ['meeting', 'create', '--platform-meeting-id', 'id', '--title', 'x', '--platform', 'OTHER', '--type', 'INVALID', '--json'],
       ['meeting', 'create', '--platform-meeting-id', 'id', '--title', 'x', '--platform', 'OTHER', '--type', 'ONE_TIME', '--duration-seconds', '-1', '--json'],
@@ -60,6 +67,9 @@ describe('command validation matrix', () => {
       ['order', 'list', '--status', 'INVALID', '--json'],
       ['product', 'list', '--category', 'INVALID', '--json'],
       ['project', 'list', '--level', 'INVALID', '--json'],
+      ['project', 'create', '--title', 'P', '--enrolled-count', '3', '--json'],
+      ['project', 'create', '--title', 'P', '--code', 'PRJ-001', '--json'],
+      ['project', 'list', '--sort-by', 'enrolledCount', '--json'],
       ['tracking-report', 'list', '--page', '0', '--json'], ['tracking-report', 'list', '--limit', '101', '--json'],
       ['user', 'list', '--sort-by', 'INVALID', '--json'], ['user', 'list', '--sort-order', 'INVALID', '--json'],
     ];
@@ -97,7 +107,6 @@ describe('command validation matrix', () => {
       ['product', 'update', 'product-1', '--json'],
       ['project', 'update', 'project-1', '--json'],
       ['project', 'create', '--title', 'P', '--metadata', '[]', '--json'],
-      ['project', 'create', '--title', 'P', '--max-students', '2', '--enrolled-count', '3', '--json'],
       ['project', 'update', 'project-1', '--tag', 'x', '--clear', 'tags', '--json'],
       ['product', 'create', '--product-code', 'P', '--name', 'P', '--category', 'OTHER', '--rating', '6', '--json'],
       ['product', 'update', 'product-1', '--tag', 'x', '--clear', 'tags', '--json'],

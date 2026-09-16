@@ -1,7 +1,7 @@
 {
   "name": "@novesuite/cli",
   "description": "Command Line Interface for managing Nove API resources (Meetings, Users, etc.)",
-  "version": "1.3.0",
+  "version": "1.4.0-beta.1",
   "author": "杨仕明 <shiming.y@qq.com>",
   "bin": {
     "nove": "./bin/run.js"
@@ -68,6 +68,9 @@
     "topics": {
       "auth": {
         "description": "Inspect local authentication state"
+      },
+      "drive": {
+        "description": "Manage cloud drive spaces, files, folders, and permissions"
       },
       "meeting": {
         "description": "Manage meeting records"

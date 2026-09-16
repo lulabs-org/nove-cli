@@ -10,7 +10,6 @@ import {
 
 const CLEARABLE_PROJECT_FIELDS = [
   'subtitle',
-  'code',
   'slug',
   'category',
   'image',
@@ -29,12 +28,10 @@ const CLEARABLE_PROJECT_FIELDS = [
 
 const baseProjectFlags = {
   category: Flags.string({ description: 'Project category' }),
-  code: Flags.string({ description: 'Project code' }),
   description: Flags.string({ description: 'Detailed project description' }),
   duration: Flags.string({ description: 'Project duration, for example 8 weeks' }),
   'end-date': Flags.string({ description: 'End ISO 8601 date-time with timezone' }),
   'enroll-deadline': Flags.string({ description: 'Enrollment deadline ISO 8601 date-time with timezone' }),
-  'enrolled-count': Flags.integer({ description: 'Current enrollment count', min: 0 }),
   featured: Flags.boolean({ allowNo: true, description: 'Mark the project as featured' }),
   image: Flags.string({ description: 'Absolute site image path or HTTP(S) URL' }),
   level: Flags.string({ description: 'Project level', options: [...PROJECT_LEVELS] }),
@@ -71,12 +68,10 @@ type ProjectFlags = Record<string, boolean | number | string | string[] | undefi
 
 const projectFields: Record<string, string> = {
   category: 'category',
-  code: 'code',
   description: 'description',
   duration: 'duration',
   'end-date': 'endDate',
   'enroll-deadline': 'enrollDeadline',
-  'enrolled-count': 'enrolledCount',
   featured: 'isFeatured',
   image: 'image',
   level: 'level',
@@ -96,7 +91,6 @@ const projectFields: Record<string, string> = {
 
 const clearProjectFields: Record<string, string> = {
   category: 'category',
-  code: 'code',
   description: 'description',
   duration: 'duration',
   'end-date': 'endDate',
@@ -138,14 +132,6 @@ export function projectBody(flags: ProjectFlags): Record<string, unknown> {
     flags['end-date'] as string | undefined,
     flags['enroll-deadline'] as string | undefined,
   );
-  if (
-    typeof flags['max-students'] === 'number' &&
-    typeof flags['enrolled-count'] === 'number' &&
-    flags['enrolled-count'] > flags['max-students']
-  ) {
-    throw new Error('--enrolled-count cannot exceed --max-students.');
-  }
-
   const body: Record<string, unknown> = {};
   for (const [flagName, fieldName] of Object.entries(projectFields)) {
     const value = flags[flagName];

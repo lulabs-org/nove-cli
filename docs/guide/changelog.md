@@ -1,5 +1,25 @@
 # 发布记录 (Changelog)
 
+## 🚀 v1.4.0-beta.1
+
+这个版本是 `nove-cli` 的重大特性升级与规范对齐版本，全面引入了 Nove 云盘（Drive）资产管理能力（涵盖空间、目录、文件、分片上传与权限授权），重构了订单（Order）命令字段契约，并对齐了项目（Project）生成模型与开发文档。
+
+### ✨ Features (新特性)
+* **drive:** 新增云盘（`drive`）全套管理命令，包含空间管理（`space list/get/create/update/default`）、目录与文件浏览管理（`folder list/get/create`、`file list/get/update/move/delete/restore/audit/preview/download-url/bind`）、回收站清理（`trash purge`）、访问授权控制（`grant list/set/remove`）、端到端大文件分片断点续传（`drive upload`）与流式安全下载（`drive download`） (#42)
+
+### 🐛 Bug Fixes (问题修复)
+* **project:** 对齐项目生成字段契约 (`align generated field contracts`) (#38)
+
+### ♻️ Code Refactoring (代码重构)
+* **order:** 移除 CLI 冗余生命周期 flag 参数与已弃用的 `REFUNDED` 退款状态，使命令行与服务端真实订单流转状态严格对齐 (#39, #40)
+
+### 📝 Documentation (文档更新)
+* **docs:** 新增[开发工作流与项目脚本](/guide/development-scripts)深度解析指南，补充并精简安装说明
+* **skills:** 完善 Nove CLI 技能系统路由，补充云盘 (`drive.md`) 交互参考与安装边界指引
+* **vitepress:** 在文档站点侧边栏新增云盘管理手册与开发脚本专题
+
+---
+
 ## 🚀 v1.3.0
 
 这个版本是 `nove-cli` 的重要功能升级，全面支持了电商资源（商品与订单）和项目管理能力，同时增强了会议转写（结构化与平台级转写）、简化了用户名称参数，并完善了安全删除与命令行文档。

@@ -18,12 +18,12 @@ Create an order
 USAGE
   $ nove order create --amount <value> [--amount-cny <value>] [--benefit-end <value>] [--benefit-start <value>]
     [--cancelled-at <value>] [--channel-id <value>] [--completed-at <value>] [--currency
-    CNY|USD|EUR|GBP|JPY|HKD|TWD|SGD|AUD|CAD] [--current-owner-id <value>] [--effective-at <value>] [--email <value>]
-    [--external-id <value>] [--financial-closed-at <value>] [--financial-closer-id <value>] [--fx-locked-at <value>]
-    [--fx-rate-to-cny <value>] [--metadata <value>] [--order-code <value>] [--order-number <value>] [--paid-at <value>]
-    [--payment-provider STRIPE|PAYPAL|WECHAT|ALIPAY|APPLE_PAY|GOOGLE_PAY|OTHER] [--phone <value>] [--phone-code <value>]
-    [--product-id <value>] [--product-name <value>] [--provider-trade-no <value>] [--purchaser-id <value>]
-    [--refunded-at <value>] [--status UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED] [--json]
+    CNY|USD|EUR|GBP|JPY|HKD|TWD|SGD|AUD|CAD] [--current-owner-id <value>] [--email <value>] [--external-id <value>]
+    [--financial-closed-at <value>] [--financial-closer-id <value>] [--fx-locked-at <value>] [--fx-rate-to-cny <value>]
+    [--metadata <value>] [--order-code <value>] [--order-number <value>] [--paid-at <value>] [--payment-provider
+    STRIPE|PAYPAL|WECHAT|ALIPAY|APPLE_PAY|GOOGLE_PAY|OTHER] [--phone <value>] [--phone-code <value>] [--product-id
+    <value>] [--product-name <value>] [--provider-trade-no <value>] [--purchaser-id <value>] [--status
+    UNPAID|PAID|CANCELLED|COMPLETED] [--json]
 
 FLAGS
   --amount=<value>               (required) Order amount in the smallest currency unit
@@ -36,7 +36,6 @@ FLAGS
   --currency=<option>            Currency
                                  <options: CNY|USD|EUR|GBP|JPY|HKD|TWD|SGD|AUD|CAD>
   --current-owner-id=<value>     Current owner user ID
-  --effective-at=<value>         Effective ISO 8601 date-time with timezone
   --email=<value>                Customer email
   --external-id=<value>          External platform order ID
   --financial-closed-at=<value>  Financial close ISO 8601 date-time with timezone
@@ -56,15 +55,14 @@ FLAGS
   --product-name=<value>         Product name snapshot
   --provider-trade-no=<value>    Payment provider transaction number
   --purchaser-id=<value>         Purchaser user ID
-  --refunded-at=<value>          Refund ISO 8601 date-time with timezone
   --status=<option>              Order status
-                                 <options: UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED>
+                                 <options: UNPAID|PAID|CANCELLED|COMPLETED>
 
 DESCRIPTION
   Create an order
 ```
 
-_See code: [src/commands/order/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/order/create.ts)_
+_See code: [src/commands/order/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/order/create.ts)_
 
 ## `nove order delete ID`
 
@@ -86,7 +84,7 @@ DESCRIPTION
   Delete an order
 ```
 
-_See code: [src/commands/order/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/order/delete.ts)_
+_See code: [src/commands/order/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/order/delete.ts)_
 
 ## `nove order get ID`
 
@@ -106,7 +104,7 @@ DESCRIPTION
   Get an order by ID
 ```
 
-_See code: [src/commands/order/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/order/get.ts)_
+_See code: [src/commands/order/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/order/get.ts)_
 
 ## `nove order list`
 
@@ -120,7 +118,7 @@ USAGE
     [--payment-provider STRIPE|PAYPAL|WECHAT|ALIPAY|APPLE_PAY|GOOGLE_PAY|OTHER] [--product-id <value>] [--purchaser-id
     <value>] [--sort <value>] [--sort-by
     createdAt|updatedAt|paidAt|amount|status|orderCode|orderNumber|financialClosedAt] [--sort-order asc|desc] [--status
-    UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED]
+    UNPAID|PAID|CANCELLED|COMPLETED]
 
 FLAGS
   --all                        Fetch every result page
@@ -149,13 +147,13 @@ FLAGS
   --sort-order=<option>        [default: desc] Server sort order
                                <options: asc|desc>
   --status=<option>            Filter by order status
-                               <options: UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED>
+                               <options: UNPAID|PAID|CANCELLED|COMPLETED>
 
 DESCRIPTION
   List orders
 ```
 
-_See code: [src/commands/order/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/order/list.ts)_
+_See code: [src/commands/order/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/order/list.ts)_
 
 ## `nove order status ID`
 
@@ -163,7 +161,7 @@ Update an order status
 
 ```
 USAGE
-  $ nove order status ID --status UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED [--json]
+  $ nove order status ID --status UNPAID|PAID|CANCELLED|COMPLETED [--json]
 
 ARGUMENTS
   ID  Order ID
@@ -171,13 +169,13 @@ ARGUMENTS
 FLAGS
   --json             Output a single JSON value to stdout
   --status=<option>  (required) Order status
-                     <options: UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED>
+                     <options: UNPAID|PAID|CANCELLED|COMPLETED>
 
 DESCRIPTION
   Update an order status
 ```
 
-_See code: [src/commands/order/status.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/order/status.ts)_
+_See code: [src/commands/order/status.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/order/status.ts)_
 
 ## `nove order update ID`
 
@@ -187,15 +185,14 @@ Update an order
 USAGE
   $ nove order update ID [--amount <value>] [--amount-cny <value>] [--benefit-end <value>] [--benefit-start
     <value>] [--cancelled-at <value>] [--channel-id <value>] [--completed-at <value>] [--currency
-    CNY|USD|EUR|GBP|JPY|HKD|TWD|SGD|AUD|CAD] [--current-owner-id <value>] [--effective-at <value>] [--email <value>]
-    [--external-id <value>] [--financial-closed-at <value>] [--financial-closer-id <value>] [--fx-locked-at <value>]
-    [--fx-rate-to-cny <value>] [--metadata <value>] [--order-code <value>] [--order-number <value>] [--paid-at <value>]
-    [--payment-provider STRIPE|PAYPAL|WECHAT|ALIPAY|APPLE_PAY|GOOGLE_PAY|OTHER] [--phone <value>] [--phone-code <value>]
-    [--product-id <value>] [--product-name <value>] [--provider-trade-no <value>] [--purchaser-id <value>]
-    [--refunded-at <value>] [--status UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED] [--clear
-    external-id|metadata|product-id|product-name|purchaser-id|channel-id|email|phone|phone-code|current-owner-id|financi
-    al-closer-id|financial-closed-at|fx-locked-at|paid-at|cancelled-at|refunded-at|completed-at|effective-at|benefit-sta
-    rt|benefit-end|amount-cny|fx-rate-to-cny|payment-provider|provider-trade-no...] [--json]
+    CNY|USD|EUR|GBP|JPY|HKD|TWD|SGD|AUD|CAD] [--current-owner-id <value>] [--email <value>] [--external-id <value>]
+    [--financial-closed-at <value>] [--financial-closer-id <value>] [--fx-locked-at <value>] [--fx-rate-to-cny <value>]
+    [--metadata <value>] [--order-code <value>] [--order-number <value>] [--paid-at <value>] [--payment-provider
+    STRIPE|PAYPAL|WECHAT|ALIPAY|APPLE_PAY|GOOGLE_PAY|OTHER] [--phone <value>] [--phone-code <value>] [--product-id
+    <value>] [--product-name <value>] [--provider-trade-no <value>] [--purchaser-id <value>] [--status
+    UNPAID|PAID|CANCELLED|COMPLETED] [--clear external-id|metadata|product-id|product-name|purchaser-id|channel-id|email
+    |phone|phone-code|current-owner-id|financial-closer-id|financial-closed-at|fx-locked-at|paid-at|cancelled-at|complet
+    ed-at|benefit-start|benefit-end|amount-cny|fx-rate-to-cny|payment-provider|provider-trade-no...] [--json]
 
 ARGUMENTS
   ID  Order ID
@@ -210,13 +207,12 @@ FLAGS
   --clear=<option>...            Clear a nullable field; repeat for multiple fields
                                  <options: external-id|metadata|product-id|product-name|purchaser-id|channel-id|email|ph
                                  one|phone-code|current-owner-id|financial-closer-id|financial-closed-at|fx-locked-at|pa
-                                 id-at|cancelled-at|refunded-at|completed-at|effective-at|benefit-start|benefit-end|amou
-                                 nt-cny|fx-rate-to-cny|payment-provider|provider-trade-no>
+                                 id-at|cancelled-at|completed-at|benefit-start|benefit-end|amount-cny|fx-rate-to-cny|pay
+                                 ment-provider|provider-trade-no>
   --completed-at=<value>         Completion ISO 8601 date-time with timezone
   --currency=<option>            Currency
                                  <options: CNY|USD|EUR|GBP|JPY|HKD|TWD|SGD|AUD|CAD>
   --current-owner-id=<value>     Current owner user ID
-  --effective-at=<value>         Effective ISO 8601 date-time with timezone
   --email=<value>                Customer email
   --external-id=<value>          External platform order ID
   --financial-closed-at=<value>  Financial close ISO 8601 date-time with timezone
@@ -236,12 +232,11 @@ FLAGS
   --product-name=<value>         Product name snapshot
   --provider-trade-no=<value>    Payment provider transaction number
   --purchaser-id=<value>         Purchaser user ID
-  --refunded-at=<value>          Refund ISO 8601 date-time with timezone
   --status=<option>              Order status
-                                 <options: UNPAID|PAID|CANCELLED|REFUNDED|COMPLETED>
+                                 <options: UNPAID|PAID|CANCELLED|COMPLETED>
 
 DESCRIPTION
   Update an order
 ```
 
-_See code: [src/commands/order/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/order/update.ts)_
+_See code: [src/commands/order/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/order/update.ts)_

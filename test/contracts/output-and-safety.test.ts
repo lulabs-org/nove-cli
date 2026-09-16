@@ -17,6 +17,14 @@ describe('output and safety contracts', () => {
 
   it('exposes --json on every API data command', async () => {
     const commandArguments = [
+      ['drive', 'download'], ['drive', 'file', 'bindings'], ['drive', 'file', 'download-url'],
+      ['drive', 'file', 'get'], ['drive', 'file', 'preview-url'], ['drive', 'folder', 'create'],
+      ['drive', 'grant', 'list'], ['drive', 'grant', 'remove'], ['drive', 'grant', 'set'],
+      ['drive', 'list'], ['drive', 'node', 'audit'], ['drive', 'node', 'delete'],
+      ['drive', 'node', 'move'], ['drive', 'node', 'restore'], ['drive', 'node', 'update'],
+      ['drive', 'space', 'list'], ['drive', 'spaces'], ['drive', 'trash', 'list'],
+      ['drive', 'trash', 'purge'], ['drive', 'trash', 'restore'], ['drive', 'upload'],
+      ['drive', 'upload-session', 'abort'],
       ['meeting', 'create'],
       ['meeting', 'delete'],
       ['meeting', 'get'],
@@ -88,6 +96,8 @@ describe('output and safety contracts', () => {
 
   it('protects every delete command and supports machine-readable dry runs', async () => {
     const cases = [
+      { args: ['drive', 'node', 'delete', 'node-1'], resource: 'drive-node' },
+      { args: ['drive', 'trash', 'purge', 'node-1'], resource: 'drive-trash-node' },
       { args: ['meeting', 'delete', 'meeting-1'], resource: 'meeting' },
       { args: ['minute', 'delete', 'minute-1'], resource: 'minute' },
       { args: ['user', 'delete', 'user-1'], resource: 'user' },
