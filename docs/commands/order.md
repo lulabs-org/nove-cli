@@ -62,7 +62,7 @@ DESCRIPTION
   Create an order
 ```
 
-_See code: [src/commands/order/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/order/create.ts)_
+_See code: [src/commands/order/create.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/order/create.ts)_
 
 ## `nove order delete ID`
 
@@ -84,7 +84,7 @@ DESCRIPTION
   Delete an order
 ```
 
-_See code: [src/commands/order/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/order/delete.ts)_
+_See code: [src/commands/order/delete.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/order/delete.ts)_
 
 ## `nove order get ID`
 
@@ -104,7 +104,7 @@ DESCRIPTION
   Get an order by ID
 ```
 
-_See code: [src/commands/order/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/order/get.ts)_
+_See code: [src/commands/order/get.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/order/get.ts)_
 
 ## `nove order list`
 
@@ -153,7 +153,7 @@ DESCRIPTION
   List orders
 ```
 
-_See code: [src/commands/order/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/order/list.ts)_
+_See code: [src/commands/order/list.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/order/list.ts)_
 
 ## `nove order status ID`
 
@@ -175,7 +175,7 @@ DESCRIPTION
   Update an order status
 ```
 
-_See code: [src/commands/order/status.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/order/status.ts)_
+_See code: [src/commands/order/status.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/order/status.ts)_
 
 ## `nove order update ID`
 
@@ -239,4 +239,4 @@ DESCRIPTION
   Update an order
 ```
 
-_See code: [src/commands/order/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.3.0/src/commands/order/update.ts)_
+_See code: [src/commands/order/update.ts](https://github.com/lulabs-org/nove-cli/blob/v1.4.0-beta.1/src/commands/order/update.ts)_
